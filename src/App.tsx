@@ -1,16 +1,18 @@
 import React from "react";
-import { Furigana } from "./Furigana";
+import { Mem } from "./Mem";
+import { useStore } from "./store";
 
 export type AppProps = {};
 
 export type AppComponent = React.FunctionComponent<AppProps>;
 
 export const App: AppComponent = (): JSX.Element => {
+    const mems = useStore(({ mems }) => mems);
     return (
         <div>
-            <Furigana furigana={["だれ", "ほん", "わたし", "にほんご", "ほん"]}>
-                誰の本ですか。これわ私の日本語の本！
-            </Furigana>
+            {mems.map((mem) => (
+                <Mem data={mem} />
+            ))}
         </div>
     );
 };
