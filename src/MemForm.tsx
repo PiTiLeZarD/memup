@@ -3,6 +3,13 @@ import React from "react";
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 
+import { nanoid } from "nanoid";
+import { useStore } from "./store";
+
+type FormState = {
+    mem: string;
+};
+
 export type MemFormProps = {
     open: boolean;
     onClose: () => void;
@@ -11,10 +18,11 @@ export type MemFormProps = {
 export type MemFormComponent = React.FunctionComponent<MemFormProps>;
 
 export const MemForm: MemFormComponent = ({ open, onClose }): JSX.Element => {
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit } = useForm<FormState>();
+    const saveMem = useStore(({ saveMem }) => saveMem);
 
-    const handleSave = (data) => {
-        console.log({ data });
+    const handleSave = ({ mem }) => {
+        saveMem({ id: nanoid(), mem, checks: [] });
         onClose();
     };
     const handleClose = () => onClose();

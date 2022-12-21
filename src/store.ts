@@ -1,14 +1,16 @@
 import create from "zustand";
 import { combine, devtools, persist } from "zustand/middleware";
 
+export type NanoID = string;
+
 export type MemCheckType = {
-    memId: number;
+    memId: NanoID;
     date: Date;
     result: number;
 };
 
 export type MemType = {
-    id: number;
+    id: NanoID;
     mem: string;
     furigana?: string[];
     checks: MemCheckType[];
