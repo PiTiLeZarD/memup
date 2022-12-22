@@ -11,3 +11,8 @@ export const splitByKanji = (s: string): string[] =>
         ],
         [false, []]
     )[1];
+
+export const includesKanji = (s: string): boolean =>
+    s ? splitByKanji(s).filter((block) => isKanji(block[0])).length > 0 : false;
+
+// 誰の本ですか。これわ私の日本語の本！
