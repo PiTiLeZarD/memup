@@ -35,7 +35,7 @@ export const App: AppComponent = (): JSX.Element => {
 
                 <List>
                     {mems.map((mem) => (
-                        <ListItem>
+                        <ListItem key={mem.id}>
                             <Grid container>
                                 <Grid item xs={10}>
                                     <Mem data={mem} />

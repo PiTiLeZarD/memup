@@ -1,4 +1,7 @@
 import React from "react";
+
+import { Typography } from "@mui/material";
+
 import { Furigana } from "./Furigana";
 import { MemType } from "./store";
 
@@ -8,13 +11,10 @@ export type MemProps = {
 
 export type MemComponent = React.FunctionComponent<MemProps>;
 
-export const Mem: MemComponent = ({ data: { id, mem } }): JSX.Element => {
+export const Mem: MemComponent = ({ data: { mem, furigana } }): JSX.Element => {
     return (
-        <div>
-            Mem: {id}, {mem}
-            <Furigana furigana={["だれ", "ほん", "わたし", "にほんご", "ほん"]}>
-                誰の本ですか。これわ私の日本語の本！
-            </Furigana>
-        </div>
+        <Typography variant="h4">
+            {furigana && furigana.length ? <Furigana furigana={furigana}>{mem}</Furigana> : mem}
+        </Typography>
     );
 };
