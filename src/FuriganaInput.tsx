@@ -16,15 +16,17 @@ import {
 } from "@mui/material";
 
 import { useState } from "react";
+import { UseFormRegister } from "react-hook-form";
 import { isKanji, splitByKanji } from "./lib";
 
 export type FuriganaInputProps = {
     memValue: string;
+    register: UseFormRegister<any>;
 };
 
 export type FuriganaInputComponent = React.FunctionComponent<FuriganaInputProps>;
 
-export const FuriganaInput: FuriganaInputComponent = ({ memValue, ...inputProps }): JSX.Element => {
+export const FuriganaInput: FuriganaInputComponent = ({ memValue, register }): JSX.Element => {
     const [kanjiGroups, setKanjiGroups] = useState<string[][]>(
         splitByKanji(memValue)
             .filter((s) => isKanji(s[0]))
@@ -81,7 +83,7 @@ export const FuriganaInput: FuriganaInputComponent = ({ memValue, ...inputProps 
                     </ListItem>
                 ))}
             </Paper>
-            <input type="hidden" {...inputProps} />
+            <input type="hidden" {...register("furigana")} />
         </>
     );
 };
