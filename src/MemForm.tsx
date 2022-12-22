@@ -1,35 +1,43 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 
-import { nanoid } from "nanoid";
-import { useStore } from "./store";
+import { MemType, newMem, useStore } from "./store";
 
 type FormState = {
     mem: string;
 };
 
 export type MemFormProps = {
-    open: boolean;
+    open: false | MemType;
     onClose: () => void;
 };
+
+const mem2Form = ({ mem }: MemType): FormState => ({ mem });
 
 export type MemFormComponent = React.FunctionComponent<MemFormProps>;
 
 export const MemForm: MemFormComponent = ({ open, onClose }): JSX.Element => {
-    const { register, handleSubmit } = useForm<FormState>();
+    const { register, handleSubmit, reset } = useForm<FormState>({
+        defaultValues: open ? mem2Form(open) : {},
+    });
+
+    useEffect(() => {
+        if (open) reset(mem2Form(open));
+    }, [open]);
+
     const saveMem = useStore(({ saveMem }) => saveMem);
 
     const handleSave = ({ mem }) => {
-        saveMem({ id: nanoid(), mem, checks: [] });
+        saveMem({ ...(open || newMem()), mem });
         onClose();
     };
     const handleClose = () => onClose();
 
     return (
         <form onSubmit={handleSubmit(handleSave)}>
-            <Dialog open={open} onClose={handleClose}>
+            <Dialog open={!!open} onClose={handleClose}>
                 <DialogTitle>Add a mem</DialogTitle>
                 <DialogContent>
                     <TextField {...register("mem")} />

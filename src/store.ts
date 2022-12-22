@@ -1,3 +1,4 @@
+import { nanoid } from "nanoid";
 import create from "zustand";
 import { combine, devtools, persist } from "zustand/middleware";
 
@@ -24,6 +25,8 @@ export type StoreActionsPropsType = {
     saveMem: (mem: MemType) => void;
     deleteMem: (mem: MemType) => void;
 };
+
+export const newMem = (): MemType => ({ id: nanoid(), checks: [], mem: "" });
 
 const InitialState: StorePropsType = {
     mems: [],
