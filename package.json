@@ -6,8 +6,8 @@
         "dev": "parcel src/index.html",
         "clean": "rm -Rf dist .parcel-cache",
         "prebuild": "pnpm clean",
-        "build": "pnpm prebuild && parcel build ./src/index.html",
-        "build:demo": "pnpm prebuild && parcel build --public-url /memup ./src/index.html",
+        "build": "pnpm prebuild && parcel build --no-scope-hoist ./src/index.html",
+        "build:demo": "pnpm prebuild && parcel build --no-scope-hoist --public-url /memup ./src/index.html",
         "prepages": "pnpm build:demo",
         "pages": "pnpm prepages && gh-pages -b ghpages -d dist"
     },
