@@ -13,6 +13,9 @@ export type MemCheckType = {
 export type MemType = {
     id: NanoID;
     mem: string;
+    description: string;
+    hint?: string;
+    notes?: string;
     furigana?: string[];
     checks: MemCheckType[];
 };
@@ -26,7 +29,12 @@ export type StoreActionsPropsType = {
     deleteMem: (mem: MemType) => void;
 };
 
-export const newMem = (): MemType => ({ id: nanoid(), checks: [], mem: "" });
+export const newMem = (): MemType => ({
+    id: nanoid(),
+    checks: [],
+    mem: "",
+    description: "",
+});
 
 const InitialState: StorePropsType = {
     mems: [],
