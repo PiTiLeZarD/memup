@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { UseFormRegister } from "react-hook-form";
 
 import ErrorIcon from "@mui/icons-material/Error";
 import {
@@ -15,8 +16,6 @@ import {
     Typography,
 } from "@mui/material";
 
-import { useState } from "react";
-import { UseFormRegister } from "react-hook-form";
 import { isKanji, splitByKanji } from "./lib";
 
 export type FuriganaInputProps = {
@@ -55,7 +54,17 @@ export const FuriganaInput: FuriganaInputComponent = ({ memValue, register }): J
                     <Button variant="contained" color="inherit" onClick={() => setOpen(false)}>
                         Cancel
                     </Button>
-                    <Button variant="contained">Save</Button>
+                    <Button
+                        variant="contained"
+                        onClick={() => {
+                            const newGroups = [...kanjiGroups];
+                            newGroups[open as number][1] = furiganaValue;
+                            setKanjiGroups(newGroups);
+                            setOpen(false);
+                        }}
+                    >
+                        Save
+                    </Button>
                 </DialogActions>
             </Dialog>
             <Paper
@@ -72,7 +81,7 @@ export const FuriganaInput: FuriganaInputComponent = ({ memValue, register }): J
                 {kanjiGroups.map(([kanji, furigana], i) => (
                     <ListItem key={i} sx={{ display: "inline", width: "auto" }}>
                         <Chip
-                            label={kanji}
+                            label={!!furigana ? `${kanji} (${furigana})` : kanji}
                             color={!!furigana ? "default" : "error"}
                             icon={!!furigana ? undefined : <ErrorIcon />}
                             onClick={() => {
