@@ -22,7 +22,9 @@
         "nanoid": "^4.0.0",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
+        "react-dropzone": "^14.2.3",
         "react-hook-form": "^7.41.0",
+        "yup": "^0.32.11",
         "zustand": "^4.1.5"
     },
     "devDependencies": {

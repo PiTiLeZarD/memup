@@ -36,7 +36,7 @@ export const MemForm: MemFormComponent = ({ open, onClose }): JSX.Element => {
         defaultValues: open ? mem2Form(open) : {},
     });
 
-    const [setFurigana, setSetFurigana] = useState<boolean>(false);
+    const [setFurigana, setSetFurigana] = useState<boolean>(((open as MemType).furigana || []).length > 0);
 
     const memValue = watch("mem");
     const hasKanji = includesKanji(memValue);
