@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { UseFormRegister } from "react-hook-form";
+import { UseFormRegister, UseFormSetValue } from "react-hook-form";
 
 import ErrorIcon from "@mui/icons-material/Error";
 import {
+    Box,
     Button,
     Chip,
     Dialog,
@@ -16,23 +17,34 @@ import {
     Typography,
 } from "@mui/material";
 
+import { Furigana } from "./Furigana";
 import { isKanji, splitByKanji } from "./lib";
 
 export type FuriganaInputProps = {
     memValue: string;
+    furigana: string[];
     register: UseFormRegister<any>;
+    setValue: UseFormSetValue<any>;
 };
 
 export type FuriganaInputComponent = React.FunctionComponent<FuriganaInputProps>;
 
-export const FuriganaInput: FuriganaInputComponent = ({ memValue, register }): JSX.Element => {
+export const FuriganaInput: FuriganaInputComponent = ({ memValue, furigana, register, setValue }): JSX.Element => {
     const [kanjiGroups, setKanjiGroups] = useState<string[][]>(
         splitByKanji(memValue)
             .filter((s) => isKanji(s[0]))
-            .map((k) => [k, ""])
+            .map((k, i) => [k, furigana[i] || ""])
     );
     const [open, setOpen] = useState<false | number>(false);
     const [furiganaValue, setFuriganaValue] = useState<string>("");
+
+    const handleFuriganaSave = () => {
+        const newGroups = [...kanjiGroups];
+        newGroups[open as number][1] = furiganaValue;
+        setKanjiGroups(newGroups);
+        setOpen(false);
+        setValue("furigana", JSON.stringify(newGroups.map(([k, f]) => f)));
+    };
 
     return (
         <>
@@ -54,15 +66,7 @@ export const FuriganaInput: FuriganaInputComponent = ({ memValue, register }): J
                     <Button variant="contained" color="inherit" onClick={() => setOpen(false)}>
                         Cancel
                     </Button>
-                    <Button
-                        variant="contained"
-                        onClick={() => {
-                            const newGroups = [...kanjiGroups];
-                            newGroups[open as number][1] = furiganaValue;
-                            setKanjiGroups(newGroups);
-                            setOpen(false);
-                        }}
-                    >
+                    <Button variant="contained" onClick={handleFuriganaSave}>
                         Save
                     </Button>
                 </DialogActions>
@@ -81,7 +85,7 @@ export const FuriganaInput: FuriganaInputComponent = ({ memValue, register }): J
                 {kanjiGroups.map(([kanji, furigana], i) => (
                     <ListItem key={i} sx={{ display: "inline", width: "auto" }}>
                         <Chip
-                            label={!!furigana ? `${kanji} (${furigana})` : kanji}
+                            label={kanji}
                             color={!!furigana ? "default" : "error"}
                             icon={!!furigana ? undefined : <ErrorIcon />}
                             onClick={() => {
@@ -92,6 +96,11 @@ export const FuriganaInput: FuriganaInputComponent = ({ memValue, register }): J
                     </ListItem>
                 ))}
             </Paper>
+            <Box sx={{ paddingTop: "10px" }}>
+                <Typography variant="h4">
+                    <Furigana furigana={kanjiGroups.map(([k, f]) => f || "")}>{memValue}</Furigana>
+                </Typography>
+            </Box>
             <input type="hidden" {...register("furigana")} />
         </>
     );

@@ -32,9 +32,10 @@ const mem2Form = ({ mem, description, hint, notes, furigana }: MemType): FormSta
 export type MemFormComponent = React.FunctionComponent<MemFormProps>;
 
 export const MemForm: MemFormComponent = ({ open, onClose }): JSX.Element => {
-    const { register, handleSubmit, reset, watch } = useForm<FormState>({
+    const { register, handleSubmit, reset, watch, setValue, getValues } = useForm<FormState>({
         defaultValues: open ? mem2Form(open) : {},
     });
+
     const [setFurigana, setSetFurigana] = useState<boolean>(false);
 
     const memValue = watch("mem");
@@ -68,7 +69,12 @@ export const MemForm: MemFormComponent = ({ open, onClose }): JSX.Element => {
                         <TextField label="Mem" {...register("mem")} required />
                         {hasKanji &&
                             (setFurigana ? (
-                                <FuriganaInput memValue={memValue} register={register} />
+                                <FuriganaInput
+                                    memValue={memValue}
+                                    furigana={open ? open.furigana || [] : []}
+                                    register={register}
+                                    setValue={setValue}
+                                />
                             ) : (
                                 <Button variant="contained" onClick={() => setSetFurigana(true)}>
                                     Set Furigana?
