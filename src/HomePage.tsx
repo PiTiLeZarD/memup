@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Button, ButtonGroup } from "@mui/material";
+import { Box, Button, ButtonGroup, Divider } from "@mui/material";
 
 import { ImportMems } from "./ImportMems";
 
@@ -22,11 +22,17 @@ export const HomePage: HomePageComponent = (): JSX.Element => {
     return (
         <>
             <ImportMems open={importOpen} onClose={() => setImportOpen(false)} />
-            <ButtonGroup variant="contained">
-                <Button onClick={() => navigate("/mems")}>List Mems</Button>
-                <Button onClick={downloadAllMems}>Export Mems</Button>
-                <Button onClick={() => setImportOpen(true)}>Import Mems</Button>
-            </ButtonGroup>
+            <Box sx={{ textAlign: "center" }}>
+                <ButtonGroup variant="contained">
+                    <Button onClick={() => navigate("/learn")}>Learn</Button>
+                    <Button onClick={() => navigate("/quizz")}>Quizz</Button>
+                    <Button onClick={() => navigate("/kanjistudy")}>Kanji Study</Button>
+                    <Divider orientation="vertical" flexItem />
+                    <Button onClick={() => navigate("/mems")}>List Mems</Button>
+                    <Button onClick={downloadAllMems}>Export Mems</Button>
+                    <Button onClick={() => setImportOpen(true)}>Import Mems</Button>
+                </ButtonGroup>
+            </Box>
         </>
     );
 };
