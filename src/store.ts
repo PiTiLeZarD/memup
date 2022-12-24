@@ -5,7 +5,6 @@ import { combine, devtools, persist } from "zustand/middleware";
 export type NanoID = string;
 
 export type MemCheckType = {
-    memId: NanoID;
     date: Date;
     result: number;
 };

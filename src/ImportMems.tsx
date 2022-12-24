@@ -24,7 +24,6 @@ const validationSchema = object({
                     furigana: array().of(string()),
                     checks: array().of(
                         object({
-                            memId: string().required(),
                             date: date().required(),
                             result: number().required(),
                         })
