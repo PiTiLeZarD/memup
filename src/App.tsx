@@ -1,14 +1,11 @@
 import React, { useState } from "react";
 
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import { Button, ButtonGroup, Grid, IconButton, List, ListItem, Paper } from "@mui/material";
+import { Button, ButtonGroup, Paper } from "@mui/material";
 import { lightBlue } from "@mui/material/colors";
 
 import { ImportMems } from "./ImportMems";
-import { Mem } from "./Mem";
-import { MemForm } from "./MemForm";
-import { MemType, newMem, useStore } from "./store";
+import { MemList } from "./MemList";
+import { useStore } from "./store";
 
 const downloadAllMems = () =>
     Object.assign(document.createElement("a"), {
@@ -22,8 +19,6 @@ export type AppComponent = React.FunctionComponent<AppProps>;
 
 export const App: AppComponent = (): JSX.Element => {
     const mems = useStore(({ mems }) => mems);
-    const deleteMem = useStore(({ deleteMem }) => deleteMem);
-    const [formOpen, setFormOpen] = useState<false | MemType>(false);
     const [importOpen, setImportOpen] = useState<boolean>(false);
     return (
         <>
@@ -39,31 +34,11 @@ export const App: AppComponent = (): JSX.Element => {
                 <ButtonGroup variant="contained">
                     <Button onClick={downloadAllMems}>Export Mems</Button>
                     <Button onClick={() => setImportOpen(true)}>Import Mems</Button>
-                    <Button onClick={() => setFormOpen(newMem())}>Add a mem</Button>
                 </ButtonGroup>
 
-                <MemForm open={formOpen} onClose={() => setFormOpen(false)} />
                 <ImportMems open={importOpen} onClose={() => setImportOpen(false)} />
 
-                <List sx={{ marginTop: "0.5em" }}>
-                    {mems.map((mem) => (
-                        <ListItem key={mem.id}>
-                            <Grid container>
-                                <Grid item xs={10}>
-                                    <Mem data={mem} />
-                                </Grid>
-                                <Grid item xs={2} sx={{ textAlign: "right" }}>
-                                    <IconButton onClick={() => setFormOpen(mem)}>
-                                        <EditIcon />
-                                    </IconButton>
-                                    <IconButton onClick={() => deleteMem(mem)}>
-                                        <DeleteIcon />
-                                    </IconButton>
-                                </Grid>
-                            </Grid>
-                        </ListItem>
-                    ))}
-                </List>
+                <MemList mems={mems} />
             </Paper>
         </>
     );
