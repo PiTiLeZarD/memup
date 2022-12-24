@@ -1,25 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
+import { HashRouter, Route, Routes } from "react-router-dom";
 
-import { Button, ButtonGroup, Paper } from "@mui/material";
+import { Paper } from "@mui/material";
 import { lightBlue } from "@mui/material/colors";
 
-import { ImportMems } from "./ImportMems";
-import { MemList } from "./MemList";
-import { useStore } from "./store";
-
-const downloadAllMems = () =>
-    Object.assign(document.createElement("a"), {
-        href: `data:application/JSON, ${encodeURIComponent(JSON.stringify(localStorage.getItem("memup")))}`,
-        download: "your_history",
-    }).click();
+import { BackButton } from "./BackButton";
+import { HomePage } from "./HomePage";
+import { MemsPage } from "./MemsPage";
 
 export type AppProps = {};
 
 export type AppComponent = React.FunctionComponent<AppProps>;
 
 export const App: AppComponent = (): JSX.Element => {
-    const mems = useStore(({ mems }) => mems);
-    const [importOpen, setImportOpen] = useState<boolean>(false);
     return (
         <>
             <style type="text/css">{`
@@ -27,19 +20,23 @@ export const App: AppComponent = (): JSX.Element => {
                     background-color: ${lightBlue[100]}
                 }
             `}</style>
-            <Paper
-                elevation={8}
-                sx={{ borderRadius: "25px", padding: "2em", margin: "2em", border: `3px solid ${lightBlue[400]}` }}
-            >
-                <ButtonGroup variant="contained">
-                    <Button onClick={downloadAllMems}>Export Mems</Button>
-                    <Button onClick={() => setImportOpen(true)}>Import Mems</Button>
-                </ButtonGroup>
-
-                <ImportMems open={importOpen} onClose={() => setImportOpen(false)} />
-
-                <MemList mems={mems} />
-            </Paper>
+            <HashRouter>
+                <BackButton />
+                <Paper
+                    elevation={8}
+                    sx={{
+                        borderRadius: "25px",
+                        padding: "2em",
+                        margin: "2em",
+                        border: `3px solid ${lightBlue[400]}`,
+                    }}
+                >
+                    <Routes>
+                        <Route path="/" element={<HomePage />} />
+                        <Route path="/mems" element={<MemsPage />} />
+                    </Routes>
+                </Paper>
+            </HashRouter>
         </>
     );
 };
