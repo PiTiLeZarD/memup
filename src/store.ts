@@ -4,6 +4,12 @@ import { combine, devtools, persist } from "zustand/middleware";
 
 export type NanoID = string;
 
+export type MemScore = {
+    score: number;
+    memory: "LT" | "ST";
+    nextCheck: Date;
+};
+
 export type MemCheckType = {
     date: Date;
     result: number;
@@ -34,6 +40,14 @@ export const newMem = (): MemType => ({
     mem: "",
     description: "",
 });
+
+export const memScore = (mem: MemType): MemScore => {
+    return {
+        score: 10,
+        memory: "ST",
+        nextCheck: new Date(),
+    };
+};
 
 const InitialState: StorePropsType = {
     mems: [],
