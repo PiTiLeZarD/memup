@@ -36,13 +36,16 @@ export const MemForm: MemFormComponent = ({ open, onClose }): JSX.Element => {
         defaultValues: open ? mem2Form(open) : {},
     });
 
-    const [setFurigana, setSetFurigana] = useState<boolean>(((open as MemType).furigana || []).length > 0);
+    const [setFurigana, setSetFurigana] = useState<boolean>(false);
 
     const memValue = watch("mem");
     const hasKanji = includesKanji(memValue);
 
     useEffect(() => {
-        if (open) reset(mem2Form(open));
+        if (open) {
+            reset(mem2Form(open));
+            setSetFurigana((open.furigana || []).length > 0);
+        }
     }, [open]);
 
     const saveMem = useStore(({ saveMem }) => saveMem);
