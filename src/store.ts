@@ -49,6 +49,13 @@ export const memScore = (mem: MemType): MemScore => {
     };
 };
 
+export const memDeck = (mems: MemType[]): MemType[] =>
+    mems
+        .filter((mem: MemType) => memScore(mem).nextCheck <= new Date())
+        .map((mem: MemType) => [Math.random(), mem])
+        .sort(([a, memA], [b, memB]) => a - b)
+        .map(([_, mem]) => mem as MemType);
+
 const InitialState: StorePropsType = {
     mems: [],
 };
