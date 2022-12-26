@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 
-import { useState } from "react";
 import { FuriganaInput } from "./FuriganaInput";
 import { includesKanji } from "./lib";
 import { MemType, newMem, useStore } from "./store";
