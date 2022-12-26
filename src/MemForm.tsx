@@ -23,7 +23,7 @@ export type MemFormProps = {
 const mem2Form = ({ mem, description, hint, notes, furigana }: MemType): FormState => ({
     mem,
     description,
-    furigana: JSON.stringify(furigana),
+    furigana: JSON.stringify(furigana || ""),
     hint: hint || "",
     notes: notes || "",
 });
