@@ -55,7 +55,7 @@ export const MemForm: MemFormComponent = ({ open, onClose }): JSX.Element => {
             ...(open || newMem()),
             mem,
             description,
-            furigana: JSON.parse(furigana),
+            furigana: furigana ? JSON.parse(furigana) : null,
             hint: hint || null,
             notes: notes || null,
         });
