@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 
 import { Furigana } from "./Furigana";
 import { MemType } from "./store";
@@ -11,10 +11,17 @@ export type MemProps = {
 
 export type MemComponent = React.FunctionComponent<MemProps>;
 
-export const Mem: MemComponent = ({ data: { mem, furigana } }): JSX.Element => {
+export const Mem: MemComponent = ({ data: { mem, furigana, description } }): JSX.Element => {
     return (
-        <Typography variant="h4">
-            {furigana && furigana.length ? <Furigana furigana={furigana}>{mem}</Furigana> : mem}
-        </Typography>
+        <Grid container>
+            <Grid item xs={12} md={6}>
+                <Typography variant="h4">
+                    {furigana && furigana.length ? <Furigana furigana={furigana}>{mem}</Furigana> : mem}
+                </Typography>
+            </Grid>
+            <Grid item xs={12} md={6}>
+                <Typography variant="h6">{description}</Typography>
+            </Grid>
+        </Grid>
     );
 };
