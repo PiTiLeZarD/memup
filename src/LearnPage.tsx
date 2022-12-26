@@ -11,7 +11,6 @@ export type LearnPageComponent = React.FunctionComponent<LearnPageProps>;
 
 export const LearnPage: LearnPageComponent = (): JSX.Element => {
     const mems = memDeck(useStore(({ mems }) => mems));
-    console.log(mems);
 
     const [currentMem, setCurrentMem] = useState<number>(0);
 
@@ -19,21 +18,25 @@ export const LearnPage: LearnPageComponent = (): JSX.Element => {
         return <Typography variant="h4">You're all caught up!</Typography>;
     }
 
-    const { mem, furigana } = mems[currentMem];
+    const { mem, furigana, hint } = mems[currentMem];
     return (
         <Grid container>
             <Grid item xs={2}></Grid>
             <Grid item xs={8}>
                 <Box sx={{ padding: "2em" }}>
-                    <Stack spacing={4} sx={{ textAlign: "center" }}>
-                        <Typography variant="h1">
+                    <Stack spacing={6} sx={{ textAlign: "center" }}>
+                        <Typography variant="h5">
+                            {currentMem + 1} / {mems.length}
+                        </Typography>
+                        <Typography variant="h2">
                             {(furigana || []).length ? <Furigana furigana={furigana as string[]}>{mem}</Furigana> : mem}
                         </Typography>
                         <Divider />
                         <Box sx={{ textAlign: "center" }}>
                             <ButtonGroup variant="contained" size="large">
                                 <Button color="warning">No Idea</Button>
-                                <Button>Hint!</Button>
+                                <Button color="primary">Show me</Button>
+                                <Button disabled={!hint}>Hint!</Button>
                                 <Button color="success">I know</Button>
                             </ButtonGroup>
                         </Box>
