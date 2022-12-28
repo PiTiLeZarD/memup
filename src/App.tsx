@@ -17,7 +17,7 @@ export type AppComponent = React.FunctionComponent<AppProps>;
 
 export const App: AppComponent = (): JSX.Element => {
     return (
-        <>
+        <React.StrictMode>
             <style type="text/css">{`
                 html, body {
                     background-color: ${lightBlue[100]}
@@ -43,6 +43,6 @@ export const App: AppComponent = (): JSX.Element => {
                     </Routes>
                 </Paper>
             </HashRouter>
-        </>
+        </React.StrictMode>
     );
 };
