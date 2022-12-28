@@ -49,12 +49,14 @@ export const memScore = (mem: MemType): MemScore => {
     };
 };
 
-export const memDeck = (mems: MemType[]): MemType[] =>
+export const randomiseDeck = (mems: MemType[]): MemType[] =>
     mems
-        .filter((mem: MemType) => memScore(mem).nextCheck <= new Date())
         .map((mem: MemType) => [Math.random(), mem])
-        .sort(([a, memA], [b, memB]) => a - b)
+        .sort(([a, memA], [b, memB]) => (a as number) - (b as number))
         .map(([_, mem]) => mem as MemType);
+
+export const memDeck = (mems: MemType[]): MemType[] =>
+    randomiseDeck(mems.filter((mem: MemType) => memScore(mem).nextCheck <= new Date()));
 
 const InitialState: StorePropsType = {
     mems: [],
