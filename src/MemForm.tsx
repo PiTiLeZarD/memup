@@ -4,8 +4,8 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, TextF
 import { useForm } from "react-hook-form";
 
 import { FuriganaInput } from "./japanese/FuriganaInput";
-import { includesKanji } from "./lib";
-import { MemType, newMem, useStore } from "./store";
+import { includesKanji, newMem } from "./lib";
+import { MemType, useStore } from "./store";
 
 type FormState = {
     mem: string;
