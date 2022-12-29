@@ -25,10 +25,9 @@ export const HomePage: HomePageComponent = (): JSX.Element => {
             <Box sx={{ textAlign: "center" }}>
                 <ButtonGroup variant="contained">
                     <Button onClick={() => navigate("/learn")}>Learn</Button>
-                    <Button onClick={() => navigate("/quizz")}>Quizz</Button>
-                    <Button onClick={() => navigate("/kanjistudy")}>Kanji Study</Button>
                     <Divider orientation="vertical" flexItem />
                     <Button onClick={() => navigate("/mems")}>List Mems</Button>
+                    <Divider orientation="vertical" flexItem />
                     <Button onClick={downloadAllMems}>Export Mems</Button>
                     <Button onClick={() => setImportOpen(true)}>Import Mems</Button>
                 </ButtonGroup>

@@ -6,10 +6,8 @@ import { lightBlue } from "@mui/material/colors";
 
 import { BackButton } from "./BackButton";
 import { HomePage } from "./HomePage";
-import { KanjiStudyPage } from "./KanjiStudyPage";
 import { LearnPage } from "./LearnPage";
 import { MemsPage } from "./MemsPage";
-import { QuizzPage } from "./QuizzPage";
 
 export type AppProps = {};
 
@@ -37,9 +35,7 @@ export const App: AppComponent = (): JSX.Element => {
                     <Routes>
                         <Route path="/" element={<HomePage />} />
                         <Route path="/mems" element={<MemsPage />} />
-                        <Route path="/quizz" element={<QuizzPage />} />
                         <Route path="/learn" element={<LearnPage />} />
-                        <Route path="/kanjistudy" element={<KanjiStudyPage />} />
                     </Routes>
                 </Paper>
             </HashRouter>
