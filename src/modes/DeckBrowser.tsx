@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 
-import { Box, Divider, Grid, Stack, Typography } from "@mui/material";
+import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import { Alert, Box, Divider, Grid, Stack, Typography } from "@mui/material";
 
 import { memScore } from "../lib";
 import { Mem } from "../Mem";
@@ -18,7 +20,9 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
     if (mems.length == 0) return <Typography variant="h2">You're all caught up!</Typography>;
 
     const [currentMem, setCurrentMem] = useState<number>(0);
-    const nextMem = () => {
+    const [scores, setScores] = useState<{ up: number; down: number }>({ up: 0, down: 0 });
+    const nextMem = (success: boolean) => {
+        setScores({ up: scores.up + (success ? 1 : 0), down: scores.down + (success ? 0 : 1) });
         setCurrentMem(currentMem + 1);
     };
     const mem = mems[currentMem];
@@ -30,9 +34,17 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
             <Grid item xs={12} md={8}>
                 <Box sx={{ padding: "2em" }}>
                     <Stack spacing={6} sx={{ textAlign: "center" }}>
-                        <Typography variant="h5">
-                            {currentMem + 1} / {mems.length}
-                        </Typography>
+                        <Stack direction="row" sx={{ width: "auto", margin: "auto" }}>
+                            <Alert severity="success" icon={<ThumbUpIcon />}>
+                                {scores.up}
+                            </Alert>
+                            <Typography variant="h5" sx={{ padding: "6px 2em" }}>
+                                {currentMem + 1} / {mems.length}
+                            </Typography>
+                            <Alert severity="error" icon={<ThumbDownIcon />}>
+                                {scores.down}
+                            </Alert>
+                        </Stack>
 
                         <Mem mem={mem} variant="h2" />
 

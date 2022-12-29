@@ -20,7 +20,7 @@ const backgroundColour = (correctId: string, currentId: string, selectedId: stri
 };
 
 export type QuizzProps = {
-    nextMem: () => void;
+    nextMem: (success: boolean) => void;
     mem: MemType;
 };
 
@@ -44,8 +44,8 @@ export const Quizz: QuizzComponent = ({ mem, nextMem }): JSX.Element => {
     };
 
     const handleNext = () => {
+        nextMem(selectedAnswer == mem.id);
         setSelectedAnswer(null);
-        nextMem();
     };
 
     return (

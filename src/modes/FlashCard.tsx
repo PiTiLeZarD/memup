@@ -5,7 +5,7 @@ import { Box, Button, ButtonGroup, Divider, Typography } from "@mui/material";
 import { MemType } from "../store";
 
 export type FlashCardProps = {
-    nextMem: () => void;
+    nextMem: (success: boolean) => void;
     mem: MemType;
 };
 
@@ -15,8 +15,8 @@ export const FlashCard: FlashCardComponent = ({ nextMem, mem }): JSX.Element => 
     const [showMe, setShowMe] = useState<boolean>(false);
 
     const handleNext = () => {
+        nextMem(!showMe);
         setShowMe(false);
-        nextMem();
     };
 
     return (
