@@ -73,7 +73,7 @@ export const Quizz: QuizzComponent = ({ mem, nextMem }): JSX.Element => {
                 <>
                     <Divider />
                     <Box sx={{ textAlign: "center" }}>
-                        <Button variant="contained" onClick={handleNext}>
+                        <Button variant="contained" size="large" onClick={handleNext}>
                             Next
                         </Button>
                     </Box>
