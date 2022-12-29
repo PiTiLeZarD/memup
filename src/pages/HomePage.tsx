@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { Box, Button, ButtonGroup, Divider } from "@mui/material";
 
-import { ImportMems } from "../ImportMems";
+import { ImportMemsDialog } from "../ImportMemsDialog";
 
 const downloadAllMems = () =>
     Object.assign(document.createElement("a"), {
@@ -21,7 +21,7 @@ export const HomePage: HomePageComponent = (): JSX.Element => {
 
     return (
         <>
-            <ImportMems open={importOpen} onClose={() => setImportOpen(false)} />
+            <ImportMemsDialog open={importOpen} onClose={() => setImportOpen(false)} />
             <Box sx={{ textAlign: "center" }}>
                 <ButtonGroup variant="contained">
                     <Button onClick={() => navigate("/learn")}>Learn</Button>

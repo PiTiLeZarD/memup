@@ -37,7 +37,7 @@ const validationSchema = object({
 
 export type ImportMemsComponent = React.FunctionComponent<ImportMemsProps>;
 
-export const ImportMems: ImportMemsComponent = ({ open, onClose }): JSX.Element => {
+export const ImportMemsDialog: ImportMemsComponent = ({ open, onClose }): JSX.Element => {
     const handleImport = (files: FileWithPreview[]) => {
         files.map((file) => {
             const fr = new FileReader();
