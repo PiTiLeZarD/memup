@@ -4,9 +4,10 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Button, Grid, IconButton, List, ListItem } from "@mui/material";
 
-import { Mem } from "./Mem";
+import { newMem } from "./lib";
 import { MemForm } from "./MemForm";
-import { MemType, newMem, useStore } from "./store";
+import { MemListItem } from "./MemListItem";
+import { MemType, useStore } from "./store";
 
 export type MemListProps = {
     mems: MemType[];
@@ -30,7 +31,7 @@ export const MemList: MemListComponent = ({ mems }): JSX.Element => {
                     <ListItem key={mem.id}>
                         <Grid container>
                             <Grid item xs={10}>
-                                <Mem data={mem} />
+                                <MemListItem data={mem} />
                             </Grid>
                             <Grid item xs={2} sx={{ textAlign: "right" }}>
                                 <IconButton onClick={() => setFormOpen(mem)}>

@@ -5,13 +5,13 @@ import { Grid, Typography } from "@mui/material";
 import { Furigana } from "./Furigana";
 import { MemType } from "./store";
 
-export type MemProps = {
+export type MemListItemProps = {
     data: MemType;
 };
 
-export type MemComponent = React.FunctionComponent<MemProps>;
+export type MemListItemComponent = React.FunctionComponent<MemListItemProps>;
 
-export const Mem: MemComponent = ({ data: { mem, furigana, description } }): JSX.Element => {
+export const MemListItem: MemListItemComponent = ({ data: { mem, furigana, description } }): JSX.Element => {
     return (
         <Grid container>
             <Grid item xs={12} md={6}>
