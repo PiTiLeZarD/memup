@@ -4,7 +4,8 @@ import { Box, Button, Divider, Grid, Paper, Stack, Typography } from "@mui/mater
 import { orange } from "@mui/material/colors";
 
 import { Furigana } from "./Furigana";
-import { memDeck, MemType, randomiseDeck, useStore } from "./store";
+import { memDeck, randomiseDeck } from "./lib";
+import { MemType, useStore } from "./store";
 
 const backgroundColour = (correctId: string, selectedId: string | null, currentId: string): string => {
     if (!selectedId) return "white";

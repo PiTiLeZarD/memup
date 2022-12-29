@@ -3,7 +3,8 @@ import React, { useState } from "react";
 import { Box, Button, ButtonGroup, Divider, Grid, Stack, Typography } from "@mui/material";
 
 import { Furigana } from "./Furigana";
-import { memDeck, MemType, useStore } from "./store";
+import { memDeck } from "./lib";
+import { MemType, useStore } from "./store";
 
 export type LearnPageProps = {};
 
