@@ -14,7 +14,11 @@ export const BackButton: BackButtonComponent = (): JSX.Element => {
     if (pathname == "/") return <></>;
 
     return (
-        <Button variant="contained" onClick={() => navigate("/")}>
+        <Button
+            variant="contained"
+            onClick={() => navigate("/")}
+            sx={{ position: "absolute", top: "25px", left: "25px" }}
+        >
             &lt;-- Back
         </Button>
     );

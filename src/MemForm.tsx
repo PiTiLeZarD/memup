@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 
-import { FuriganaInput } from "./FuriganaInput";
+import { FuriganaInput } from "./japanese/FuriganaInput";
 import { includesKanji } from "./lib";
 import { MemType, newMem, useStore } from "./store";
 

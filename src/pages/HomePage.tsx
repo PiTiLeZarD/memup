@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { Box, Button, ButtonGroup, Divider } from "@mui/material";
 
-import { ImportMems } from "./ImportMems";
+import { ImportMems } from "../ImportMems";
 
 const downloadAllMems = () =>
     Object.assign(document.createElement("a"), {

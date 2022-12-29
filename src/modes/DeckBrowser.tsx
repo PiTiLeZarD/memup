@@ -2,11 +2,11 @@ import React, { useState } from "react";
 
 import { Box, Divider, Grid, Stack, Typography } from "@mui/material";
 
+import { memScore } from "../lib";
+import { Mem } from "../Mem";
+import { MemType } from "../store";
 import { FlashCard } from "./FlashCard";
-import { memScore } from "./lib";
-import { Mem } from "./Mem";
 import { Quizz } from "./Quizz";
-import { MemType } from "./store";
 
 export type DeckBrowserProps = {
     mems: MemType[];

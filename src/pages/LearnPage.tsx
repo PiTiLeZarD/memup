@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-import { DeckBrowser } from "./DeckBrowser";
-import { memDeck } from "./lib";
-import { MemType, useStore } from "./store";
+import { memDeck } from "../lib";
+import { DeckBrowser } from "../modes/DeckBrowser";
+import { MemType, useStore } from "../store";
 
 export type LearnPageProps = {};
 

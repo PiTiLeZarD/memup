@@ -1,13 +1,11 @@
 import React from "react";
-import { HashRouter, Route, Routes } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 
 import { Paper } from "@mui/material";
 import { lightBlue } from "@mui/material/colors";
 
-import { BackButton } from "./BackButton";
-import { HomePage } from "./HomePage";
-import { LearnPage } from "./LearnPage";
-import { MemsPage } from "./MemsPage";
+import { BackButton } from "./pages/BackButton";
+import { Routes } from "./pages/Routes";
 
 export type AppProps = {};
 
@@ -22,21 +20,18 @@ export const App: AppComponent = (): JSX.Element => {
                 }
             `}</style>
             <HashRouter>
-                <BackButton />
                 <Paper
                     elevation={8}
                     sx={{
+                        position: "relative",
                         borderRadius: "25px",
                         padding: "2em",
                         margin: "2em",
                         border: `3px solid ${lightBlue[400]}`,
                     }}
                 >
-                    <Routes>
-                        <Route path="/" element={<HomePage />} />
-                        <Route path="/mems" element={<MemsPage />} />
-                        <Route path="/learn" element={<LearnPage />} />
-                    </Routes>
+                    <BackButton />
+                    <Routes />
                 </Paper>
             </HashRouter>
         </React.StrictMode>

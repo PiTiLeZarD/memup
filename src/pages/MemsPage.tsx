@@ -1,7 +1,7 @@
 import React from "react";
 
-import { MemList } from "./MemList";
-import { useStore } from "./store";
+import { MemList } from "../MemList";
+import { useStore } from "../store";
 
 export type MemsPageProps = {};
 

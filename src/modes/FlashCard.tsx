@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { Box, Button, ButtonGroup, Divider, Typography } from "@mui/material";
 
-import { MemType } from "./store";
+import { MemType } from "../store";
 
 export type FlashCardProps = {
     nextMem: () => void;

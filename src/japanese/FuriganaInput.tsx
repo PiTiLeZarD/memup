@@ -17,8 +17,8 @@ import {
     Typography,
 } from "@mui/material";
 
+import { isKanji, splitByKanji } from "../lib";
 import { Furigana } from "./Furigana";
-import { isKanji, splitByKanji } from "./lib";
 
 export type FuriganaInputProps = {
     memValue: string;

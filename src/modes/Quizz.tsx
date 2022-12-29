@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Box, Button, Divider, Grid, Paper, Typography } from "@mui/material";
 import { lightBlue, lightGreen, orange } from "@mui/material/colors";
 
-import { randomiseDeck } from "./lib";
-import { MemType, useStore } from "./store";
+import { randomiseDeck } from "../lib";
+import { MemType, useStore } from "../store";
 
 const backgroundColour = (correctId: string, currentId: string, selectedId: string | null): string => {
     if (!selectedId) return "white";
@@ -60,7 +60,7 @@ export const Quizz: QuizzComponent = ({ mem, nextMem }): JSX.Element => {
                                 borderRadius: "10px",
                                 cursor: "pointer",
                                 background: backgroundColour(mem.id, m.id, selectedAnswer),
-                                "&:hover": { backgroundColor: orange[50] },
+                                "&:hover": selectedAnswer ? {} : { backgroundColor: orange[50] },
                             }}
                             onClick={handleAnswer(m.id)}
                         >

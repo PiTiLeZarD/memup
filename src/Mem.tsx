@@ -1,6 +1,8 @@
-import { Typography, TypographyProps } from "@mui/material";
 import React from "react";
-import { Furigana } from "./Furigana";
+
+import { Typography, TypographyProps } from "@mui/material";
+
+import { Furigana } from "./japanese/Furigana";
 import { MemType } from "./store";
 
 type MemRequired = "mem" | "furigana";

@@ -1,6 +1,6 @@
 import React from "react";
+import { isKanji, splitByKanji } from "../lib";
 import { Kanji } from "./Kanji";
-import { isKanji, splitByKanji } from "./lib";
 
 export type FuriganaProps = {
     furigana: string[];
