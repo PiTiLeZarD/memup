@@ -46,13 +46,15 @@ export const Quizz: QuizzComponent = ({ mem, setScore }): JSX.Element => {
     };
 
     return (
-        <Grid container spacing={4}>
+        <Grid container spacing={2}>
             {options.map((m) => (
                 <Grid item xs={4} key={m.id}>
                     <Paper
                         elevation={4}
                         sx={{
                             padding: "2em 1em",
+                            marginRight: 2,
+                            marginBottom: 2,
                             borderRadius: "10px",
                             cursor: "pointer",
                             background: backgroundColour(mem.id, m.id, selectedAnswer),
