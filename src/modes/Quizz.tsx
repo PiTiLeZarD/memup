@@ -40,7 +40,7 @@ export const Quizz: QuizzComponent = ({ mem, setScore }): JSX.Element => {
 
     const handleAnswer = (answerId: string) => () => {
         if (selectedAnswer == null) {
-            setScore(selectedAnswer == mem.id);
+            setScore(answerId == mem.id);
             setSelectedAnswer(answerId);
         }
     };
