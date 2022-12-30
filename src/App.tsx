@@ -1,10 +1,8 @@
 import React from "react";
 import { HashRouter } from "react-router-dom";
 
-import { Paper } from "@mui/material";
 import { lightBlue } from "@mui/material/colors";
 
-import { BackButton } from "./pages/BackButton";
 import { Routes } from "./pages/Routes";
 
 export type AppProps = {};
@@ -20,19 +18,7 @@ export const App: AppComponent = (): JSX.Element => {
                 }
             `}</style>
             <HashRouter>
-                <Paper
-                    elevation={8}
-                    sx={{
-                        position: "relative",
-                        borderRadius: "25px",
-                        padding: "2em",
-                        margin: "2em",
-                        border: `3px solid ${lightBlue[400]}`,
-                    }}
-                >
-                    <BackButton />
-                    <Routes />
-                </Paper>
+                <Routes />
             </HashRouter>
         </React.StrictMode>
     );
