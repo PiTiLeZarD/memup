@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import { Alert, Box, Divider, Grid, Stack, Typography } from "@mui/material";
+import { Alert, Box, Button, Divider, Grid, Stack, Typography } from "@mui/material";
 
 import { memScore } from "../lib";
 import { Mem } from "../Mem";
@@ -21,19 +21,27 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
 
     const [currentMem, setCurrentMem] = useState<number>(0);
     const [scores, setScores] = useState<{ up: number; down: number }>({ up: 0, down: 0 });
-    const nextMem = (success: boolean) => {
-        setScores({ up: scores.up + (success ? 1 : 0), down: scores.down + (success ? 0 : 1) });
-        setCurrentMem(currentMem + 1);
-    };
+    const [currentScore, setCurrentScore] = useState<boolean | null>(null);
+
     const mem = mems[currentMem];
     const score = memScore(mem);
+
+    const handleNextMem = () => {
+        setCurrentScore(null);
+        setCurrentMem(currentMem + 1);
+    };
+
+    const handleSetScore = (success: boolean) => {
+        setCurrentScore(success);
+        setScores({ up: scores.up + (success ? 1 : 0), down: scores.down + (success ? 0 : 1) });
+    };
 
     return (
         <Grid container>
             <Grid item xs={0} md={2}></Grid>
             <Grid item xs={12} md={8}>
                 <Box sx={{ padding: "2em" }}>
-                    <Stack spacing={6} sx={{ textAlign: "center" }}>
+                    <Stack spacing={4} sx={{ textAlign: "center" }}>
                         <Stack direction="row" sx={{ width: "auto", margin: "auto" }}>
                             <Alert severity="success" icon={<ThumbUpIcon />}>
                                 {scores.up}
@@ -50,8 +58,17 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
 
                         <Divider />
 
-                        {score.memory == "ST" && <Quizz nextMem={nextMem} mem={mem} />}
-                        {score.memory == "LT" && <FlashCard nextMem={nextMem} mem={mem} />}
+                        {score.memory == "ST" && <Quizz setScore={handleSetScore} mem={mem} />}
+                        {score.memory == "LT" && <FlashCard setScore={handleSetScore} mem={mem} />}
+
+                        {currentScore !== null && (
+                            <>
+                                <Divider />
+                                <Button variant="contained" onClick={handleNextMem}>
+                                    Next
+                                </Button>
+                            </>
+                        )}
                     </Stack>
                 </Box>
             </Grid>
