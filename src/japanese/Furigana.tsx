@@ -1,5 +1,6 @@
 import React from "react";
 import { isKanji, splitByKanji } from "../lib";
+import { useStore } from "../store";
 import { Kanji } from "./Kanji";
 
 export type FuriganaProps = {
@@ -10,6 +11,9 @@ export type FuriganaProps = {
 export type FuriganaComponent = React.FunctionComponent<FuriganaProps>;
 
 export const Furigana: FuriganaComponent = ({ furigana, children }): JSX.Element => {
+    const { furiganaMode } = useStore(({ settings }) => settings);
+
+    if (furiganaMode == "Kanji") return <>{children}</>;
     const split = splitByKanji(children);
 
     if (split.filter((block) => isKanji(block[0])).length !== furigana.length)

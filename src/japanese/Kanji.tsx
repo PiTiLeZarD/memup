@@ -1,4 +1,5 @@
 import React from "react";
+import { useStore } from "../store";
 
 export type KanjiProps = {
     furigana: string;
@@ -8,6 +9,10 @@ export type KanjiProps = {
 export type KanjiComponent = React.FunctionComponent<React.PropsWithChildren<KanjiProps>>;
 
 export const Kanji: KanjiComponent = ({ furigana, opacity = 0.8, children }): JSX.Element => {
+    const { furiganaMode } = useStore(({ settings }) => settings);
+
+    if (furiganaMode == "Hiragana") return <>{furigana}</>;
+
     const padding: number = (Math.abs(furigana.length - (children as string).length) * 6) / 2;
     return (
         <span style={{ position: "relative", padding: `0 ${padding}px`, whiteSpace: "nowrap" }}>

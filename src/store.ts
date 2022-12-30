@@ -3,6 +3,10 @@ import { combine, devtools, persist } from "zustand/middleware";
 
 export type NanoID = string;
 
+export type AppSettings = {
+    furiganaMode: "Furigana" | "Kanji" | "Hiragana";
+};
+
 export type MemScore = {
     score: number;
     memory: "LT" | "ST";
@@ -26,20 +30,26 @@ export type MemType = {
 
 export type StorePropsType = {
     mems: MemType[];
+    settings: AppSettings;
 };
 
 export type StoreActionsPropsType = {
     saveMem: (mem: MemType) => void;
     deleteMem: (mem: MemType) => void;
+    set: (newSettings: Partial<AppSettings>) => void;
 };
 
 const InitialState: StorePropsType = {
     mems: [],
+    settings: {
+        furiganaMode: "Furigana",
+    },
 };
 
 const StoreActions = (set: Function, get: Function): StoreActionsPropsType => ({
     saveMem: (mem) => set(({ mems }) => ({ mems: [...mems.filter((m: MemType) => m.id != mem.id), mem] })),
     deleteMem: (mem) => set(({ mems }) => ({ mems: mems.filter((m: MemType) => m.id != mem.id) })),
+    set: (newSettings) => set(({ settings }) => ({ settings: { ...settings, ...newSettings } })),
 });
 
 export type useStorePropsType = StorePropsType & StoreActionsPropsType;
