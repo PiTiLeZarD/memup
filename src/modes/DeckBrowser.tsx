@@ -34,7 +34,7 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
     useEffect(() => {
         startCountdown();
         return stopCountdown;
-    }, []);
+    }, [currentMem]);
 
     const mem = mems[currentMem];
     const score = memScore(mem);
