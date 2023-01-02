@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { UseFormRegister, UseFormSetValue } from "react-hook-form";
+import * as wanakana from "wanakana";
 
 import ErrorIcon from "@mui/icons-material/Error";
 import {
@@ -30,6 +31,15 @@ export type FuriganaInputProps = {
 export type FuriganaInputComponent = React.FunctionComponent<FuriganaInputProps>;
 
 export const FuriganaInput: FuriganaInputComponent = ({ memValue, furigana, register, setValue }): JSX.Element => {
+    const hiraganaInputRef = useRef();
+    useEffect(() => {
+        if (hiraganaInputRef.current) {
+            const ref = hiraganaInputRef.current;
+            wanakana.bind(ref);
+            return () => wanakana.unbind(ref);
+        }
+    }, [hiraganaInputRef.current]);
+
     const [kanjiGroups, setKanjiGroups] = useState<string[][]>(
         splitByKanji(memValue)
             .filter((s) => isKanji(s[0]))
@@ -55,6 +65,7 @@ export const FuriganaInput: FuriganaInputComponent = ({ memValue, furigana, regi
                         <Stack spacing={2}>
                             <Typography variant="h4">{kanjiGroups[open][0]}</Typography>
                             <TextField
+                                inputRef={hiraganaInputRef}
                                 label="Furigana"
                                 value={furiganaValue}
                                 onChange={(ev) => setFuriganaValue(ev.target.value)}

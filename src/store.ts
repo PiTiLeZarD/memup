@@ -4,7 +4,7 @@ import { combine, devtools, persist } from "zustand/middleware";
 export type NanoID = string;
 
 export type AppSettings = {
-    furiganaMode: "Furigana" | "Kanji" | "Hiragana";
+    furiganaMode: "Romaji" | "Furigana" | "Kanji" | "Hiragana";
     countdownSeconds: number;
 };
 

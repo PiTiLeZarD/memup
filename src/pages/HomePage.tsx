@@ -47,6 +47,12 @@ export const HomePage: HomePageComponent = (): JSX.Element => {
                     <Stack direction="row" spacing={4}>
                         <ButtonGroup variant="contained">
                             <Button
+                                color={settings.furiganaMode == "Romaji" ? "primary" : "inherit"}
+                                onClick={() => set({ furiganaMode: "Romaji" })}
+                            >
+                                Romaji
+                            </Button>
+                            <Button
                                 color={settings.furiganaMode == "Hiragana" ? "primary" : "inherit"}
                                 onClick={() => set({ furiganaMode: "Hiragana" })}
                             >

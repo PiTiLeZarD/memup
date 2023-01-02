@@ -1,5 +1,5 @@
 import React from "react";
-import { isKanji, splitByKanji } from "../lib";
+import { isKanji, kanaToRomaji, splitByKanji } from "../lib";
 import { useStore } from "../store";
 import { Kanji } from "./Kanji";
 
@@ -27,6 +27,8 @@ export const Furigana: FuriganaComponent = ({ furigana, children }): JSX.Element
                     <Kanji key={furiganaIt} furigana={furigana[furiganaIt++]}>
                         {block}
                     </Kanji>
+                ) : furiganaMode == "Romaji" ? (
+                    <>{kanaToRomaji(block)}</>
                 ) : (
                     block
                 )

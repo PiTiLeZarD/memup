@@ -1,4 +1,5 @@
 import React from "react";
+import { kanaToRomaji } from "../lib";
 import { useStore } from "../store";
 
 export type KanjiProps = {
@@ -11,6 +12,7 @@ export type KanjiComponent = React.FunctionComponent<React.PropsWithChildren<Kan
 export const Kanji: KanjiComponent = ({ furigana, opacity = 0.8, children }): JSX.Element => {
     const { furiganaMode } = useStore(({ settings }) => settings);
 
+    if (furiganaMode == "Romaji") return <>{kanaToRomaji(furigana)}</>;
     if (furiganaMode == "Hiragana") return <>{furigana}</>;
 
     const padding: number = (Math.abs(furigana.length - (children as string).length) * 6) / 2;

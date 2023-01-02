@@ -1,4 +1,6 @@
 import { nanoid } from "nanoid";
+import * as wanakana from "wanakana";
+
 import { MemScore, MemType } from "./store";
 
 export const isKanji = (ch: string): boolean =>
@@ -27,7 +29,7 @@ export const newMem = (): MemType => ({
 
 export const memScore = (mem: MemType): MemScore => {
     return {
-        score: 10,
+        level: 0,
         memory: "ST",
         nextCheck: new Date(),
     };
@@ -41,3 +43,5 @@ export const randomiseDeck = (mems: MemType[]): MemType[] =>
 
 export const memDeck = (mems: MemType[]): MemType[] =>
     randomiseDeck(mems.filter((mem: MemType) => memScore(mem).nextCheck <= new Date()));
+
+export const kanaToRomaji = (s: string) => wanakana.toRomaji(s);
