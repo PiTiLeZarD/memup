@@ -36,8 +36,8 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
         return stopCountdown;
     }, [currentMem]);
 
-    const mem = mems[currentMem];
-    const score = memScore(mem);
+    const mem = mems[currentMem] || null;
+    const score = mem ? memScore(mem) : null;
 
     const handleNextMem = () => {
         resetCountdown();
@@ -46,7 +46,7 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
     };
 
     const handleSetScore = (success: boolean) => {
-        console.log("time", { time });
+        console.log("time", time);
         stopCountdown();
 
         setCurrentScore(success);
@@ -64,19 +64,35 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
                                 {scores.up}
                             </Alert>
                             <Typography variant="h5" sx={{ padding: "6px 2em" }}>
-                                {currentMem + 1} / {mems.length}
+                                {mem ? (
+                                    <>
+                                        {currentMem + 1} / {mems.length}
+                                    </>
+                                ) : (
+                                    "Done!"
+                                )}
                             </Typography>
                             <Alert severity="error" icon={<ThumbDownIcon />}>
                                 {scores.down}
                             </Alert>
                         </Stack>
 
-                        <Mem mem={mem} variant="h2" />
+                        {mem && score && (
+                            <>
+                                <Mem mem={mem} variant="h2" />
 
-                        <Timer time={time} />
+                                <Timer time={time} />
 
-                        {score.memory == "ST" && <Quizz setScore={handleSetScore} mem={mem} timesup={time == 0} />}
-                        {score.memory == "LT" && <FlashCard setScore={handleSetScore} mem={mem} timesup={time == 0} />}
+                                {score.memory == "ST" && (
+                                    <Quizz setScore={handleSetScore} mem={mem} timesup={time == 0} />
+                                )}
+                                {score.memory == "LT" && (
+                                    <FlashCard setScore={handleSetScore} mem={mem} timesup={time == 0} />
+                                )}
+                            </>
+                        )}
+
+                        {!mem && <Typography variant="h3">Congrats, that was a nice sesh!</Typography>}
 
                         {currentScore !== null && (
                             <>
