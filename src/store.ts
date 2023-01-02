@@ -5,6 +5,7 @@ export type NanoID = string;
 
 export type AppSettings = {
     furiganaMode: "Furigana" | "Kanji" | "Hiragana";
+    countdownSeconds: number;
 };
 
 export type MemScore = {
@@ -43,6 +44,7 @@ const InitialState: StorePropsType = {
     mems: [],
     settings: {
         furiganaMode: "Furigana",
+        countdownSeconds: 10,
     },
 };
 

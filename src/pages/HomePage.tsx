@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Box, Button, ButtonGroup, Divider, Stack } from "@mui/material";
+import { Box, Button, ButtonGroup, Divider, Stack, TextField } from "@mui/material";
 
 import { Typography } from "@mui/material";
 import { ImportMemsDialog } from "../ImportMemsDialog";
@@ -68,6 +68,12 @@ export const HomePage: HomePageComponent = (): JSX.Element => {
                         <Typography>Example: </Typography>
                         <Mem variant="h4" mem={{ mem: "皆さん", furigana: ["みな"] }} />
                     </Stack>
+                    <TextField
+                        label="Countdown in s"
+                        value={settings.countdownSeconds}
+                        inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                        onChange={(ev) => set({ countdownSeconds: parseInt(ev.target.value) })}
+                    />
                 </Stack>
             </ContentBox>
         </>

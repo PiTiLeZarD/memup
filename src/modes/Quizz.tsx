@@ -22,11 +22,12 @@ const backgroundColour = (correctId: string, currentId: string, selectedId: stri
 export type QuizzProps = {
     setScore: (success: boolean) => void;
     mem: MemType;
+    timesup: boolean;
 };
 
 export type QuizzComponent = React.FunctionComponent<QuizzProps>;
 
-export const Quizz: QuizzComponent = ({ mem, setScore }): JSX.Element => {
+export const Quizz: QuizzComponent = ({ mem, setScore, timesup }): JSX.Element => {
     const allMems = useStore(({ mems }) => mems);
     const [options, setOptions] = useState<MemType[]>([]);
     const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
@@ -37,6 +38,13 @@ export const Quizz: QuizzComponent = ({ mem, setScore }): JSX.Element => {
         setOptions(randomiseDeck(newOptions));
         setSelectedAnswer(null);
     }, [mem.id]);
+
+    useEffect(() => {
+        if (timesup) {
+            setScore(false);
+            setSelectedAnswer("timesup");
+        }
+    }, [timesup]);
 
     const handleAnswer = (answerId: string) => () => {
         if (selectedAnswer == null) {
