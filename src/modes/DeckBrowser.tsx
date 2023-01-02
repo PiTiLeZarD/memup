@@ -7,7 +7,7 @@ import { Alert, Box, Button, Divider, Grid, Stack, Typography } from "@mui/mater
 
 import { memScore } from "../lib";
 import { Mem } from "../Mem";
-import { MemType, useStore } from "../store";
+import { MemAnswer, MemType, useStore } from "../store";
 import { FlashCard } from "./FlashCard";
 import { Quizz } from "./Quizz";
 import { Timer } from "./Timer";
@@ -25,6 +25,7 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
     const [scores, setScores] = useState<{ up: number; down: number }>({ up: 0, down: 0 });
     const [currentScore, setCurrentScore] = useState<boolean | null>(null);
 
+    const addAnswer = useStore(({ addAnswer }) => addAnswer);
     const { countdownSeconds } = useStore(({ settings }) => settings);
     const [time, { startCountdown, stopCountdown, resetCountdown }] = useCountdown({
         countStart: countdownSeconds,
@@ -45,12 +46,11 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
         setCurrentMem(currentMem + 1);
     };
 
-    const handleSetScore = (success: boolean) => {
-        console.log("time", time);
+    const handleAnswer = (answer: MemAnswer) => {
         stopCountdown();
-
-        setCurrentScore(success);
-        setScores({ up: scores.up + (success ? 1 : 0), down: scores.down + (success ? 0 : 1) });
+        setCurrentScore(answer.success);
+        setScores({ up: scores.up + (answer.success ? 1 : 0), down: scores.down + (answer.success ? 0 : 1) });
+        addAnswer(mem.id, { ...answer, time: countdownSeconds - time, date: new Date() });
     };
 
     return (
@@ -83,11 +83,9 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
 
                                 <Timer time={time} />
 
-                                {score.memory == "ST" && (
-                                    <Quizz setScore={handleSetScore} mem={mem} timesup={time == 0} />
-                                )}
+                                {score.memory == "ST" && <Quizz answer={handleAnswer} mem={mem} timesup={time == 0} />}
                                 {score.memory == "LT" && (
-                                    <FlashCard setScore={handleSetScore} mem={mem} timesup={time == 0} />
+                                    <FlashCard answer={handleAnswer} mem={mem} timesup={time == 0} />
                                 )}
                             </>
                         )}

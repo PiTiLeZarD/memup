@@ -4,7 +4,7 @@ import { Grid, Paper, Typography } from "@mui/material";
 import { lightBlue, lightGreen, orange } from "@mui/material/colors";
 
 import { randomiseDeck } from "../lib";
-import { MemType, useStore } from "../store";
+import { MemAnswer, MemType, useStore } from "../store";
 
 const backgroundColour = (correctId: string, currentId: string, selectedId: string | null): string => {
     if (!selectedId) return "white";
@@ -20,14 +20,14 @@ const backgroundColour = (correctId: string, currentId: string, selectedId: stri
 };
 
 export type QuizzProps = {
-    setScore: (success: boolean) => void;
+    answer: (answer: MemAnswer) => void;
     mem: MemType;
     timesup: boolean;
 };
 
 export type QuizzComponent = React.FunctionComponent<QuizzProps>;
 
-export const Quizz: QuizzComponent = ({ mem, setScore, timesup }): JSX.Element => {
+export const Quizz: QuizzComponent = ({ mem, answer, timesup }): JSX.Element => {
     const allMems = useStore(({ mems }) => mems);
     const [options, setOptions] = useState<MemType[]>([]);
     const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
@@ -41,14 +41,18 @@ export const Quizz: QuizzComponent = ({ mem, setScore, timesup }): JSX.Element =
 
     useEffect(() => {
         if (timesup) {
-            setScore(false);
+            answer({ success: false });
             setSelectedAnswer("timesup");
         }
     }, [timesup]);
 
     const handleAnswer = (answerId: string) => () => {
         if (selectedAnswer == null) {
-            setScore(answerId == mem.id);
+            if (answerId == mem.id) {
+                answer({ success: true });
+            } else {
+                answer({ success: false, selected: answerId });
+            }
             setSelectedAnswer(answerId);
         }
     };

@@ -2,21 +2,21 @@ import React, { useEffect, useState } from "react";
 
 import { Box, Button, ButtonGroup, Divider, Typography } from "@mui/material";
 
-import { MemType } from "../store";
+import { MemAnswer, MemType } from "../store";
 
 export type FlashCardProps = {
-    setScore: (success: boolean) => void;
+    answer: (answer: MemAnswer) => void;
     mem: MemType;
     timesup: boolean;
 };
 
 export type FlashCardComponent = React.FunctionComponent<FlashCardProps>;
 
-export const FlashCard: FlashCardComponent = ({ setScore, mem, timesup }): JSX.Element => {
+export const FlashCard: FlashCardComponent = ({ answer, mem, timesup }): JSX.Element => {
     const [showMe, setShowMe] = useState<boolean>(false);
 
     const handleClick = (show: boolean) => () => {
-        setScore(!show);
+        answer({ success: !show });
         setShowMe(show);
     };
 

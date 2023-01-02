@@ -8,15 +8,25 @@ export type AppSettings = {
     countdownSeconds: number;
 };
 
-export type MemScore = {
-    score: number;
-    memory: "LT" | "ST";
-    nextCheck: Date;
+export type MemQuizzAnswer = {
+    selected?: string;
 };
 
-export type MemCheckType = {
-    date: Date;
-    result: number;
+export type MemFlipcardAnswer = {
+    quizz: boolean;
+    hint: boolean;
+};
+
+export type MemAnswer = {
+    success: boolean;
+    date?: Date;
+    time?: number;
+} & (MemQuizzAnswer | MemFlipcardAnswer);
+
+export type MemScore = {
+    level?: number;
+    memory: "LT" | "ST";
+    nextCheck: Date;
 };
 
 export type MemType = {
@@ -26,7 +36,7 @@ export type MemType = {
     hint?: string;
     notes?: string;
     furigana?: string[];
-    checks: MemCheckType[];
+    checks: MemAnswer[];
 };
 
 export type StorePropsType = {
@@ -37,6 +47,7 @@ export type StorePropsType = {
 export type StoreActionsPropsType = {
     saveMem: (mem: MemType) => void;
     deleteMem: (mem: MemType) => void;
+    addAnswer: (memId: string, check: MemAnswer) => void;
     set: (newSettings: Partial<AppSettings>) => void;
 };
 
@@ -51,6 +62,12 @@ const InitialState: StorePropsType = {
 const StoreActions = (set: Function, get: Function): StoreActionsPropsType => ({
     saveMem: (mem) => set(({ mems }) => ({ mems: [...mems.filter((m: MemType) => m.id != mem.id), mem] })),
     deleteMem: (mem) => set(({ mems }) => ({ mems: mems.filter((m: MemType) => m.id != mem.id) })),
+    addAnswer: (memId, check) =>
+        set(({ mems }) => {
+            const i = mems.findIndex((m: MemType) => m.id == memId);
+            mems[i].checks.push(check);
+            return { mems };
+        }),
     set: (newSettings) => set(({ settings }) => ({ settings: { ...settings, ...newSettings } })),
 });
 
