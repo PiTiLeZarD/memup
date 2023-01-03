@@ -27,12 +27,31 @@ export const newMem = (): MemType => ({
     description: "",
 });
 
+const levelGapMap = {
+    1: 30 * 60000,
+    2: 2 * 60 * 60000,
+    3: 6 * 60 * 60000,
+    4: 24 * 60 * 60000,
+    5: 2 * 24 * 60 * 60000,
+    6: 5 * 24 * 60 * 60000,
+};
+const MONTH = 30 * 24 * 60 * 60000;
+
 export const memScore = (mem: MemType): MemScore => {
-    return {
-        level: 0,
-        memory: "ST",
-        nextCheck: new Date(),
-    };
+    if (mem.checks.length == 0)
+        return {
+            level: 0,
+            memory: "ST",
+            nextCheck: new Date(),
+        };
+
+    const checks = mem.checks.sort((a, b) => (b.date as any) - (a.date as any)).reverse();
+    const lastFail = checks.findIndex((c) => !c.success);
+    const level = lastFail > 0 ? lastFail + 1 : 1;
+    const memory = Object.keys(levelGapMap).includes(String(level)) ? "ST" : "LT";
+    const nextCheck = new Date(checks[0].date?.getTime() + (memory == "LT" ? MONTH : levelGapMap[level]));
+
+    return { level, memory, nextCheck };
 };
 
 export const randomiseDeck = (mems: MemType[]): MemType[] =>
