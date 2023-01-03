@@ -1,10 +1,17 @@
 # memup
 
+Memup is a language learning tool, primarily focused on japanese for the moment as this is what I'm learning.
+
 Check out the [demo](https://pitilezard.github.io/memup/)
 
-I used to enjoy memrise, and it's changed quite a bit since I've used it. So I'm doing my own. I'm learning japanese so you'll have a lot of japanese specific stuff in here.
+I know a lot of these tools exist here and there, but:
+
+1.  I couldn't find one with all the features I wanted
+2.  I kinda like coding this one so ¯\\\_(ツ)\_/¯
 
 ## Install & run
+
+Probably works with yarn npm and all these but I use pnpm:
 
 ```
 pnpm install
