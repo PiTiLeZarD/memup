@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, TextField } from "@mui/material";
 
+import { FoldersInput } from "./FoldersInput";
 import { FuriganaInput } from "./japanese/FuriganaInput";
 import { includesKanji, newMem } from "./lib";
 import { MemType, useStore } from "./store";
@@ -11,6 +12,7 @@ type FormState = {
     mem: string;
     description: string;
     furigana: string;
+    folders: string;
     hint: string;
     notes: string;
 };
@@ -20,10 +22,11 @@ export type MemFormProps = {
     onClose: () => void;
 };
 
-const mem2Form = ({ mem, description, hint, notes, furigana }: MemType): FormState => ({
+const mem2Form = ({ mem, description, hint, notes, furigana, folders }: MemType): FormState => ({
     mem,
     description,
     furigana: JSON.stringify(furigana || ""),
+    folders: JSON.stringify(folders || ""),
     hint: hint || "",
     notes: notes || "",
 });
@@ -31,7 +34,7 @@ const mem2Form = ({ mem, description, hint, notes, furigana }: MemType): FormSta
 export type MemFormComponent = React.FunctionComponent<MemFormProps>;
 
 export const MemForm: MemFormComponent = ({ open, onClose }): JSX.Element => {
-    const { register, handleSubmit, reset, watch, setValue, getValues } = useForm<FormState>({
+    const { register, handleSubmit, reset, watch, setValue } = useForm<FormState>({
         defaultValues: open ? mem2Form(open) : {},
     });
 
@@ -49,12 +52,13 @@ export const MemForm: MemFormComponent = ({ open, onClose }): JSX.Element => {
 
     const saveMem = useStore(({ saveMem }) => saveMem);
 
-    const handleSave = ({ mem, description, hint, notes, furigana }) => {
+    const handleSave = ({ mem, description, hint, notes, furigana, folders }) => {
         saveMem({
             ...(open || newMem()),
             mem,
             description,
             furigana: furigana ? JSON.parse(furigana) : null,
+            folders: folders ? JSON.parse(folders) : [],
             hint: hint || null,
             notes: notes || null,
         });
@@ -68,6 +72,7 @@ export const MemForm: MemFormComponent = ({ open, onClose }): JSX.Element => {
                 <DialogTitle>Add a mem</DialogTitle>
                 <DialogContent sx={{ minWidth: "500px" }}>
                     <Stack spacing={2} sx={{ margin: "0.5em 0" }}>
+                        <FoldersInput watch={watch} register={register} setValue={setValue} />
                         <TextField label="Mem" {...register("mem")} required />
                         {hasKanji &&
                             (setFurigana ? (

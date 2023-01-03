@@ -13,7 +13,7 @@ export const Routes: RoutesComponent = (): JSX.Element => {
     return (
         <RRDRoutes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/mems" element={<MemsPage />} />
+            <Route path="/mems/:folders?" element={<MemsPage />} />
             <Route path="/learn" element={<LearnPage />} />
         </RRDRoutes>
     );

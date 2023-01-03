@@ -32,6 +32,7 @@ export type MemScore = {
 export type MemType = {
     id: NanoID;
     mem: string;
+    folders: string[];
     description: string;
     hint?: string;
     notes?: string;

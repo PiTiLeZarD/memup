@@ -25,6 +25,7 @@ export const newMem = (): MemType => ({
     checks: [],
     mem: "",
     description: "",
+    folders: [],
 });
 
 export const levelGapMap = {
