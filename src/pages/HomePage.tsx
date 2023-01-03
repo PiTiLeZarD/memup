@@ -5,6 +5,7 @@ import { Box, Button, ButtonGroup, Divider, Stack, TextField } from "@mui/materi
 
 import { Typography } from "@mui/material";
 import { ImportMemsDialog } from "../ImportMemsDialog";
+import { memDeck } from "../lib";
 import { Mem } from "../Mem";
 import { useStore } from "../store";
 import { ContentBox } from "./ContentBox";
@@ -23,22 +24,37 @@ export const HomePage: HomePageComponent = (): JSX.Element => {
     const [importOpen, setImportOpen] = useState<boolean>(false);
     const settings = useStore(({ settings }) => settings);
     const set = useStore(({ set }) => set);
+    const memsAvailable = memDeck(useStore(({ mems }) => mems)).length;
+
     const navigate = useNavigate();
 
     return (
-        <>
+        <Stack>
             <ContentBox>
                 <ImportMemsDialog open={importOpen} onClose={() => setImportOpen(false)} />
-                <Box sx={{ textAlign: "center" }}>
-                    <ButtonGroup variant="contained">
-                        <Button onClick={() => navigate("/learn")}>Learn</Button>
-                        <Divider orientation="vertical" flexItem />
-                        <Button onClick={() => navigate("/mems")}>List Mems</Button>
-                        <Divider orientation="vertical" flexItem />
-                        <Button onClick={downloadAllMems}>Export Mems</Button>
-                        <Button onClick={() => setImportOpen(true)}>Import Mems</Button>
-                    </ButtonGroup>
-                </Box>
+
+                <Stack>
+                    {memsAvailable > 0 && (
+                        <Typography variant="h6" sx={{ textAlign: "center" }}>
+                            {memsAvailable} mems for you to review
+                        </Typography>
+                    )}
+                    <Box sx={{ textAlign: "center" }}>
+                        <ButtonGroup variant="contained">
+                            <Button
+                                color={memsAvailable > 0 ? "primary" : "inherit"}
+                                onClick={() => navigate("/learn")}
+                            >
+                                Learn
+                            </Button>
+                            <Divider orientation="vertical" flexItem />
+                            <Button onClick={() => navigate("/mems")}>List Mems</Button>
+                            <Divider orientation="vertical" flexItem />
+                            <Button onClick={downloadAllMems}>Export Mems</Button>
+                            <Button onClick={() => setImportOpen(true)}>Import Mems</Button>
+                        </ButtonGroup>
+                    </Box>
+                </Stack>
             </ContentBox>
             <ContentBox>
                 <Stack spacing={4}>
@@ -82,6 +98,6 @@ export const HomePage: HomePageComponent = (): JSX.Element => {
                     />
                 </Stack>
             </ContentBox>
-        </>
+        </Stack>
     );
 };

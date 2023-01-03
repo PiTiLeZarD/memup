@@ -19,8 +19,6 @@ export type DeckBrowserProps = {
 export type DeckBrowserComponent = React.FunctionComponent<DeckBrowserProps>;
 
 export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
-    if (mems.length == 0) return <Typography variant="h2">You're all caught up!</Typography>;
-
     const [currentMem, setCurrentMem] = useState<number>(0);
     const [scores, setScores] = useState<{ up: number; down: number }>({ up: 0, down: 0 });
     const [currentScore, setCurrentScore] = useState<boolean | null>(null);
@@ -36,6 +34,8 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
         startCountdown();
         return stopCountdown;
     }, [currentMem]);
+
+    if (mems.length == 0) return <Typography variant="h2">You're all caught up!</Typography>;
 
     const mem = mems[currentMem] || null;
     const score = mem ? memScore(mem) : null;

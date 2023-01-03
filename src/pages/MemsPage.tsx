@@ -1,4 +1,5 @@
 import React from "react";
+import { memScore } from "../lib";
 
 import { MemList } from "../MemList";
 import { useStore } from "../store";
@@ -10,7 +11,10 @@ export type MemsPageProps = {};
 export type MemsPageComponent = React.FunctionComponent<MemsPageProps>;
 
 export const MemsPage: MemsPageComponent = (): JSX.Element => {
-    const mems = useStore(({ mems }) => mems);
+    const mems = useStore(({ mems }) => mems).sort(
+        (ma, mb) => ((memScore(ma).nextCheck || new Date()) as any) - ((memScore(mb).nextCheck || new Date()) as any)
+    );
+
     return (
         <ContentBox>
             <BackButton />
