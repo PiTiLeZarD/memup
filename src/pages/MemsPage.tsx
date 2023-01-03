@@ -1,6 +1,6 @@
-import { Button } from "@mui/material";
+import { Breadcrumbs, Button, Chip } from "@mui/material";
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { memScore, newMem } from "../lib";
 import { FOLDER_SEP, MemFolders } from "../MemFolders";
@@ -16,6 +16,7 @@ export type MemsPageComponent = React.FunctionComponent<MemsPageProps>;
 
 export const MemsPage: MemsPageComponent = (): JSX.Element => {
     const { folders } = useParams();
+    const navigate = useNavigate();
     const [formOpen, setFormOpen] = useState<false | MemType>(false);
 
     const depth = !!folders ? folders.split(FOLDER_SEP).length : 0;
@@ -29,10 +30,32 @@ export const MemsPage: MemsPageComponent = (): JSX.Element => {
 
     const handleAdd = () => setFormOpen({ ...newMem(), folders: folders?.split(FOLDER_SEP) || [] });
 
+    const handleBreadcrumbClick = (depth: number) => () =>
+        navigate(`/mems/${(folders?.split(FOLDER_SEP) || []).slice(0, depth).join(FOLDER_SEP)}`);
+
     return (
         <ContentBox>
             <BackButton />
-            <Button variant="contained" onClick={handleAdd}>
+
+            <Breadcrumbs sx={{ marginBottom: "1em" }}>
+                {folders?.split(FOLDER_SEP).map((folder, i) => (
+                    <Chip key={folder} onClick={handleBreadcrumbClick(i + 1)} label={folder} />
+                ))}
+            </Breadcrumbs>
+
+            <Button
+                variant="contained"
+                onClick={handleAdd}
+                size="large"
+                sx={{
+                    borderRadius: "25px",
+                    position: "absolute",
+                    top: "-25px",
+                    right: "-25px",
+                    height: "60px",
+                    boxShadow: 3,
+                }}
+            >
                 Add a mem
             </Button>
 
