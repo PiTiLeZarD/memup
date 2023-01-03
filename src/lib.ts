@@ -1,5 +1,4 @@
 import { nanoid } from "nanoid";
-import { useMemo } from "react";
 import * as wanakana from "wanakana";
 
 import { MemScore, MemType } from "./store";
@@ -38,23 +37,22 @@ export const levelGapMap = {
 };
 const MONTH = 30 * 24 * 60 * 60000;
 
-export const memScore = (mem: MemType): MemScore =>
-    useMemo(() => {
-        if (mem.checks.length == 0)
-            return {
-                level: 0,
-                memory: "ST",
-                nextCheck: new Date(),
-            };
+export const memScore = (mem: MemType): MemScore => {
+    if (mem.checks.length == 0)
+        return {
+            level: 0,
+            memory: "ST",
+            nextCheck: new Date(),
+        };
 
-        const checks = mem.checks.sort((a, b) => (b.date as any) - (a.date as any));
-        const lastFail = checks.findIndex((c) => !c.success);
-        const level = lastFail >= 0 ? lastFail + 1 : checks.length;
-        const memory = Object.keys(levelGapMap).includes(String(level)) ? "ST" : "LT";
-        const nextCheck = new Date(checks[0].date?.getTime() + (memory == "LT" ? MONTH : levelGapMap[level]));
+    const checks = mem.checks.sort((a, b) => (b.date as any) - (a.date as any));
+    const lastFail = checks.findIndex((c) => !c.success);
+    const level = lastFail >= 0 ? lastFail + 1 : checks.length;
+    const memory = Object.keys(levelGapMap).includes(String(level)) ? "ST" : "LT";
+    const nextCheck = new Date(checks[0].date?.getTime() + (memory == "LT" ? MONTH : levelGapMap[level]));
 
-        return { level, memory, nextCheck };
-    }, [mem.id, mem.checks.length]);
+    return { level, memory, nextCheck };
+};
 
 export const randomiseDeck = (mems: MemType[]): MemType[] =>
     mems
