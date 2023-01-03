@@ -29,6 +29,7 @@ export const MemFolders: MemFoldersComponent = ({ subfolders }): JSX.Element => 
         <List>
             {Object.keys(subfolders)
                 .filter((t) => t != "undefined")
+                .sort()
                 .map((subfolder) => (
                     <ListItem
                         key={subfolder}
