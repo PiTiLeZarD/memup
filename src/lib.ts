@@ -45,9 +45,9 @@ export const memScore = (mem: MemType): MemScore => {
             nextCheck: new Date(),
         };
 
-    const checks = mem.checks.sort((a, b) => (b.date as any) - (a.date as any)).reverse();
+    const checks = mem.checks.sort((a, b) => (b.date as any) - (a.date as any));
     const lastFail = checks.findIndex((c) => !c.success);
-    const level = lastFail > 0 ? lastFail + 1 : 1;
+    const level = lastFail > 0 ? lastFail + 1 : checks.length;
     const memory = Object.keys(levelGapMap).includes(String(level)) ? "ST" : "LT";
     const nextCheck = new Date(checks[0].date?.getTime() + (memory == "LT" ? MONTH : levelGapMap[level]));
 
