@@ -17,6 +17,8 @@ export const splitByKanji = (s: string): string[] =>
         [false, []]
     )[1];
 
+export const sanitizeMem = (s: string): string => s.replace(" ", "").replace("~", "");
+
 export const includesKanji = (s: string): boolean =>
     s ? splitByKanji(s).filter((block) => isKanji(block[0])).length > 0 : false;
 
