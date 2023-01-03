@@ -1,10 +1,10 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
-import { IconButton, List, ListItem, ListItemText } from "@mui/material";
+import { Box, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText } from "@mui/material";
 
-import { useNavigate } from "react-router-dom";
+import { MemsLinearProgress } from "./MemsLinearProgress";
 import { MemType } from "./store";
 
 export const FOLDER_SEP = "|";
@@ -31,15 +31,16 @@ export const MemFolders: MemFoldersComponent = ({ subfolders }): JSX.Element => 
                 .filter((t) => t != "undefined")
                 .sort()
                 .map((subfolder) => (
-                    <ListItem
-                        key={subfolder}
-                        secondaryAction={
+                    <ListItem key={subfolder}>
+                        <ListItemText primary={subfolder} secondary={`${subfolders[subfolder].length} mems`} />
+                        <Box sx={{ flex: 1.5, margin: "0 2em" }}>
+                            <MemsLinearProgress mems={subfolders[subfolder]} />
+                        </Box>
+                        <ListItemSecondaryAction>
                             <IconButton onClick={handleClick(subfolder)}>
                                 <DoubleArrowIcon />
                             </IconButton>
-                        }
-                    >
-                        <ListItemText primary={subfolder} secondary={`${subfolders[subfolder].length} mems`} />
+                        </ListItemSecondaryAction>
                     </ListItem>
                 ))}
         </List>

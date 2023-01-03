@@ -2,7 +2,7 @@ import React from "react";
 
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
 
-import { array, date, number, object, string } from "yup";
+import { array, boolean, number, object, string } from "yup";
 import { Dropzone, FileWithPreview } from "./Dropzone";
 import { MemType } from "./store";
 
@@ -21,11 +21,14 @@ const validationSchema = object({
                     description: string().required(),
                     hint: string().nullable(true),
                     notes: string().nullable(true),
-                    furigana: array().of(string()),
+                    furigana: array().of(string()).nullable(),
+                    folders: array().of(string()).nullable(),
                     checks: array().of(
                         object({
-                            date: date().required(),
-                            result: number().required(),
+                            date: string().required(),
+                            success: boolean().required(),
+                            time: number().required(),
+                            selected: string().nullable(),
                         })
                     ),
                 })
