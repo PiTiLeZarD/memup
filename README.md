@@ -23,6 +23,7 @@ pnpm dev
 Planned and in order
 
 -   Group mems in folders/subfolders, learn/revise should be able to focus on folders/subfolders
+-   Sort out the hint/notes bits and give them a purpose
 -   Separate learn/revise so we can either check what's to check or increase our vocab, learn should have a couple of times showing the item with the answer, then maybe a 3 item quizz with hints and such
 -   Setting to limit number of mems in learn/review sesh.
 -   Export option to strip progress, Import to match IDS and offer a merge/override
