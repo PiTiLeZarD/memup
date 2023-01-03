@@ -22,10 +22,12 @@ pnpm dev
 
 Planned and in order
 
--   Group mems in folders/subfolders, learn/revise should be able to focus on folders/subfolders
+-   Groups and Folders progressbar to show different levels of mems, LT/ST and not even started
+-   learn context should be able to focus on folders/subfolders
 -   Sort out the hint/notes bits and give them a purpose
 -   Separate learn/revise so we can either check what's to check or increase our vocab, learn should have a couple of times showing the item with the answer, then maybe a 3 item quizz with hints and such
 -   Setting to limit number of mems in learn/review sesh.
+-   Settings progress bar for storage space (limit is 50Mb) and a button to strip history (anything before the last fail)
 -   Export option to strip progress, Import to match IDS and offer a merge/override
 -   Find a way to use a github folder as a source for import, allow to delete mems by folders/subfolders
 -   Stats and graphs everywhere
