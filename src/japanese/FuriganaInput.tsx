@@ -11,6 +11,7 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
+    FormLabel,
     ListItem,
     Paper,
     Stack,
@@ -57,7 +58,7 @@ export const FuriganaInput: FuriganaInputComponent = ({ memValue, furigana, regi
     };
 
     return (
-        <>
+        <div>
             <Dialog open={open !== false}>
                 <DialogTitle>Set Furigana</DialogTitle>
                 <DialogContent>
@@ -82,6 +83,9 @@ export const FuriganaInput: FuriganaInputComponent = ({ memValue, furigana, regi
                     </Button>
                 </DialogActions>
             </Dialog>
+
+            <FormLabel>Furigana:</FormLabel>
+
             <Paper
                 sx={{
                     display: "flex",
@@ -107,12 +111,12 @@ export const FuriganaInput: FuriganaInputComponent = ({ memValue, furigana, regi
                     </ListItem>
                 ))}
             </Paper>
-            <Box sx={{ paddingTop: "10px" }}>
+            <Box sx={{ marginTop: "1.5em", textAlign: "center" }}>
                 <Typography variant="h4">
                     <Furigana furigana={kanjiGroups.map(([k, f]) => f || "")}>{memValue}</Furigana>
                 </Typography>
             </Box>
             <input type="hidden" {...register("furigana")} />
-        </>
+        </div>
     );
 };
