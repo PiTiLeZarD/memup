@@ -73,7 +73,19 @@ const StoreActions = (set: Function, get: Function): StoreActionsPropsType => ({
 
 export type useStorePropsType = StorePropsType & StoreActionsPropsType;
 
-const store = persist(combine(InitialState, StoreActions), { name: "memup" });
+const store = persist(combine(InitialState, StoreActions), {
+    name: "memup",
+    deserialize: (s: string) => {
+        const storage: { state: useStorePropsType; version: number } = JSON.parse(s);
+
+        storage.state.mems = storage.state.mems.map((m) => ({
+            ...m,
+            checks: (m.checks || []).map((c) => ({ ...c, date: new Date(c.date as any) })),
+        }));
+
+        return storage;
+    },
+});
 
 export const useStore =
     !process.env.NODE_ENV || process.env.NODE_ENV === "development"
