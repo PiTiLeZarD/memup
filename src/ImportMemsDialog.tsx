@@ -35,7 +35,7 @@ const validationSchema = object({
             )
             .required(),
     }).required(),
-    version: number().required(),
+    version: number(),
 });
 
 export type ImportMemsComponent = React.FunctionComponent<ImportMemsProps>;
