@@ -11,14 +11,7 @@ import { memsToStore, MemType } from "./store";
 const downloadMems = (title: string, mems: MemType[]) =>
     Object.assign(document.createElement("a"), {
         href: `data:application/JSON, ${encodeURIComponent(
-            JSON.stringify(
-                memsToStore(
-                    mems.map((m) => {
-                        m.checks = [];
-                        return m;
-                    })
-                )
-            )
+            JSON.stringify(memsToStore(mems.map((m) => ({ ...m, checks: [] }))))
         )}`,
         download: title,
     }).click();
