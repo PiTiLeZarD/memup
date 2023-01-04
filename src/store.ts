@@ -74,6 +74,8 @@ const StoreActions = (set: Function, get: Function): StoreActionsPropsType => ({
 
 export type useStorePropsType = StorePropsType & StoreActionsPropsType;
 
+export const memsToStore = (mems: MemType[]): { state: Pick<StorePropsType, "mems"> } => ({ state: { mems } });
+
 const store = persist(combine(InitialState, StoreActions), {
     name: "memup",
     deserialize: (s: string) => {

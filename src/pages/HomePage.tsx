@@ -50,7 +50,7 @@ export const HomePage: HomePageComponent = (): JSX.Element => {
                             <Divider orientation="vertical" flexItem />
                             <Button onClick={() => navigate("/mems")}>List Mems</Button>
                             <Divider orientation="vertical" flexItem />
-                            <Button onClick={downloadAllMems}>Export Mems</Button>
+                            <Button onClick={downloadAllMems}>Backup Progress</Button>
                             <Button onClick={() => setImportOpen(true)}>Import Mems</Button>
                         </ButtonGroup>
                     </Box>
