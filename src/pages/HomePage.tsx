@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Box, Button, ButtonGroup, Divider, Stack, TextField } from "@mui/material";
+import { Box, Button, ButtonGroup, Divider, Stack, TextField, Typography } from "@mui/material";
 
-import { Typography } from "@mui/material";
 import { ImportMemsDialog } from "../ImportMemsDialog";
 import { memDeck } from "../lib";
 import { Mem } from "../Mem";
