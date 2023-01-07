@@ -98,6 +98,7 @@ export const MemForm: MemFormComponent = ({ open, onClose }): JSX.Element => {
                                 <TableRow>
                                     <TableCell>Date</TableCell>
                                     <TableCell>Success</TableCell>
+                                    <TableCell>Time</TableCell>
                                     <TableCell>Selected</TableCell>
                                 </TableRow>
                             </TableHead>
@@ -107,6 +108,7 @@ export const MemForm: MemFormComponent = ({ open, onClose }): JSX.Element => {
                                         <TableRow key={(check.date || new Date()).toDateString()}>
                                             <TableCell>{check.date?.toDateString()}</TableCell>
                                             <TableCell>{check.success ? <DoneIcon /> : <ReportIcon />}</TableCell>
+                                            <TableCell>{check.time}</TableCell>
                                             <TableCell>
                                                 {(check as MemQuizzAnswer).selected && (
                                                     <Mem
