@@ -24,7 +24,7 @@ import { FoldersInput } from "./FoldersInput";
 import { FuriganaInput } from "./japanese/FuriganaInput";
 import { includesKanji, newMem } from "./lib";
 import { Mem } from "./Mem";
-import { MemType, useStore } from "./store";
+import { MemQuizzAnswer, MemType, useStore } from "./store";
 
 type FormState = {
     mem: string;
