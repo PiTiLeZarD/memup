@@ -28,7 +28,7 @@ export type QuizzProps = {
 export type QuizzComponent = React.FunctionComponent<QuizzProps>;
 
 export const Quizz: QuizzComponent = ({ mem, answer, timesup }): JSX.Element => {
-    const allMems = useStore(({ mems }) => mems);
+    const allMems = useStore(({ learnContext, mems }) => (learnContext.length ? learnContext : mems));
     const [options, setOptions] = useState<MemType[]>([]);
     const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
 
