@@ -23,9 +23,15 @@ export const HomePage: HomePageComponent = (): JSX.Element => {
     const [importOpen, setImportOpen] = useState<boolean>(false);
     const settings = useStore(({ settings }) => settings);
     const set = useStore(({ set }) => set);
+    const setLearnContext = useStore(({ setLearnContext }) => setLearnContext);
     const memsAvailable = memDeck(useStore(({ mems }) => mems)).length;
 
     const navigate = useNavigate();
+
+    const handleLearn = () => {
+        setLearnContext([]);
+        navigate("/learn");
+    };
 
     return (
         <Stack>
@@ -40,10 +46,7 @@ export const HomePage: HomePageComponent = (): JSX.Element => {
                     )}
                     <Box sx={{ textAlign: "center" }}>
                         <ButtonGroup variant="contained">
-                            <Button
-                                color={memsAvailable > 0 ? "primary" : "inherit"}
-                                onClick={() => navigate("/learn")}
-                            >
+                            <Button color={memsAvailable > 0 ? "primary" : "inherit"} onClick={handleLearn}>
                                 Learn
                             </Button>
                             <Divider orientation="vertical" flexItem />
