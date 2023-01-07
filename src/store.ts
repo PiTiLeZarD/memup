@@ -42,11 +42,13 @@ export type MemType = {
 
 export type StorePropsType = {
     mems: MemType[];
+    learnContext: MemType[];
     settings: AppSettings;
 };
 
 export type StoreActionsPropsType = {
     saveMem: (mem: MemType) => void;
+    setLearnContext: (mems: MemType[]) => void;
     deleteMem: (mem: MemType) => void;
     addAnswer: (memId: string, check: MemAnswer) => void;
     set: (newSettings: Partial<AppSettings>) => void;
@@ -54,6 +56,7 @@ export type StoreActionsPropsType = {
 
 const InitialState: StorePropsType = {
     mems: [],
+    learnContext: [],
     settings: {
         furiganaMode: "Furigana",
         countdownSeconds: 10,
@@ -62,6 +65,7 @@ const InitialState: StorePropsType = {
 
 const StoreActions = (set: Function, get: Function): StoreActionsPropsType => ({
     saveMem: (mem) => set(({ mems }) => ({ mems: [...mems.filter((m: MemType) => m.id != mem.id), mem] })),
+    setLearnContext: (mems) => set(() => ({ learnContext: mems })),
     deleteMem: (mem) => set(({ mems }) => ({ mems: mems.filter((m: MemType) => m.id != mem.id) })),
     addAnswer: (memId, check) =>
         set(({ mems }) => {
@@ -88,11 +92,14 @@ const store = persist(combine(InitialState, StoreActions), {
 
         return storage;
     },
+    partialize: (state) => Object.fromEntries(Object.entries(state).filter(([key]) => !["learnContext"].includes(key))),
 });
 
 export const useStore =
     !process.env.NODE_ENV || process.env.NODE_ENV === "development"
         ? create<useStorePropsType, [["zustand/devtools", never], ["zustand/persist", useStorePropsType]]>(
+              /** @ts-ignore */
               devtools(store)
           )
-        : create<useStorePropsType, [["zustand/persist", useStorePropsType]]>(store);
+        : /** @ts-ignore */
+          create<useStorePropsType, [["zustand/persist", useStorePropsType]]>(store);
