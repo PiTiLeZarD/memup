@@ -33,7 +33,8 @@ export const Quizz: QuizzComponent = ({ mem, answer, timesup }): JSX.Element => 
     const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
 
     useEffect(() => {
-        let newOptions = randomiseDeck(allMems.filter((m) => m.id != mem.id)).slice(0, 8);
+        const count = mem.checks.filter((c) => c.success).length > 0 ? 9 : 3;
+        let newOptions = randomiseDeck(allMems.filter((m) => m.id != mem.id)).slice(0, count - 1);
         newOptions.push(mem);
         setOptions(randomiseDeck(newOptions));
         setSelectedAnswer(null);
