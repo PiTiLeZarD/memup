@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Box, Button, ButtonGroup, Divider, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button, ButtonGroup, Divider, LinearProgress, Stack, TextField, Typography } from "@mui/material";
 
 import { ImportMemsDialog } from "../ImportMemsDialog";
 import { memDeck } from "../lib";
@@ -14,6 +14,13 @@ const downloadAllMems = () =>
         href: `data:application/JSON, ${encodeURIComponent(JSON.stringify(localStorage.getItem("memup")))}`,
         download: "your_history",
     }).click();
+
+const storageSpaceUsed = () => {
+    const used = Object.entries(localStorage)
+        .map(([key, val]) => (val.length + key.length) * 2)
+        .reduce((a, l) => a + l, 0);
+    return (used / (50 * 1024 * 1024)) * 100;
+};
 
 export type HomePageProps = {};
 
@@ -97,6 +104,14 @@ export const HomePage: HomePageComponent = (): JSX.Element => {
                         value={settings.countdownSeconds}
                         inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
                         onChange={(ev) => set({ countdownSeconds: parseInt(ev.target.value) })}
+                    />
+                    <Divider />
+                    <Typography variant="h6">Storage used:</Typography>
+                    <LinearProgress
+                        color="error"
+                        variant="determinate"
+                        sx={{ height: "2em" }}
+                        value={storageSpaceUsed()}
                     />
                 </Stack>
             </ContentBox>
