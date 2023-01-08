@@ -1,7 +1,7 @@
 import { nanoid } from "nanoid";
 import * as wanakana from "wanakana";
 
-import { MemScore, MemType } from "./store";
+import { MemAnswer, MemScore, MemType } from "./store";
 
 export const isKanji = (ch: string): boolean =>
     (ch >= "\u4e00" && ch <= "\u9faf") || (ch >= "\u3400" && ch <= "\u4dbf") || ch === "𠮟";
@@ -48,10 +48,20 @@ export const memScore = (mem: MemType): MemScore => {
             nextCheck: new Date(),
         };
 
+    const maxLevel = Object.keys(levelGapMap).length;
     const checks = mem.checks.sort((a, b) => (b.date as any) - (a.date as any));
+    const groupedChecks: MemAnswer[][] = checks.reduce((acc: MemAnswer[][], curr: MemAnswer) => {
+        if (acc.length == 0) return [[curr]];
+        if (acc[acc.length - 1][0].success === curr.success) {
+            acc[acc.length - 1].push(curr);
+            return acc;
+        }
+        return [...acc, [curr]];
+    }, []);
+
     const lastFail = checks.findIndex((c) => !c.success);
-    const level = lastFail >= 0 ? lastFail + 1 : checks.length;
-    const memory = Object.keys(levelGapMap).includes(String(level)) ? "ST" : "LT";
+    const memory = groupedChecks.filter((g) => g.length > maxLevel).length > 0 ? "LT" : "ST";
+    const level = memory == "LT" ? maxLevel + 1 : lastFail >= 0 ? lastFail + 1 : checks.length;
     const nextCheck = new Date(checks[0].date?.getTime() + (memory == "LT" ? MONTH : levelGapMap[level]));
 
     return { level, memory, nextCheck };
