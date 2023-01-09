@@ -4,6 +4,7 @@ import { Grid, Paper, Typography } from "@mui/material";
 import { lightBlue, lightGreen, orange } from "@mui/material/colors";
 
 import { randomiseDeck } from "../lib";
+import { FOLDER_SEP } from "../MemFolders";
 import { MemAnswer, MemType, useStore } from "../store";
 
 const backgroundColour = (correctId: string, currentId: string, selectedId: string | null): string => {
@@ -25,10 +26,17 @@ export type QuizzProps = {
     timesup: boolean;
 };
 
+const getAllMems = (mem: MemType, learnContext: MemType[], mems: MemType[]): MemType[] => {
+    if (learnContext.length > 20) return learnContext;
+    const memsInFolder = mems.filter((m) => m.folders.join(FOLDER_SEP) == mem.folders.join(FOLDER_SEP));
+    if (memsInFolder.length > 20) return memsInFolder;
+    return mems;
+};
+
 export type QuizzComponent = React.FunctionComponent<QuizzProps>;
 
 export const Quizz: QuizzComponent = ({ mem, answer, timesup }): JSX.Element => {
-    const allMems = useStore(({ learnContext, mems }) => (learnContext.length ? learnContext : mems));
+    const allMems = useStore(({ learnContext, mems }) => getAllMems(mem, learnContext, mems));
     const [options, setOptions] = useState<MemType[]>([]);
     const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
 
