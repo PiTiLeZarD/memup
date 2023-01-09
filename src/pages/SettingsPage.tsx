@@ -4,8 +4,8 @@ import { Button, ButtonGroup, Divider, LinearProgress, Stack, TextField, Typogra
 
 import { Mem } from "../Mem";
 import { useStore } from "../store";
-import { BackButton } from "./BackButton";
 import { ContentBox } from "./ContentBox";
+import { HomeButton } from "./HomeButton";
 
 const storageSpaceUsed = () => {
     const used = Object.entries(localStorage)
@@ -24,7 +24,7 @@ export const SettingsPage: SettingsPageComponent = (): JSX.Element => {
 
     return (
         <ContentBox>
-            <BackButton />
+            <HomeButton />
             <Stack spacing={4}>
                 <Typography variant="h3">Settings</Typography>
                 <Divider />

@@ -15,7 +15,7 @@ export const BackButton: BackButtonComponent = (): JSX.Element => {
     if (pathname == "/") return <></>;
 
     return (
-        <Fab color="primary" onClick={() => navigate("/")} sx={{ position: "absolute", top: "-25px", left: "-25px" }}>
+        <Fab color="primary" onClick={() => navigate(-1)} sx={{ position: "absolute", top: "-30px", left: "35px" }}>
             <ArrowBackIcon />
         </Fab>
     );

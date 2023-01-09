@@ -10,6 +10,7 @@ import { MemList } from "../MemList";
 import { MemType, useStore } from "../store";
 import { BackButton } from "./BackButton";
 import { ContentBox } from "./ContentBox";
+import { HomeButton } from "./HomeButton";
 
 export type MemsPageProps = {};
 
@@ -17,6 +18,7 @@ export type MemsPageComponent = React.FunctionComponent<MemsPageProps>;
 
 export const MemsPage: MemsPageComponent = (): JSX.Element => {
     const { folders } = useParams();
+
     const navigate = useNavigate();
     const [formOpen, setFormOpen] = useState<false | MemType>(false);
 
@@ -36,12 +38,14 @@ export const MemsPage: MemsPageComponent = (): JSX.Element => {
 
     return (
         <ContentBox>
-            <BackButton />
+            <HomeButton />
+            {folders && <BackButton />}
 
             <Breadcrumbs sx={{ marginBottom: "1em" }}>
                 {folders?.split(FOLDER_SEP).map((folder, i) => (
                     <Chip key={folder} onClick={handleBreadcrumbClick(i + 1)} label={folder} />
                 ))}
+                {!folders && <Chip label="/" />}
             </Breadcrumbs>
 
             <Button
@@ -51,7 +55,7 @@ export const MemsPage: MemsPageComponent = (): JSX.Element => {
                 sx={{
                     borderRadius: "25px",
                     position: "absolute",
-                    top: "-25px",
+                    top: "-30px",
                     right: "-25px",
                     height: "60px",
                     boxShadow: 3,

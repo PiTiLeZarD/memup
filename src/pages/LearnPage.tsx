@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import { memDeck } from "../lib";
 import { DeckBrowser } from "../modes/DeckBrowser";
 import { MemType, useStore } from "../store";
-import { BackButton } from "./BackButton";
 import { ContentBox } from "./ContentBox";
+import { HomeButton } from "./HomeButton";
 
 export type LearnPageProps = {};
 
@@ -16,7 +16,7 @@ export const LearnPage: LearnPageComponent = (): JSX.Element => {
     );
     return (
         <ContentBox>
-            <BackButton />
+            <HomeButton />
             <DeckBrowser mems={mems} />
         </ContentBox>
     );
