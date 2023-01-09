@@ -43,13 +43,17 @@ export const HomePage: HomePageComponent = (): JSX.Element => {
     const navigate = useNavigate();
 
     const handleRevise = () => {
-        setLearnContext(reviseMems);
-        navigate("/learn");
+        if (reviseMems.length) {
+            setLearnContext(reviseMems);
+            navigate("/learn");
+        }
     };
 
     const handleLearn = () => {
-        setLearnContext(learnMems.slice(0, learnNewCount));
-        navigate("/learn");
+        if (learnMems.length) {
+            setLearnContext(learnMems.slice(0, learnNewCount));
+            navigate("/learn");
+        }
     };
 
     return (
