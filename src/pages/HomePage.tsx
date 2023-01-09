@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 
 import { ImportMemsDialog } from "../ImportMemsDialog";
-import { levelGapMap } from "../lib";
+import { levelGapMap, memDeck } from "../lib";
 import { useStore } from "../store";
 import { ContentBox } from "./ContentBox";
 
@@ -37,7 +37,7 @@ export const HomePage: HomePageComponent = (): JSX.Element => {
     const setLearnContext = useStore(({ setLearnContext }) => setLearnContext);
     const { learnNewCount } = useStore(({ settings }) => settings);
     const mems = useStore(({ mems }) => mems);
-    const reviseMems = mems.filter((m) => !!m.checks.length);
+    const reviseMems = memDeck(mems.filter((m) => !!m.checks.length));
     const learnMems = mems.filter((m) => !m.checks.length);
 
     const navigate = useNavigate();
