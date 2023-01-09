@@ -32,7 +32,7 @@ export type FuriganaInputProps = {
 export type FuriganaInputComponent = React.FunctionComponent<FuriganaInputProps>;
 
 export const FuriganaInput: FuriganaInputComponent = ({ memValue, furigana, register, setValue }): JSX.Element => {
-    const hiraganaInputRef = useRef();
+    const hiraganaInputRef = useRef<HTMLInputElement>();
     useEffect(() => {
         if (hiraganaInputRef.current) {
             const ref = hiraganaInputRef.current;
@@ -57,6 +57,12 @@ export const FuriganaInput: FuriganaInputComponent = ({ memValue, furigana, regi
         setValue("furigana", JSON.stringify(newGroups.map(([k, f]) => f)));
     };
 
+    const handleKeyDown = (ev) => {
+        if (ev.keyCode == 13) {
+            handleFuriganaSave();
+        }
+    };
+
     return (
         <div>
             <Dialog open={open !== false}>
@@ -69,6 +75,7 @@ export const FuriganaInput: FuriganaInputComponent = ({ memValue, furigana, regi
                                 inputRef={hiraganaInputRef}
                                 label="Furigana"
                                 value={furiganaValue}
+                                onKeyDown={handleKeyDown}
                                 onChange={(ev) => setFuriganaValue(ev.target.value)}
                             />
                         </Stack>
