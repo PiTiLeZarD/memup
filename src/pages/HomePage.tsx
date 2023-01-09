@@ -138,6 +138,10 @@ export const HomePage: HomePageComponent = (): JSX.Element => {
                                         <TableCell>A group of mems</TableCell>
                                     </TableRow>
                                     <TableRow>
+                                        <TableCell>Fail</TableCell>
+                                        <TableCell>The process of learning</TableCell>
+                                    </TableRow>
+                                    <TableRow>
                                         <TableCell>Quizz</TableCell>
                                         <TableCell>
                                             An interface presenting you with a part of a mem, and asking you to guess
