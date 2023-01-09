@@ -98,6 +98,22 @@ export const HomePage: HomePageComponent = (): JSX.Element => {
                         if you succeed, every day if you fail. If you succeed 5 times in a row, you will only see
                         flashcard every month. I haven't decided what to do if you fail the flashcards yet ;)
                     </Typography>
+                    <Typography variant="h4">How to get started?</Typography>
+                    <Typography>
+                        Start by adding mems, there is no requirements but if you want to have a better experience, add
+                        more than 20. And keep adding to it.
+                    </Typography>
+                    <Typography>
+                        If like me you're studying minnanonihongo N5, you can{" "}
+                        <a
+                            href="https://raw.githubusercontent.com/PiTiLeZarD/memup/master/content/Japanese_Minnanonihongo.json"
+                            target="_blank"
+                        >
+                            download my file here
+                        </a>{" "}
+                        and import it using the import mems button up top, <b>WATCH OUT</b> for now importing a file
+                        will delete all your current mems. I will work in making it more clever in the future.
+                    </Typography>
                     <Typography variant="h4">Things to keep in mind</Typography>
                     <Typography>
                         <ul>
@@ -114,6 +130,10 @@ export const HomePage: HomePageComponent = (): JSX.Element => {
                                     contact me on github
                                 </a>{" "}
                                 ;)
+                            </li>
+                            <li>
+                                <b>Import is destructive</b>, it will ruin your progress and pre-existing mems. It's
+                                meant to be a backup feature but I'll update it soon.
                             </li>
                         </ul>
                     </Typography>
