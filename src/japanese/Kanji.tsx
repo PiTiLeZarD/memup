@@ -14,14 +14,22 @@ export type KanjiComponent = React.FunctionComponent<React.PropsWithChildren<Kan
 
 export const Kanji: KanjiComponent = ({ furigana, opacity = 0.8, children }): JSX.Element => {
     const { furiganaMode } = useStore(({ settings }) => settings);
+    const { kanjiDefSource } = useStore(({ settings }) => settings);
 
     if (furiganaMode == "Romaji") return <>{kanaToRomaji(furigana)}</>;
     if (furiganaMode == "Hiragana") return <>{furigana}</>;
 
     const padding: number = (Math.abs(furigana.length - (children as string).length) * 6) / 2;
-    const handleKanjiClick = (k) => () => {
+    const handleKanjiClick = (k: string) => () => {
+        let url = "";
+        if (kanjiDefSource == "jisho.org") {
+            url = `https://jisho.org/search/${encodeURIComponent(k)}%20%23kanji`;
+        }
+        if (kanjiDefSource == "classic.jisho.org") {
+            url = `http://classic.jisho.org/lite/words?jap=${encodeURIComponent(k)}`;
+        }
         window.open(
-            `https://jisho.org/search/${encodeURIComponent(k)}%20%23kanji`,
+            url,
             "djwin",
             "width=1200,height=700,resizable=yes,scrollbars=yes,toolbar=no,location=no,directories=no,status=yes,menubar=no,copyhistory=no"
         );

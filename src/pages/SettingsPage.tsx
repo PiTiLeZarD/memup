@@ -28,6 +28,7 @@ export const SettingsPage: SettingsPageComponent = (): JSX.Element => {
             <Stack spacing={4}>
                 <Typography variant="h3">Settings</Typography>
                 <Divider />
+                <Typography variant="h6">Kanji display</Typography>
                 <Stack direction="row" spacing={4}>
                     <ButtonGroup variant="contained">
                         <Button
@@ -58,12 +59,31 @@ export const SettingsPage: SettingsPageComponent = (): JSX.Element => {
                     <Typography>Example: </Typography>
                     <Mem variant="h4" mem={{ mem: "皆さん", furigana: ["みな"] }} />
                 </Stack>
+                <Divider />
+                <Typography variant="h6">Kanji definition source</Typography>
+                <ButtonGroup variant="contained" sx={{ width: "auto" }}>
+                    <Button
+                        color={settings.kanjiDefSource == "jisho.org" ? "primary" : "inherit"}
+                        onClick={() => set({ kanjiDefSource: "jisho.org" })}
+                    >
+                        jisho.org
+                    </Button>
+                    <Button
+                        color={settings.kanjiDefSource == "classic.jisho.org" ? "primary" : "inherit"}
+                        onClick={() => set({ kanjiDefSource: "classic.jisho.org" })}
+                    >
+                        classic.jisho.org
+                    </Button>
+                </ButtonGroup>
+                <Divider />
+                <Typography variant="h6">Deckbrowser timeout</Typography>
                 <TextField
                     label="Countdown in s"
                     value={settings.countdownSeconds}
                     inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
                     onChange={(ev) => set({ countdownSeconds: parseInt(ev.target.value) })}
                 />
+
                 <Divider />
                 <Typography variant="h6">Storage used:</Typography>
                 <LinearProgress color="error" variant="determinate" sx={{ height: "2em" }} value={storageSpaceUsed()} />

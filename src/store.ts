@@ -6,6 +6,7 @@ export type NanoID = string;
 export type AppSettings = {
     furiganaMode: "Romaji" | "Furigana" | "Kanji" | "Hiragana";
     countdownSeconds: number;
+    kanjiDefSource: "jisho.org" | "classic.jisho.org";
 };
 
 export type MemQuizzAnswer = {
@@ -60,6 +61,7 @@ const InitialState: StorePropsType = {
     settings: {
         furiganaMode: "Furigana",
         countdownSeconds: 10,
+        kanjiDefSource: "jisho.org",
     },
 };
 
