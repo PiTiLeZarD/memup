@@ -4,6 +4,7 @@ import { Route, Routes as RRDRoutes } from "react-router-dom";
 import { HomePage } from "./HomePage";
 import { LearnPage } from "./LearnPage";
 import { MemsPage } from "./MemsPage";
+import { SettingsPage } from "./SettingsPage";
 
 export type RoutesProps = {};
 
@@ -15,6 +16,7 @@ export const Routes: RoutesComponent = (): JSX.Element => {
             <Route path="/" element={<HomePage />} />
             <Route path="/mems/:folders?" element={<MemsPage />} />
             <Route path="/learn" element={<LearnPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
         </RRDRoutes>
     );
 };
