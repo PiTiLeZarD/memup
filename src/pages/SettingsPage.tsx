@@ -83,7 +83,15 @@ export const SettingsPage: SettingsPageComponent = (): JSX.Element => {
                     inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
                     onChange={(ev) => set({ countdownSeconds: parseInt(ev.target.value) })}
                 />
-
+                <Divider />
+                <Typography variant="h6">Learn new mems</Typography>
+                <TextField
+                    label="Count"
+                    value={settings.learnNewCount}
+                    helperText="at a time"
+                    inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                    onChange={(ev) => set({ learnNewCount: parseInt(ev.target.value) })}
+                />
                 <Divider />
                 <Typography variant="h6">Storage used:</Typography>
                 <LinearProgress color="error" variant="determinate" sx={{ height: "2em" }} value={storageSpaceUsed()} />

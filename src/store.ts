@@ -7,6 +7,7 @@ export type AppSettings = {
     furiganaMode: "Romaji" | "Furigana" | "Kanji" | "Hiragana";
     countdownSeconds: number;
     kanjiDefSource: "jisho.org" | "classic.jisho.org";
+    learnNewCount: number;
 };
 
 export type MemQuizzAnswer = {
@@ -62,6 +63,7 @@ const InitialState: StorePropsType = {
         furiganaMode: "Furigana",
         countdownSeconds: 10,
         kanjiDefSource: "jisho.org",
+        learnNewCount: 20,
     },
 };
 

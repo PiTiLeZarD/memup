@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 
 import { ImportMemsDialog } from "../ImportMemsDialog";
-import { levelGapMap, memDeck } from "../lib";
+import { levelGapMap } from "../lib";
 import { useStore } from "../store";
 import { ContentBox } from "./ContentBox";
 
@@ -35,12 +35,20 @@ export type HomePageComponent = React.FunctionComponent<HomePageProps>;
 export const HomePage: HomePageComponent = (): JSX.Element => {
     const [importOpen, setImportOpen] = useState<boolean>(false);
     const setLearnContext = useStore(({ setLearnContext }) => setLearnContext);
-    const memsAvailable = memDeck(useStore(({ mems }) => mems)).length;
+    const { learnNewCount } = useStore(({ settings }) => settings);
+    const mems = useStore(({ mems }) => mems);
+    const reviseMems = mems.filter((m) => !!m.checks.length);
+    const learnMems = mems.filter((m) => !m.checks.length);
 
     const navigate = useNavigate();
 
+    const handleRevise = () => {
+        setLearnContext(reviseMems);
+        navigate("/learn");
+    };
+
     const handleLearn = () => {
-        setLearnContext([]);
+        setLearnContext(learnMems.slice(0, learnNewCount));
         navigate("/learn");
     };
 
@@ -50,15 +58,20 @@ export const HomePage: HomePageComponent = (): JSX.Element => {
                 <ImportMemsDialog open={importOpen} onClose={() => setImportOpen(false)} />
 
                 <Stack>
-                    {memsAvailable > 0 && (
-                        <Typography variant="h6" sx={{ textAlign: "center" }}>
-                            {memsAvailable} mems for you to review
-                        </Typography>
-                    )}
                     <Box sx={{ textAlign: "center" }}>
                         <ButtonGroup variant="contained">
-                            <Button color={memsAvailable > 0 ? "primary" : "inherit"} onClick={handleLearn}>
-                                Learn
+                            <Button color={reviseMems.length > 0 ? "primary" : "inherit"} onClick={handleRevise}>
+                                {reviseMems.length > 0 ? `Revise ${reviseMems.length} mems` : "All caught up!"}
+                            </Button>
+                            <Button
+                                color={learnMems.length > learnNewCount ? "primary" : "inherit"}
+                                onClick={handleLearn}
+                            >
+                                {learnMems.length > learnNewCount
+                                    ? `Learn new mems`
+                                    : learnMems.length > 0
+                                    ? "Not enough new mems!"
+                                    : "No new mems!"}
                             </Button>
                             <Divider orientation="vertical" flexItem />
                             <Button onClick={() => navigate("/mems")}>List Mems</Button>
