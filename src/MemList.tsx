@@ -18,6 +18,12 @@ export const MemList: MemListComponent = ({ mems }): JSX.Element => {
     const [formOpen, setFormOpen] = useState<false | MemType>(false);
     const deleteMem = useStore(({ deleteMem }) => deleteMem);
 
+    const handleDelete = (mem: MemType) => () => {
+        if (confirm("Are you sure you want to delete this mem?")) {
+            deleteMem(mem);
+        }
+    };
+
     return (
         <>
             <MemForm open={formOpen} onClose={() => setFormOpen(false)} />
@@ -32,7 +38,7 @@ export const MemList: MemListComponent = ({ mems }): JSX.Element => {
                                 <IconButton onClick={() => setFormOpen(mem)}>
                                     <EditIcon />
                                 </IconButton>
-                                <IconButton onClick={() => deleteMem(mem)}>
+                                <IconButton onClick={handleDelete(mem)}>
                                     <DeleteIcon />
                                 </IconButton>
                             </Grid>
