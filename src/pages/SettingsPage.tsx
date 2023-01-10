@@ -4,8 +4,8 @@ import { Button, ButtonGroup, Divider, LinearProgress, Stack, TextField, Typogra
 
 import { Mem } from "../Mem";
 import { useStore } from "../store";
+import { HomeButton } from "./buttons/HomeButton";
 import { ContentBox } from "./ContentBox";
-import { HomeButton } from "./HomeButton";
 
 const storageSpaceUsed = () => {
     const used = Object.entries(localStorage)

@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import { memDeck } from "../lib";
 import { DeckBrowser } from "../modes/DeckBrowser";
 import { MemType, useStore } from "../store";
+import { HomeButton } from "./buttons/HomeButton";
 import { ContentBox } from "./ContentBox";
-import { HomeButton } from "./HomeButton";
 
 export type LearnPageProps = {};
 

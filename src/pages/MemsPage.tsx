@@ -1,16 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { Breadcrumbs, Button, Chip } from "@mui/material";
+import { Breadcrumbs, Chip } from "@mui/material";
 
-import { memScore, newMem } from "../lib";
+import { memScore } from "../lib";
 import { FOLDER_SEP, MemFolders } from "../MemFolders";
-import { MemForm } from "../MemForm";
 import { MemList } from "../MemList";
-import { MemType, useStore } from "../store";
-import { BackButton } from "./BackButton";
+import { useStore } from "../store";
+import { AddMemButton } from "./buttons/AddMemButton";
+import { BackButton } from "./buttons/BackButton";
+import { HomeButton } from "./buttons/HomeButton";
 import { ContentBox } from "./ContentBox";
-import { HomeButton } from "./HomeButton";
 
 export type MemsPageProps = {};
 
@@ -20,7 +20,6 @@ export const MemsPage: MemsPageComponent = (): JSX.Element => {
     const { folders } = useParams();
 
     const navigate = useNavigate();
-    const [formOpen, setFormOpen] = useState<false | MemType>(false);
 
     const depth = !!folders ? folders.split(FOLDER_SEP).length : 0;
     const mems = useStore(({ mems }) => mems)
@@ -31,8 +30,6 @@ export const MemsPage: MemsPageComponent = (): JSX.Element => {
         )
         .reduce((acc, m) => ({ ...acc, [m.folders[depth]]: [...(acc[m.folders[depth]] || []), m] }), {});
 
-    const handleAdd = () => setFormOpen({ ...newMem(), folders: folders?.split(FOLDER_SEP) || [] });
-
     const handleBreadcrumbClick = (depth: number) => () =>
         navigate(`/mems/${(folders?.split(FOLDER_SEP) || []).slice(0, depth).join(FOLDER_SEP)}`);
 
@@ -41,6 +38,8 @@ export const MemsPage: MemsPageComponent = (): JSX.Element => {
             <HomeButton />
             {folders && <BackButton />}
 
+            <AddMemButton />
+
             <Breadcrumbs sx={{ marginBottom: "1em" }}>
                 <Chip label="/" onClick={() => navigate("/mems")} />
                 {folders?.split(FOLDER_SEP).map((folder, i) => (
@@ -48,25 +47,8 @@ export const MemsPage: MemsPageComponent = (): JSX.Element => {
                 ))}
             </Breadcrumbs>
 
-            <Button
-                variant="contained"
-                onClick={handleAdd}
-                size="large"
-                sx={{
-                    borderRadius: "25px",
-                    position: "absolute",
-                    top: "-30px",
-                    right: "-25px",
-                    height: "60px",
-                    boxShadow: 3,
-                }}
-            >
-                Add a mem
-            </Button>
-
-            <MemForm open={formOpen} onClose={() => setFormOpen(false)} />
             <MemFolders subfolders={mems} />
-            <MemList mems={mems["undefined"] || []} setFormOpen={setFormOpen} />
+            <MemList mems={mems["undefined"] || []} />
         </ContentBox>
     );
 };
