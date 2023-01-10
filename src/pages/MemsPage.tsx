@@ -42,10 +42,10 @@ export const MemsPage: MemsPageComponent = (): JSX.Element => {
             {folders && <BackButton />}
 
             <Breadcrumbs sx={{ marginBottom: "1em" }}>
+                <Chip label="/" onClick={() => navigate("/mems")} />
                 {folders?.split(FOLDER_SEP).map((folder, i) => (
                     <Chip key={folder} onClick={handleBreadcrumbClick(i + 1)} label={folder} />
                 ))}
-                {!folders && <Chip label="/" />}
             </Breadcrumbs>
 
             <Button
