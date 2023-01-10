@@ -10,6 +10,7 @@ import { useStore } from "../store";
 import { AddMemButton } from "./buttons/AddMemButton";
 import { BackButton } from "./buttons/BackButton";
 import { HomeButton } from "./buttons/HomeButton";
+import { SearchMemButton } from "./buttons/SearchMemButton";
 import { ContentBox } from "./ContentBox";
 
 export type MemsPageProps = {};
@@ -39,6 +40,7 @@ export const MemsPage: MemsPageComponent = (): JSX.Element => {
             {folders && <BackButton />}
 
             <AddMemButton />
+            <SearchMemButton />
 
             <Breadcrumbs sx={{ marginBottom: "1em" }}>
                 <Chip label="/" onClick={() => navigate("/mems")} />
