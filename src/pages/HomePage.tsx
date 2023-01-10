@@ -51,7 +51,7 @@ export const HomePage: HomePageComponent = (): JSX.Element => {
 
     const handleLearn = () => {
         if (learnMems.length) {
-            setLearnContext(learnMems.slice(0, learnNewCount));
+            setLearnContext(memDeck(learnMems).slice(0, learnNewCount));
             navigate("/learn");
         }
     };
