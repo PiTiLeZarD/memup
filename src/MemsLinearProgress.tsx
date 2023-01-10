@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Box } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 import { lightBlue, orange } from "@mui/material/colors";
 
 import { memScore } from "./lib";
@@ -42,6 +42,8 @@ export const MemsLinearProgress: MemsLinearProgressComponent = ({ mems }): JSX.E
                 borderRadius: "10px",
                 overflow: "hidden",
             }}
+            component={Paper}
+            elevation={2}
         >
             {LT > 0 && (
                 <Box
