@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Button, ButtonGroup, Divider, LinearProgress, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button, ButtonGroup, Divider, LinearProgress, Stack, TextField, Typography } from "@mui/material";
 
 import { Mem } from "../Mem";
 import { useStore } from "../store";
@@ -94,7 +94,19 @@ export const SettingsPage: SettingsPageComponent = (): JSX.Element => {
                 />
                 <Divider />
                 <Typography variant="h6">Storage used:</Typography>
-                <LinearProgress color="error" variant="determinate" sx={{ height: "2em" }} value={storageSpaceUsed()} />
+                <Box sx={{ position: "relative", width: "100%", height: "2em", textAlign: "center" }}>
+                    <LinearProgress
+                        color="error"
+                        variant="determinate"
+                        sx={{ position: "absolute", top: 0, left: 0, width: "100%", height: "2em" }}
+                        value={storageSpaceUsed()}
+                    />
+                    <Typography
+                        sx={{ position: "absolute", top: 0, left: 0, width: "100%", height: "2em", lineHeight: "2em" }}
+                    >
+                        {parseInt((storageSpaceUsed() * 100).toFixed()) / 100}% used
+                    </Typography>
+                </Box>
             </Stack>
         </ContentBox>
     );
