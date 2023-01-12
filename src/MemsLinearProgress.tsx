@@ -45,17 +45,6 @@ export const MemsLinearProgress: MemsLinearProgressComponent = ({ mems }): JSX.E
             component={Paper}
             elevation={2}
         >
-            {LT > 0 && (
-                <Box
-                    sx={{
-                        ...barStyle,
-                        width: width(LT),
-                        background: orange[500],
-                    }}
-                >
-                    {LT} mems
-                </Box>
-            )}
             {Object.keys(stats).map((level) => (
                 <Box
                     key={level}
@@ -70,6 +59,17 @@ export const MemsLinearProgress: MemsLinearProgressComponent = ({ mems }): JSX.E
                     {stats[parseInt(level)]} mems
                 </Box>
             ))}
+            {LT > 0 && (
+                <Box
+                    sx={{
+                        ...barStyle,
+                        width: width(LT),
+                        background: orange[500],
+                    }}
+                >
+                    {LT} mems
+                </Box>
+            )}
         </Box>
     );
 };
