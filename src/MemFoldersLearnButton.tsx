@@ -24,18 +24,13 @@ export const MemFoldersLearnButton: MemFoldersLearnButtonComponent = ({ subfolde
 
     if (!reviseMems.length && !learnMems.length) return <></>;
 
-    const handleLearn = () => () => {
+    const handleLearn = () => {
         setLearnContext(reviseMems.length ? reviseMems : memDeck(learnMems).slice(0, learnNewCount));
         navigate(`/learn`);
     };
 
     return (
-        <Button
-            variant="contained"
-            onClick={() => handleLearn()}
-            size="large"
-            sx={{ borderRadius: "10px", margin: "0 5px" }}
-        >
+        <Button variant="contained" onClick={handleLearn} size="large" sx={{ borderRadius: "10px", margin: "0 5px" }}>
             {reviseMems.length ? "Revise" : "Learn"}
         </Button>
     );
