@@ -5,6 +5,7 @@ import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import { Alert, Box, Button, Divider, Grid, Stack, Typography } from "@mui/material";
 
+import { useMemo } from "react";
 import { memScore } from "../lib";
 import { Mem } from "../Mem";
 import { MemAnswer, MemType, useStore } from "../store";
@@ -38,7 +39,7 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
     if (mems.length == 0) return <Typography variant="h2">You're all caught up!</Typography>;
 
     const mem = mems[currentMem] || null;
-    const score = mem ? memScore(mem) : null;
+    const score = useMemo(() => (mem ? memScore(mem) : null), [mem.id]);
 
     const handleNextMem = () => {
         resetCountdown();
