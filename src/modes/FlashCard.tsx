@@ -28,25 +28,28 @@ export const FlashCard: FlashCardComponent = ({ answer, mem, timesup }): JSX.Ele
         <>
             {showMe && (
                 <>
-                    <Typography>{mem.description}</Typography>
                     <Divider />
+                    <Typography>{mem.description}</Typography>
                 </>
             )}
 
             {!showMe && (
-                <Box sx={{ textAlign: "center" }}>
-                    <ButtonGroup variant="contained" size="large">
-                        <Button color="warning" onClick={handleClick(true)}>
-                            No Idea
-                        </Button>
-                        <Button color="primary" onClick={handleClick(true)}>
-                            Show me
-                        </Button>
-                        <Button color="success" onClick={handleClick(false)}>
-                            I know
-                        </Button>
-                    </ButtonGroup>
-                </Box>
+                <>
+                    <Divider />
+                    <Box sx={{ textAlign: "center" }}>
+                        <ButtonGroup variant="contained" size="large">
+                            <Button color="warning" onClick={handleClick(true)}>
+                                No Idea
+                            </Button>
+                            <Button color="primary" onClick={handleClick(true)}>
+                                Show me
+                            </Button>
+                            <Button color="success" onClick={handleClick(false)}>
+                                I know
+                            </Button>
+                        </ButtonGroup>
+                    </Box>
+                </>
             )}
         </>
     );
