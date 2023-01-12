@@ -39,7 +39,7 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
     if (mems.length == 0) return <Typography variant="h2">You're all caught up!</Typography>;
 
     const mem = mems[currentMem] || null;
-    const score = useMemo(() => (mem ? memScore(mem) : null), [mem.id]);
+    const score = useMemo(() => (mem ? memScore(mem) : null), [mem?.id]);
 
     const handleNextMem = () => {
         resetCountdown();
