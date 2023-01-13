@@ -4,8 +4,9 @@ import { Grid, Paper, Typography } from "@mui/material";
 import { lightBlue, lightGreen, orange } from "@mui/material/colors";
 
 import { randomiseDeck } from "../lib";
+import { Mem } from "../Mem";
 import { FOLDER_SEP } from "../MemFolders";
-import { MemAnswer, MemType, useStore } from "../store";
+import { MemAnswer, MemScore, MemType, useStore } from "../store";
 
 const backgroundColour = (correctId: string, currentId: string, selectedId: string | null): string => {
     if (!selectedId) return "white";
@@ -24,6 +25,7 @@ export type QuizzProps = {
     answer: (answer: MemAnswer) => void;
     mem: MemType;
     timesup: boolean;
+    memory: MemScore["memory"];
 };
 
 const getAllMems = (mem: MemType, learnContext: MemType[], mems: MemType[]): MemType[] => {
@@ -35,7 +37,7 @@ const getAllMems = (mem: MemType, learnContext: MemType[], mems: MemType[]): Mem
 
 export type QuizzComponent = React.FunctionComponent<QuizzProps>;
 
-export const Quizz: QuizzComponent = ({ mem, answer, timesup }): JSX.Element => {
+export const Quizz: QuizzComponent = ({ mem, answer, timesup, memory }): JSX.Element => {
     const allMems = useStore(({ learnContext, mems }) => getAllMems(mem, learnContext, mems));
     const [options, setOptions] = useState<MemType[]>([]);
     const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
@@ -83,7 +85,8 @@ export const Quizz: QuizzComponent = ({ mem, answer, timesup }): JSX.Element => 
                         }}
                         onClick={handleAnswer(m.id)}
                     >
-                        <Typography variant="h6">{m.description}</Typography>
+                        {memory == "ST" && <Typography variant="h6">{m.description}</Typography>}
+                        {memory == "LT" && <Mem variant="h6" mem={m} />}
                     </Paper>
                 </Grid>
             ))}

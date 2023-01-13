@@ -37,7 +37,12 @@ export const levelGapMap = {
     4: 24 * 60 * 60000,
     5: 2 * 24 * 60 * 60000,
     6: 5 * 24 * 60 * 60000,
+    7: 24 * 60 * 60000,
+    8: 2 * 24 * 60000,
+    9: 4 * 24 * 60000,
+    10: 7 * 24 * 60000,
 };
+export const ST_LT_THRESHOLD = 6;
 const MONTH = 30 * 24 * 60 * 60000;
 
 export const memScore = (mem: MemType): MemScore => {
@@ -48,7 +53,6 @@ export const memScore = (mem: MemType): MemScore => {
             nextCheck: new Date(),
         };
 
-    const maxLevel = Object.keys(levelGapMap).length;
     const checks = mem.checks.sort((a, b) => (b.date as any) - (a.date as any));
     const groupedChecks: MemAnswer[][] = checks.reduce((acc: MemAnswer[][], curr: MemAnswer) => {
         if (acc.length == 0) return [[curr]];
@@ -58,11 +62,18 @@ export const memScore = (mem: MemType): MemScore => {
         }
         return [...acc, [curr]];
     }, []);
-
-    const lastFail = checks.findIndex((c) => !c.success);
-    const memory = groupedChecks.filter((g) => g.length > maxLevel).length > 0 ? "LT" : "ST";
-    const level = memory == "LT" ? maxLevel + 1 : lastFail >= 0 ? lastFail + 1 : checks.length;
-    const nextCheck = new Date(checks[0].date?.getTime() + (memory == "LT" ? MONTH : levelGapMap[level]));
+    const memory = groupedChecks.filter((g) => g.length > ST_LT_THRESHOLD).length > 0 ? "LT" : "ST";
+    const level =
+        groupedChecks.length == 0
+            ? 0
+            : groupedChecks[0][0].success
+            ? groupedChecks[0].length
+            : memory == "LT"
+            ? ST_LT_THRESHOLD + 1
+            : 1;
+    const nextCheck = new Date(
+        checks[0].date?.getTime() + (Object.keys(levelGapMap).includes(String(level)) ? levelGapMap[level] : MONTH)
+    );
 
     return { level, memory, nextCheck };
 };

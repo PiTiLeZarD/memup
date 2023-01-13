@@ -6,7 +6,7 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import { Alert, Box, Button, Divider, Grid, Stack, Typography } from "@mui/material";
 
 import { useMemo } from "react";
-import { memScore } from "../lib";
+import { levelGapMap, memScore } from "../lib";
 import { Mem } from "../Mem";
 import { MemAnswer, MemType, useStore } from "../store";
 import { FlashCard } from "./FlashCard";
@@ -21,13 +21,17 @@ export type DeckBrowserComponent = React.FunctionComponent<DeckBrowserProps>;
 
 export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
     const [currentMem, setCurrentMem] = useState<number>(0);
+    const mem = mems[currentMem] || null;
+    const score = useMemo(() => (mem ? memScore(mem) : null), [mem?.id]);
+
     const [scores, setScores] = useState<{ up: number; down: number }>({ up: 0, down: 0 });
     const [currentScore, setCurrentScore] = useState<boolean | null>(null);
-
     const addAnswer = useStore(({ addAnswer }) => addAnswer);
+
     const { countdownSeconds } = useStore(({ settings }) => settings);
+    const maxTime = countdownSeconds * (score && score.memory == "LT" ? 2.5 : 1);
     const [time, { startCountdown, stopCountdown, resetCountdown }] = useCountdown({
-        countStart: countdownSeconds,
+        countStart: maxTime,
         countStop: 0,
     });
 
@@ -37,9 +41,6 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
     }, [currentMem]);
 
     if (mems.length == 0) return <Typography variant="h2">You're all caught up!</Typography>;
-
-    const mem = mems[currentMem] || null;
-    const score = useMemo(() => (mem ? memScore(mem) : null), [mem?.id]);
 
     const handleNextMem = () => {
         resetCountdown();
@@ -80,12 +81,14 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
 
                         {mem && score && (
                             <>
-                                <Mem mem={mem} variant="h2" />
+                                {score.memory == "ST" && <Mem mem={mem} variant="h2" />}
+                                {score.memory == "LT" && <Typography variant="h2">{mem.description}</Typography>}
 
-                                <Timer time={time} />
+                                <Timer time={time} maxTime={maxTime} />
 
-                                {score.memory == "ST" && <Quizz answer={handleAnswer} mem={mem} timesup={time == 0} />}
-                                {score.memory == "LT" && (
+                                {Object.keys(levelGapMap).includes(String(score.level)) ? (
+                                    <Quizz answer={handleAnswer} mem={mem} timesup={time == 0} memory={score.memory} />
+                                ) : (
                                     <FlashCard answer={handleAnswer} mem={mem} timesup={time == 0} />
                                 )}
                             </>
