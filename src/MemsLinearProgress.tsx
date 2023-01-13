@@ -3,7 +3,7 @@ import React from "react";
 import { Box, Paper } from "@mui/material";
 import { lightBlue, orange } from "@mui/material/colors";
 
-import { memScore } from "./lib";
+import { levelGapMap, memScore, ST_LT_THRESHOLD } from "./lib";
 import { MemType } from "./store";
 
 export type MemsLinearProgressProps = {
@@ -23,7 +23,8 @@ export const MemsLinearProgress: MemsLinearProgressComponent = ({ mems }): JSX.E
     const stats = mems.reduce((acc, m: MemType) => {
         if ((m.checks || []).length == 0) return { ...acc, [0]: (acc[0] || 0) + 1 };
         const score = memScore(m);
-        if (score.memory == "ST") return { ...acc, [score.level as number]: (acc[score.level as number] || 0) + 1 };
+        const inLevels = Object.keys(levelGapMap).includes(String(score?.level || 1));
+        if (inLevels) return { ...acc, [score.level as number]: (acc[score.level as number] || 0) + 1 };
         return { ...acc, LT: (acc["LT"] || 0) + 1 };
     }, {});
 
@@ -51,7 +52,7 @@ export const MemsLinearProgress: MemsLinearProgressComponent = ({ mems }): JSX.E
                     sx={{
                         ...barStyle,
                         width: width(stats[parseInt(level)]),
-                        background: lightBlue[parseInt(level) * 100],
+                        background: (parseInt(level) > ST_LT_THRESHOLD ? orange : lightBlue)[parseInt(level) * 100],
                     }}
                 >
                     level {level}
