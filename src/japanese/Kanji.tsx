@@ -41,7 +41,7 @@ export const Kanji: KanjiComponent = ({ furigana, opacity = 0.8, children }): JS
                     position: "absolute",
                     top: "-42%",
                     left: "0px",
-                    fontSize: "45%",
+                    fontSize: "50%",
                     width: "100%",
                     textAlign: "center",
                     opacity,
