@@ -55,7 +55,7 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
         stopCountdown();
         setCurrentScore(answer.success);
         setScores({ up: scores.up + (answer.success ? 1 : 0), down: scores.down + (answer.success ? 0 : 1) });
-        addAnswer(mem.id, { ...answer, time: countdownSeconds - time, date: new Date() });
+        addAnswer(mem.id, { ...answer, time: maxTime - time, date: new Date() });
     };
 
     return (
