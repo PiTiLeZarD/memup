@@ -106,7 +106,7 @@ export const HomePage: HomePageComponent = (): JSX.Element => {
                         less and less frequently, if you fail, you'll see them more.
                     </Typography>
                     <Typography>
-                        Your mems will be assigned a level, once you reached level {ST_LT_THRESHOLD}, the mem will
+                        Your mems will be assigned a level, once you reached level {ST_LT_THRESHOLD + 1}, the mem will
                         switch to long term memory. Anytime you fail, you go right back to level 1.
                     </Typography>
                     <Typography>

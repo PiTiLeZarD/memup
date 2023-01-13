@@ -86,7 +86,7 @@ export const Quizz: QuizzComponent = ({ mem, answer, timesup, memory }): JSX.Ele
                         onClick={handleAnswer(m.id)}
                     >
                         {memory == "ST" && <Typography variant="h6">{m.description}</Typography>}
-                        {memory == "LT" && <Mem variant="h6" mem={m} />}
+                        {memory == "LT" && <Mem variant="h4" mem={m} />}
                     </Paper>
                 </Grid>
             ))}

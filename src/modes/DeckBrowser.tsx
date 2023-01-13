@@ -38,9 +38,12 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
     useEffect(() => {
         startCountdown();
         return stopCountdown;
-    }, [currentMem]);
+    }, [currentMem, maxTime]);
 
     if (mems.length == 0) return <Typography variant="h2">You're all caught up!</Typography>;
+
+    const inLevels = Object.keys(levelGapMap).includes(String(score?.level || 1));
+    const titleDescription = score?.memory == "LT" && inLevels;
 
     const handleNextMem = () => {
         resetCountdown();
@@ -81,12 +84,12 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
 
                         {mem && score && (
                             <>
-                                {score.memory == "ST" && <Mem mem={mem} variant="h2" />}
-                                {score.memory == "LT" && <Typography variant="h2">{mem.description}</Typography>}
+                                {!titleDescription && <Mem mem={mem} variant="h2" />}
+                                {titleDescription && <Typography variant="h2">{mem.description}</Typography>}
 
                                 <Timer time={time} maxTime={maxTime} />
 
-                                {Object.keys(levelGapMap).includes(String(score.level)) ? (
+                                {inLevels ? (
                                     <Quizz answer={handleAnswer} mem={mem} timesup={time == 0} memory={score.memory} />
                                 ) : (
                                     <FlashCard answer={handleAnswer} mem={mem} timesup={time == 0} />

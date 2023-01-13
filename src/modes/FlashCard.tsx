@@ -21,7 +21,7 @@ export const FlashCard: FlashCardComponent = ({ answer, mem, timesup }): JSX.Ele
     };
 
     useEffect(() => {
-        setShowMe(true);
+        setShowMe(timesup);
     }, [timesup]);
 
     return (
