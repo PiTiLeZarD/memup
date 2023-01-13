@@ -36,6 +36,7 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
     });
 
     useEffect(() => {
+        resetCountdown();
         startCountdown();
         return stopCountdown;
     }, [currentMem, maxTime]);
