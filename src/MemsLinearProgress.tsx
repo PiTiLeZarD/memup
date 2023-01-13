@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Box, Paper } from "@mui/material";
-import { lightBlue, orange } from "@mui/material/colors";
+import { lightBlue, orange, red } from "@mui/material/colors";
 
 import { levelGapMap, memScore, ST_LT_THRESHOLD } from "./lib";
 import { MemType } from "./store";
@@ -52,7 +52,10 @@ export const MemsLinearProgress: MemsLinearProgressComponent = ({ mems }): JSX.E
                     sx={{
                         ...barStyle,
                         width: width(stats[parseInt(level)]),
-                        background: (parseInt(level) > ST_LT_THRESHOLD ? orange : lightBlue)[parseInt(level) * 100],
+                        background:
+                            parseInt(level) > ST_LT_THRESHOLD
+                                ? orange[(parseInt(level) - ST_LT_THRESHOLD) * 100]
+                                : lightBlue[parseInt(level) * 100],
                     }}
                 >
                     level {level}
@@ -65,7 +68,7 @@ export const MemsLinearProgress: MemsLinearProgressComponent = ({ mems }): JSX.E
                     sx={{
                         ...barStyle,
                         width: width(LT),
-                        background: orange[500],
+                        background: red[500],
                     }}
                 >
                     {LT} mems
