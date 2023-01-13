@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 
 import { ImportMemsDialog } from "../ImportMemsDialog";
-import { levelGapMap, memDeck } from "../lib";
+import { levelGapMap, memDeck, ST_LT_THRESHOLD } from "../lib";
 import { useStore } from "../store";
 import { ContentBox } from "./ContentBox";
 
@@ -106,15 +106,17 @@ export const HomePage: HomePageComponent = (): JSX.Element => {
                         less and less frequently, if you fail, you'll see them more.
                     </Typography>
                     <Typography>
-                        Your mems will be assigned a level, once you reached level {Object.keys(levelGapMap).length},
-                        the mem will switch to long term memory. Anytime you fail, you go right back to level 1.
+                        Your mems will be assigned a level, once you reached level {ST_LT_THRESHOLD}, the mem will
+                        switch to long term memory. Anytime you fail, you go right back to level 1.
                     </Typography>
                     <Typography>
-                        <b>WIP:</b> Once in long term memory, you will be quizzed a different way, the definition will
-                        be presented and you will have to chose which mem that is. The mems will be presented every week
-                        if you succeed, every day if you fail. If you succeed 5 times in a row, you will only see
-                        flashcard every month. I haven't decided what to do if you fail the flashcards yet ;)
+                        Once in long term memory, you will be quizzed a different way, the definition will be presented
+                        and you will have to chose which mem that is. The mems will be presented at different intervals
+                        if you succeed, if you fail you get right back to level 1 but still in long term memory. If you
+                        succeed {Object.keys(levelGapMap).length - ST_LT_THRESHOLD} times in a row, you will only see
+                        flashcard every month.
                     </Typography>
+                    <Typography>WIP: I haven't decided what to do if you fail the flashcards yet ;)</Typography>
                     <Typography variant="h4">How to get started?</Typography>
                     <Typography>
                         Start by adding mems, there is no requirements but if you want to have a better experience, add
