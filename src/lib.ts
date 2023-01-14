@@ -38,9 +38,9 @@ export const levelGapMap = {
     5: 2 * 24 * 60 * 60000,
     6: 5 * 24 * 60 * 60000,
     7: 24 * 60 * 60000,
-    8: 2 * 24 * 60000,
-    9: 4 * 24 * 60000,
-    10: 7 * 24 * 60000,
+    8: 2 * 24 * 60 * 60000,
+    9: 4 * 24 * 60 * 60000,
+    10: 7 * 24 * 60 * 60000,
 };
 export const ST_LT_THRESHOLD = 6;
 const MONTH = 30 * 24 * 60 * 60000;
@@ -71,9 +71,11 @@ export const memScore = (mem: MemType): MemScore => {
             : memory == "LT"
             ? ST_LT_THRESHOLD + 1
             : 1;
+
     const nextCheck = new Date(
         checks[0].date?.getTime() + (Object.keys(levelGapMap).includes(String(level)) ? levelGapMap[level] : MONTH)
     );
+    console.log(checks[0].date, level, Object.keys(levelGapMap).includes(String(level)), levelGapMap[level], nextCheck);
 
     return { level, memory, nextCheck };
 };
