@@ -74,7 +74,11 @@ export const MemsLinearProgress: MemsLinearProgressComponent = ({ mems, label })
                         background: red[500],
                     }}
                 >
-                    {LT} mems
+                    <Typography sx={{ lineHeight: "1.1em" }}>
+                        long term memory
+                        <br />
+                        {label ? label : `${LT} mems`}
+                    </Typography>
                 </Box>
             )}
         </Box>
