@@ -45,6 +45,8 @@ export const levelGapMap = {
 export const ST_LT_THRESHOLD = 6;
 const MONTH = 30 * 24 * 60 * 60000;
 
+const cache: { [key: string]: MemScore } = {};
+
 export const memScore = (mem: MemType): MemScore => {
     if (mem.checks.length == 0)
         return {
@@ -52,6 +54,9 @@ export const memScore = (mem: MemType): MemScore => {
             memory: "ST",
             nextCheck: new Date(),
         };
+
+    const cacheKey = `${mem.id}_${mem.checks.length}`;
+    if (Object.keys(cache).includes(cacheKey)) return cache[cacheKey];
 
     const checks = mem.checks.sort((a, b) => (b.date as any) - (a.date as any));
     const groupedChecks: MemAnswer[][] = checks.reduce((acc: MemAnswer[][], curr: MemAnswer) => {
@@ -75,9 +80,9 @@ export const memScore = (mem: MemType): MemScore => {
     const nextCheck = new Date(
         checks[0].date?.getTime() + (Object.keys(levelGapMap).includes(String(level)) ? levelGapMap[level] : MONTH)
     );
-    console.log(checks[0].date, level, Object.keys(levelGapMap).includes(String(level)), levelGapMap[level], nextCheck);
 
-    return { level, memory, nextCheck };
+    cache[cacheKey] = { level, memory, nextCheck };
+    return cache[cacheKey];
 };
 
 export const randomiseDeck = (mems: MemType[]): MemType[] =>
