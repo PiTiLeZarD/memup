@@ -32,7 +32,6 @@ type FormState = {
     furigana: string;
     folders: string;
     hint: string;
-    notes: string;
 };
 
 export type MemFormProps = {
@@ -40,13 +39,12 @@ export type MemFormProps = {
     onClose: () => void;
 };
 
-const mem2Form = ({ mem, description, hint, notes, furigana, folders }: MemType): FormState => ({
+const mem2Form = ({ mem, description, hint, furigana, folders }: MemType): FormState => ({
     mem,
     description,
     furigana: JSON.stringify(furigana || ""),
     folders: JSON.stringify(folders || ""),
     hint: hint || "",
-    notes: notes || "",
 });
 
 export type MemFormComponent = React.FunctionComponent<MemFormProps>;
@@ -71,7 +69,7 @@ export const MemForm: MemFormComponent = ({ open, onClose }): JSX.Element => {
     const saveMem = useStore(({ saveMem }) => saveMem);
     const mems = useStore(({ mems }) => mems);
 
-    const handleSave = ({ mem, description, hint, notes, furigana, folders }) => {
+    const handleSave = ({ mem, description, hint, furigana, folders }) => {
         saveMem({
             ...(open || newMem()),
             mem,
@@ -79,7 +77,6 @@ export const MemForm: MemFormComponent = ({ open, onClose }): JSX.Element => {
             furigana: furigana ? JSON.parse(furigana) : null,
             folders: folders ? JSON.parse(folders) : [],
             hint: hint || null,
-            notes: notes || null,
         });
         onClose();
     };
@@ -154,7 +151,6 @@ export const MemForm: MemFormComponent = ({ open, onClose }): JSX.Element => {
                                 ))}
                             <TextField label="Description" {...register("description")} required />
                             <TextField label="Hint" {...register("hint")} />
-                            <TextField label="Notes" {...register("notes")} multiline rows={5} />
                         </Stack>
                     </DialogContent>
                     <DialogActions>

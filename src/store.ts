@@ -37,7 +37,6 @@ export type MemType = {
     folders: string[];
     description: string;
     hint?: string;
-    notes?: string;
     furigana?: string[];
     checks: MemAnswer[];
 };

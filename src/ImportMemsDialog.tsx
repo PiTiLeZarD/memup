@@ -20,7 +20,6 @@ const validationSchema = object({
                     mem: string().required(),
                     description: string().required(),
                     hint: string().nullable(true),
-                    notes: string().nullable(true),
                     furigana: array().of(string()).nullable(),
                     folders: array().of(string()).nullable(),
                     checks: array().of(
