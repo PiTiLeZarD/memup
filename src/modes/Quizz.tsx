@@ -17,7 +17,7 @@ const backgroundColour = (correctId: string, currentId: string, selectedId: stri
     }
 
     if (currentId == selectedId) return orange[500];
-    if (currentId == correctId) return lightBlue[500];
+    if (currentId == correctId) return lightBlue[300];
     return "white";
 };
 
