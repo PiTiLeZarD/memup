@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Box, Paper, Typography } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 import { lightBlue, orange, red } from "@mui/material/colors";
 
 import { levelGapMap, memScore, ST_LT_THRESHOLD } from "./lib";
@@ -18,6 +18,7 @@ const barStyle = {
     height: "2.5em",
     textAlign: "center",
     paddingTop: "3px",
+    lineHeight: "1.1em",
 };
 
 export const MemsLinearProgress: MemsLinearProgressComponent = ({ mems, label }): JSX.Element => {
@@ -59,11 +60,9 @@ export const MemsLinearProgress: MemsLinearProgressComponent = ({ mems, label })
                                 : lightBlue[parseInt(level) * 100],
                     }}
                 >
-                    <Typography sx={{ lineHeight: "1.1em" }}>
-                        level {level}
-                        <br />
-                        {label ? label : `${stats[parseInt(level)]} mems`}
-                    </Typography>
+                    level {level}
+                    <br />
+                    {label ? label : `${stats[parseInt(level)]} mems`}
                 </Box>
             ))}
             {LT > 0 && (
@@ -74,11 +73,9 @@ export const MemsLinearProgress: MemsLinearProgressComponent = ({ mems, label })
                         background: red[500],
                     }}
                 >
-                    <Typography sx={{ lineHeight: "1.1em" }}>
-                        long term memory
-                        <br />
-                        {label ? label : `${LT} mems`}
-                    </Typography>
+                    long term memory
+                    <br />
+                    {label ? label : `${LT} mems`}
                 </Box>
             )}
         </Box>
