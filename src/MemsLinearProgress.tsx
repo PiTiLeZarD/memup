@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Box, Paper, Stack, Typography } from "@mui/material";
+import { Box, Paper, Typography } from "@mui/material";
 import { lightBlue, orange, red } from "@mui/material/colors";
 
 import { levelGapMap, memScore, ST_LT_THRESHOLD } from "./lib";
@@ -59,11 +59,11 @@ export const MemsLinearProgress: MemsLinearProgressComponent = ({ mems, label })
                                 : lightBlue[parseInt(level) * 100],
                     }}
                 >
-                    <Stack>
-                        <Typography sx={{ lineHeight: "1em" }}>level {level}</Typography>
-                        {label && <Typography>{label}</Typography>}
-                        {!label && <Typography>{stats[parseInt(level)]} mems</Typography>}
-                    </Stack>
+                    <Typography sx={{ lineHeight: "1.1em" }}>
+                        level {level}
+                        <br />
+                        {label ? label : `${stats[parseInt(level)]} mems`}
+                    </Typography>
                 </Box>
             ))}
             {LT > 0 && (
