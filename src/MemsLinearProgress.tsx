@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Box, Paper } from "@mui/material";
+import { Box, Paper, Stack, Typography } from "@mui/material";
 import { lightBlue, orange, red } from "@mui/material/colors";
 
 import { levelGapMap, memScore, ST_LT_THRESHOLD } from "./lib";
@@ -8,6 +8,7 @@ import { MemType } from "./store";
 
 export type MemsLinearProgressProps = {
     mems: MemType[];
+    label?: React.ReactNode;
 };
 
 export type MemsLinearProgressComponent = React.FunctionComponent<MemsLinearProgressProps>;
@@ -19,7 +20,7 @@ const barStyle = {
     paddingTop: "3px",
 };
 
-export const MemsLinearProgress: MemsLinearProgressComponent = ({ mems }): JSX.Element => {
+export const MemsLinearProgress: MemsLinearProgressComponent = ({ mems, label }): JSX.Element => {
     const stats = mems.reduce((acc, m: MemType) => {
         if ((m.checks || []).length == 0) return { ...acc, [0]: (acc[0] || 0) + 1 };
         const score = memScore(m);
@@ -58,9 +59,11 @@ export const MemsLinearProgress: MemsLinearProgressComponent = ({ mems }): JSX.E
                                 : lightBlue[parseInt(level) * 100],
                     }}
                 >
-                    level {level}
-                    <br />
-                    {stats[parseInt(level)]} mems
+                    <Stack>
+                        <Typography sx={{ lineHeight: "1em" }}>level {level}</Typography>
+                        {label && <Typography>{label}</Typography>}
+                        {!label && <Typography>{stats[parseInt(level)]} mems</Typography>}
+                    </Stack>
                 </Box>
             ))}
             {LT > 0 && (
