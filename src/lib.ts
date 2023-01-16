@@ -99,10 +99,11 @@ export const groupChecksBySuccess = (checks: MemAnswer[]): MemAnswer[][] =>
         return [...acc, [curr]];
     }, []);
 
-export const groupMemByDateClusters = (mems: MemType[], grouping = 60 * 60000): MemType[][] =>
-    sortByDate(mems, (m) => memScore(m).nextCheck)
+export const groupMemByDateClusters = (mems: MemType[], grouping = 60 * 60000): MemType[][] => {
+    const t = sortByDate(mems, (m) => memScore(m).nextCheck)
         .reverse()
         .map((m, i, a) => [m, i < a.length - 2 ? dateDiff(memScore(m).nextCheck, memScore(a[i + 1]).nextCheck) : 0])
+        .map(([m, b]) => (memScore(m as MemType).nextCheck < new Date() ? [m, 0] : [m, b]))
         .reduce<MemType[][]>(
             (acc, [m, b]) =>
                 b <= grouping
@@ -110,6 +111,14 @@ export const groupMemByDateClusters = (mems: MemType[], grouping = 60 * 60000): 
                     : [...acc, [m as MemType]],
             []
         );
+    console.log(
+        sortByDate(mems, (m) => memScore(m).nextCheck)
+            .reverse()
+            .map((m, i, a) => [m, i < a.length - 2 ? dateDiff(memScore(m).nextCheck, memScore(a[i + 1]).nextCheck) : 0])
+    );
+
+    return t;
+};
 
 export const randomiseDeck = (mems: MemType[]): MemType[] =>
     mems

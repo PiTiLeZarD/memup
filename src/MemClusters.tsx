@@ -21,7 +21,7 @@ export const MemClusters: MemClustersComponent = ({ mems }): JSX.Element => {
         .filter(([l, d]) => -dateDiff(d as Date) <= 2 * 24 * 60 * 60000 + 60 * 60000);
     const maxDiff = dates.reduce((acc, [l, d]) => (-dateDiff(d as Date) > acc ? -dateDiff(d as Date) : acc), 0);
 
-    const left = (d: Date) => (-dateDiff(d) / maxDiff) * 100;
+    const left = (d: Date) => ((-dateDiff(d) > 0 ? -dateDiff(d) : 0) / maxDiff) * 100;
 
     return (
         <Stack spacing={2}>
