@@ -1,3 +1,4 @@
+import * as hd from "humanize-duration";
 import { nanoid } from "nanoid";
 import * as wanakana from "wanakana";
 
@@ -31,7 +32,7 @@ export const newMem = (): MemType => ({
 });
 
 export const levelGapMap = {
-    1: 1 * 60 * 60000,
+    1: 60 * 60000,
     2: 6 * 60 * 60000,
     3: 12 * 60 * 60000,
     4: 24 * 60 * 60000,
@@ -47,6 +48,16 @@ const MONTH = 30 * 24 * 60 * 60000;
 
 const cache: { [key: string]: MemScore } = {};
 
+export const dateDiff = (d1: Date, d2: Date = new Date()) => (d2 as any) - (d1 as any);
+
+export const sortByDate: <T>(a: T[], f: (i: T) => Date) => T[] = (a, f) => a.sort((a, b) => dateDiff(f(a), f(b)));
+
+export const timeUntil = (d: Date) =>
+    hd(-dateDiff(d), {
+        units: ["d", "h", "m"],
+        round: true,
+    });
+
 export const memScore = (mem: MemType): MemScore => {
     if (mem.checks.length == 0)
         return {
@@ -58,15 +69,8 @@ export const memScore = (mem: MemType): MemScore => {
     const cacheKey = `${mem.id}_${mem.checks.length}`;
     if (Object.keys(cache).includes(cacheKey)) return cache[cacheKey];
 
-    const checks = mem.checks.sort((a, b) => (b.date as any) - (a.date as any));
-    const groupedChecks: MemAnswer[][] = checks.reduce((acc: MemAnswer[][], curr: MemAnswer) => {
-        if (acc.length == 0) return [[curr]];
-        if (acc[acc.length - 1][0].success === curr.success) {
-            acc[acc.length - 1].push(curr);
-            return acc;
-        }
-        return [...acc, [curr]];
-    }, []);
+    const checks = sortByDate(mem.checks, (c) => c.date as Date);
+    const groupedChecks = groupChecksBySuccess(checks);
     const memory = groupedChecks.filter((g) => g.length > ST_LT_THRESHOLD).length > 0 ? "LT" : "ST";
     const level =
         groupedChecks.length == 0
@@ -84,6 +88,28 @@ export const memScore = (mem: MemType): MemScore => {
     cache[cacheKey] = { level, memory, nextCheck };
     return cache[cacheKey];
 };
+
+export const groupChecksBySuccess = (checks: MemAnswer[]): MemAnswer[][] =>
+    checks.reduce((acc: MemAnswer[][], curr: MemAnswer) => {
+        if (acc.length == 0) return [[curr]];
+        if (acc[acc.length - 1][0].success === curr.success) {
+            acc[acc.length - 1].push(curr);
+            return acc;
+        }
+        return [...acc, [curr]];
+    }, []);
+
+export const groupMemByDateClusters = (mems: MemType[], grouping = 60 * 60000): MemType[][] =>
+    sortByDate(mems, (m) => memScore(m).nextCheck)
+        .reverse()
+        .map((m, i, a) => [m, i < a.length - 2 ? dateDiff(memScore(m).nextCheck, memScore(a[i + 1]).nextCheck) : 0])
+        .reduce<MemType[][]>(
+            (acc, [m, b]) =>
+                b <= grouping
+                    ? [...acc.slice(0, acc.length - 1), [...(acc[acc.length - 1] || []), m as MemType]]
+                    : [...acc, [m as MemType]],
+            []
+        );
 
 export const randomiseDeck = (mems: MemType[]): MemType[] =>
     mems

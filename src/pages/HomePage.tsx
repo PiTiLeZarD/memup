@@ -19,6 +19,7 @@ import {
 
 import { ImportMemsDialog } from "../ImportMemsDialog";
 import { levelGapMap, memDeck, ST_LT_THRESHOLD } from "../lib";
+import { MemClusters } from "../MemClusters";
 import { useStore } from "../store";
 import { ContentBox } from "./ContentBox";
 
@@ -61,7 +62,7 @@ export const HomePage: HomePageComponent = (): JSX.Element => {
             <ContentBox>
                 <ImportMemsDialog open={importOpen} onClose={() => setImportOpen(false)} />
 
-                <Stack>
+                <Stack spacing={6}>
                     <Box sx={{ textAlign: "center" }}>
                         <ButtonGroup variant="contained">
                             <Button color={reviseMems.length > 0 ? "primary" : "inherit"} onClick={handleRevise}>
@@ -85,6 +86,7 @@ export const HomePage: HomePageComponent = (): JSX.Element => {
                             <Button onClick={() => setImportOpen(true)}>Import Mems</Button>
                         </ButtonGroup>
                     </Box>
+                    <MemClusters mems={mems} />
                 </Stack>
             </ContentBox>
             <ContentBox>

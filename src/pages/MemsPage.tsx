@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { Breadcrumbs, Chip } from "@mui/material";
 
-import { memScore } from "../lib";
+import { memScore, sortByDate } from "../lib";
 import { FOLDER_SEP, MemFolders } from "../MemFolders";
 import { MemList } from "../MemList";
 import { useStore } from "../store";
@@ -23,13 +23,10 @@ export const MemsPage: MemsPageComponent = (): JSX.Element => {
     const navigate = useNavigate();
 
     const depth = !!folders ? folders.split(FOLDER_SEP).length : 0;
-    const mems = useStore(({ mems }) => mems)
-        .filter((m) => m.folders.join(FOLDER_SEP).includes(folders || ""))
-        .sort(
-            (ma, mb) =>
-                ((memScore(ma).nextCheck || new Date()) as any) - ((memScore(mb).nextCheck || new Date()) as any)
-        )
-        .reduce((acc, m) => ({ ...acc, [m.folders[depth]]: [...(acc[m.folders[depth]] || []), m] }), {});
+    const mems = sortByDate(
+        useStore(({ mems }) => mems).filter((m) => m.folders.join(FOLDER_SEP).includes(folders || "")),
+        (m) => memScore(m).nextCheck
+    ).reduce((acc, m) => ({ ...acc, [m.folders[depth]]: [...(acc[m.folders[depth]] || []), m] }), {});
 
     const handleBreadcrumbClick = (depth: number) => () =>
         navigate(`/mems/${(folders?.split(FOLDER_SEP) || []).slice(0, depth).join(FOLDER_SEP)}`);

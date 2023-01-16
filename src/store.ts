@@ -90,7 +90,7 @@ const store = persist(combine(InitialState, StoreActions), {
 
         storage.state.mems = storage.state.mems.map((m) => ({
             ...m,
-            checks: (m.checks || []).map((c) => ({ ...c, date: new Date(c.date as any) })),
+            checks: (m.checks || []).map((c) => ({ ...c, date: new Date(c.date as Date) })),
         }));
 
         return storage;
