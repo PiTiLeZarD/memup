@@ -71,15 +71,11 @@ export const memScore = (mem: MemType): MemScore => {
 
     const checks = sortByDate(mem.checks, (c) => c.date as Date);
     const groupedChecks = groupChecksBySuccess(checks);
+
     const memory = groupedChecks.filter((g) => g.length > ST_LT_THRESHOLD).length > 0 ? "LT" : "ST";
     const level =
-        groupedChecks.length == 0
-            ? 0
-            : groupedChecks[0][0].success
-            ? groupedChecks[0].length
-            : memory == "LT"
-            ? ST_LT_THRESHOLD + 1
-            : 1;
+        (groupedChecks.length == 0 ? 0 : groupedChecks[0][0].success ? groupedChecks[0].length - 1 : 0) +
+        (memory == "LT" ? ST_LT_THRESHOLD : 1);
 
     const nextCheck = new Date(
         checks[0].date?.getTime() + (Object.keys(levelGapMap).includes(String(level)) ? levelGapMap[level] : MONTH)
