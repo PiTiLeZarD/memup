@@ -99,26 +99,18 @@ export const groupChecksBySuccess = (checks: MemAnswer[]): MemAnswer[][] =>
         return [...acc, [curr]];
     }, []);
 
-export const groupMemByDateClusters = (mems: MemType[], grouping = 60 * 60000): MemType[][] => {
-    const t = sortByDate(mems, (m) => memScore(m).nextCheck)
-        .reverse()
-        .map((m, i, a) => [m, i < a.length - 2 ? dateDiff(memScore(m).nextCheck, memScore(a[i + 1]).nextCheck) : 0])
-        .map(([m, b]) => (memScore(m as MemType).nextCheck < new Date() ? [m, 0] : [m, b]))
-        .reduce<MemType[][]>(
-            (acc, [m, b]) =>
-                b <= grouping
-                    ? [...acc.slice(0, acc.length - 1), [...(acc[acc.length - 1] || []), m as MemType]]
-                    : [...acc, [m as MemType]],
-            []
-        );
-    console.log(
-        sortByDate(mems, (m) => memScore(m).nextCheck)
-            .reverse()
-            .map((m, i, a) => [m, i < a.length - 2 ? dateDiff(memScore(m).nextCheck, memScore(a[i + 1]).nextCheck) : 0])
-    );
-
-    return t;
-};
+export const clusterByDate: <T>(objects: T[], cb: (o: T) => Date, interval?: number) => T[][] = (
+    objects,
+    cb,
+    interval = 60 * 60000
+) =>
+    sortByDate(objects, cb).reduce<typeof objects[]>((clusters, obj) => {
+        const lastCluster = clusters[clusters.length - 1];
+        if (!lastCluster || cb(lastCluster[lastCluster.length - 1]).getTime() - cb(obj).getTime() > interval)
+            clusters.push([obj]);
+        else lastCluster.push(obj);
+        return clusters;
+    }, []);
 
 export const randomiseDeck = (mems: MemType[]): MemType[] =>
     mems

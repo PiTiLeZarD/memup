@@ -3,7 +3,7 @@ import React from "react";
 import { Box, Chip, Stack, Tooltip, Typography } from "@mui/material";
 
 import { lightBlue } from "@mui/material/colors";
-import { dateDiff, groupMemByDateClusters, memScore, timeUntil } from "./lib";
+import { clusterByDate, dateDiff, memScore, timeUntil } from "./lib";
 import { MemType } from "./store";
 
 export type MemClustersProps = {
@@ -13,13 +13,18 @@ export type MemClustersProps = {
 export type MemClustersComponent = React.FunctionComponent<MemClustersProps>;
 
 export const MemClusters: MemClustersComponent = ({ mems }): JSX.Element => {
-    const clusters = groupMemByDateClusters(mems.filter((m) => (m.checks || []).length > 0));
-    if (clusters.length == 0) return <></>;
+    const maxDiff = 2 * 24 * 60 * 60000;
+    const clusters = clusterByDate(
+        mems.filter(
+            (m) =>
+                (m.checks || []).length > 0 &&
+                memScore(m).nextCheck > new Date() &&
+                -dateDiff(memScore(m).nextCheck) < maxDiff
+        ),
+        (mem) => memScore(mem).nextCheck
+    );
 
-    const dates = clusters
-        .map((c) => [c.length, memScore(c[0]).nextCheck])
-        .filter(([l, d]) => -dateDiff(d as Date) <= 2 * 24 * 60 * 60000 + 60 * 60000);
-    const maxDiff = dates.reduce((acc, [l, d]) => (-dateDiff(d as Date) > acc ? -dateDiff(d as Date) : acc), 0);
+    if (clusters.length == 0) return <></>;
 
     const left = (d: Date) => ((-dateDiff(d) > 0 ? -dateDiff(d) : 0) / maxDiff) * 100;
 
@@ -39,24 +44,26 @@ export const MemClusters: MemClustersComponent = ({ mems }): JSX.Element => {
                         transform: "translateY(-50%)",
                     }}
                 />
-                {dates.map(([l, d], i) => (
-                    <Tooltip
-                        arrow
-                        key={i}
-                        title={`${timeUntil(d as Date)}`}
-                        sx={{
-                            position: "absolute",
-                            top: "50%",
-                            left: `${left(d as Date)}%`,
-                            transform: "translateY(-50%)",
-                            background: lightBlue[800],
-                            color: lightBlue[50],
-                            zIndex: dates.length - i + 100,
-                        }}
-                    >
-                        <Chip label={String(l)} />
-                    </Tooltip>
-                ))}
+                {clusters
+                    .map((c) => [memScore(c[0]).nextCheck, c.length])
+                    .map(([nextCheck, count], i) => (
+                        <Tooltip
+                            arrow
+                            key={i}
+                            title={`${timeUntil(nextCheck > new Date() ? (nextCheck as Date) : new Date())}`}
+                            sx={{
+                                position: "absolute",
+                                top: "50%",
+                                left: `${left(nextCheck as Date)}%`,
+                                transform: "translateY(-50%)",
+                                background: lightBlue[800],
+                                color: lightBlue[50],
+                                zIndex: clusters.length - i + 100,
+                            }}
+                        >
+                            <Chip label={String(count)} />
+                        </Tooltip>
+                    ))}
             </Box>
         </Stack>
     );
