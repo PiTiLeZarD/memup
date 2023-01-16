@@ -45,12 +45,12 @@ export const MemClusters: MemClustersComponent = ({ mems }): JSX.Element => {
                     }}
                 />
                 {clusters
-                    .map((c) => [memScore(c[0]).nextCheck, c.length])
+                    .map((c) => [memScore(c[c.length - 1]).nextCheck, c.length])
                     .map(([nextCheck, count], i) => (
                         <Tooltip
                             arrow
                             key={i}
-                            title={`${timeUntil(nextCheck > new Date() ? (nextCheck as Date) : new Date())}`}
+                            title={`${timeUntil(nextCheck as Date)}`}
                             sx={{
                                 position: "absolute",
                                 top: "50%",
