@@ -26,7 +26,9 @@ export const MemsPage: MemsPageComponent = (): JSX.Element => {
     const mems = sortByDate(
         useStore(({ mems }) => mems).filter((m) => m.folders.join(FOLDER_SEP).includes(folders || "")),
         (m) => memScore(m).nextCheck
-    ).reduce((acc, m) => ({ ...acc, [m.folders[depth]]: [...(acc[m.folders[depth]] || []), m] }), {});
+    )
+        .reverse()
+        .reduce((acc, m) => ({ ...acc, [m.folders[depth]]: [...(acc[m.folders[depth]] || []), m] }), {});
 
     const handleBreadcrumbClick = (depth: number) => () =>
         navigate(`/mems/${(folders?.split(FOLDER_SEP) || []).slice(0, depth).join(FOLDER_SEP)}`);
