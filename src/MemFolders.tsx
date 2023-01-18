@@ -36,7 +36,7 @@ export const MemFolders: MemFoldersComponent = ({ subfolders }): JSX.Element => 
                 .map((subfolder) => (
                     <ListItem key={subfolder}>
                         <ListItemText primary={subfolder} secondary={`${subfolders[subfolder].length} mems`} />
-                        <Box sx={{ flex: 1.5, margin: "0 10em 0 0" }}>
+                        <Box sx={{ width: "45%", marginRight: "10.5em" }} component="span">
                             <MemsLinearProgress mems={subfolders[subfolder]} />
                         </Box>
                         <ListItemSecondaryAction>
