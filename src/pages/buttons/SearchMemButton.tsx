@@ -17,14 +17,29 @@ import { HiraganaTextField } from "../../HiraganaTextField";
 import { MemListItem } from "../../MemListItem";
 import { MemType, useStore } from "../../store";
 
-export type SearchMemButtonProps = {};
+export type SearchMemButtonProps = {
+    defaultSearch?: string;
+    Component?: React.FunctionComponent;
+    ComponentProps?: Object;
+};
 
 export type SearchMemButtonComponent = React.FunctionComponent<SearchMemButtonProps>;
 
-export const SearchMemButton: SearchMemButtonComponent = (): JSX.Element => {
+export const SearchMemButton: SearchMemButtonComponent = ({
+    defaultSearch,
+    Component = Fab,
+    ComponentProps = {
+        sx: {
+            position: "absolute",
+            top: "-30px",
+            right: "35px",
+        },
+        color: "primary",
+    },
+}): JSX.Element => {
     const [open, setOpen] = useState<boolean>(false);
     const [hiragana, setHiragana] = useState<boolean>(false);
-    const [search, setSearch] = useState<string>("");
+    const [search, setSearch] = useState<string>(defaultSearch || "");
     const mems = useStore(({ mems }) => mems);
 
     const InputComponent = hiragana ? HiraganaTextField : TextField;
@@ -93,17 +108,9 @@ export const SearchMemButton: SearchMemButtonComponent = (): JSX.Element => {
                 </DialogContent>
             </Dialog>
 
-            <Fab
-                color="primary"
-                onClick={() => setOpen(true)}
-                sx={{
-                    position: "absolute",
-                    top: "-30px",
-                    right: "35px",
-                }}
-            >
+            <Component {...(ComponentProps as any)} onClick={() => setOpen(true)}>
                 <SearchIcon />
-            </Fab>
+            </Component>
         </>
     );
 };

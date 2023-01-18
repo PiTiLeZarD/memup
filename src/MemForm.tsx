@@ -24,6 +24,7 @@ import { FoldersInput } from "./FoldersInput";
 import { FuriganaInput } from "./japanese/FuriganaInput";
 import { includesKanji, newMem } from "./lib";
 import { Mem } from "./Mem";
+import { SearchMemButton } from "./pages/buttons/SearchMemButton";
 import { MemQuizzAnswer, MemType, useStore } from "./store";
 
 type FormState = {
@@ -145,6 +146,13 @@ export const MemForm: MemFormComponent = ({ open, onClose }): JSX.Element => {
                                     >
                                         +あ
                                     </Button>
+                                )}
+                                {(memValue || "").length > 0 && (
+                                    <SearchMemButton
+                                        defaultSearch={memValue}
+                                        Component={Button}
+                                        ComponentProps={{ color: "primary", variant: "contained" }}
+                                    />
                                 )}
                             </Stack>
                             {hasKanji && setFurigana && (
