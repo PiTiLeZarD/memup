@@ -135,20 +135,26 @@ export const MemForm: MemFormComponent = ({ open, onClose }): JSX.Element => {
                     <DialogContent sx={{ minWidth: "500px" }}>
                         <Stack spacing={2} sx={{ margin: "0.5em 0" }}>
                             <FoldersInput watch={watch} register={register} setValue={setValue} />
-                            <TextField label="Mem" {...register("mem")} required />
-                            {hasKanji &&
-                                (setFurigana ? (
-                                    <FuriganaInput
-                                        memValue={memValue}
-                                        furigana={open ? open.furigana || [] : []}
-                                        register={register}
-                                        setValue={setValue}
-                                    />
-                                ) : (
-                                    <Button variant="contained" onClick={() => setSetFurigana(true)}>
-                                        Set Furigana?
+                            <Stack direction="row" sx={{ width: "100%" }}>
+                                <TextField label="Mem" {...register("mem")} required fullWidth />
+                                {hasKanji && (
+                                    <Button
+                                        color={setFurigana ? "primary" : "inherit"}
+                                        variant="contained"
+                                        onClick={() => setSetFurigana(!setFurigana)}
+                                    >
+                                        +あ
                                     </Button>
-                                ))}
+                                )}
+                            </Stack>
+                            {hasKanji && setFurigana && (
+                                <FuriganaInput
+                                    memValue={memValue}
+                                    furigana={open ? open.furigana || [] : []}
+                                    register={register}
+                                    setValue={setValue}
+                                />
+                            )}
                             <TextField label="Description" {...register("description")} required />
                             <TextField label="Hint" {...register("hint")} />
                         </Stack>
