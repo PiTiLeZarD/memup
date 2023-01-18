@@ -35,7 +35,10 @@ export const SearchMemButton: SearchMemButtonComponent = (): JSX.Element => {
                       ({ mem, description, furigana }) =>
                           mem.includes(search) || description.includes(search) || (furigana || []).includes(search)
                   )
-                  .reduce((acc, m) => ({ ...acc, [m.folders.join("/")]: [...(acc[m.folders.join("/")] || []), m] }), {})
+                  .reduce<{ [folder: string]: MemType[] }>((acc, m) => {
+                      m.folders.forEach((f) => (acc[f] = [...(acc[f] || []), m]));
+                      return acc;
+                  }, {})
             : {};
 
     return (
@@ -92,9 +95,7 @@ export const SearchMemButton: SearchMemButtonComponent = (): JSX.Element => {
 
             <Fab
                 color="primary"
-                onClick={() => {
-                    setOpen(true);
-                }}
+                onClick={() => setOpen(true)}
                 sx={{
                     position: "absolute",
                     top: "-30px",

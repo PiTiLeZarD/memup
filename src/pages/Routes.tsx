@@ -14,7 +14,7 @@ export const Routes: RoutesComponent = (): JSX.Element => {
     return (
         <RRDRoutes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/mems/:folders?" element={<MemsPage />} />
+            <Route path="/mems/:folder?" element={<MemsPage />} />
             <Route path="/learn" element={<LearnPage />} />
             <Route path="/settings" element={<SettingsPage />} />
         </RRDRoutes>

@@ -6,44 +6,54 @@ import { Breadcrumbs, Chip } from "@mui/material";
 import { memScore, sortByDate } from "../lib";
 import { FOLDER_SEP, MemFolders } from "../MemFolders";
 import { MemList } from "../MemList";
-import { useStore } from "../store";
+import { MemType, useStore } from "../store";
 import { AddMemButton } from "./buttons/AddMemButton";
 import { BackButton } from "./buttons/BackButton";
 import { HomeButton } from "./buttons/HomeButton";
 import { SearchMemButton } from "./buttons/SearchMemButton";
 import { ContentBox } from "./ContentBox";
 
+const withDepth: (folder: string | undefined, depth: number) => string = (folder, depth) =>
+    (folder || "").split(FOLDER_SEP).slice(0, depth).join(FOLDER_SEP);
+
+const atDepth: (folder: string | undefined, depth: number) => string = (folder, depth) =>
+    (folder || "").split(FOLDER_SEP)[depth];
+
 export type MemsPageProps = {};
 
 export type MemsPageComponent = React.FunctionComponent<MemsPageProps>;
 
 export const MemsPage: MemsPageComponent = (): JSX.Element => {
-    const { folders } = useParams();
-
     const navigate = useNavigate();
+    const { folder } = useParams();
+    const depth = !!folder ? folder.split(FOLDER_SEP).length : 0;
 
-    const depth = !!folders ? folders.split(FOLDER_SEP).length : 0;
     const mems = sortByDate(
-        useStore(({ mems }) => mems).filter((m) => m.folders.join(FOLDER_SEP).includes(folders || "")),
+        useStore(({ mems }) => mems).filter((m) => m.folders.filter((f) => f.startsWith(folder || "")).length > 0),
         (m) => memScore(m).nextCheck
     )
         .reverse()
-        .reduce((acc, m) => ({ ...acc, [m.folders[depth]]: [...(acc[m.folders[depth]] || []), m] }), {});
+        .reduce<{ [folder: string]: MemType[] }>((acc, m) => {
+            m.folders
+                .filter((f) => f.startsWith(folder || ""))
+                .forEach((f) => (acc[atDepth(f, depth)] = [...(acc[atDepth(f, depth)] || []), m]));
+            return acc;
+        }, {});
 
     const handleBreadcrumbClick = (depth: number) => () =>
-        navigate(`/mems/${(folders?.split(FOLDER_SEP) || []).slice(0, depth).join(FOLDER_SEP)}`);
+        navigate(`/mems/${(folder?.split(FOLDER_SEP) || []).slice(0, depth).join(FOLDER_SEP)}`);
 
     return (
         <ContentBox>
             <HomeButton />
-            {folders && <BackButton />}
+            {folder && <BackButton />}
 
             <AddMemButton />
             <SearchMemButton />
 
             <Breadcrumbs sx={{ marginBottom: "1em" }}>
                 <Chip label="/" onClick={() => navigate("/mems")} />
-                {folders?.split(FOLDER_SEP).map((folder, i) => (
+                {folder?.split(FOLDER_SEP).map((folder, i) => (
                     <Chip key={folder} onClick={handleBreadcrumbClick(i + 1)} label={folder} />
                 ))}
             </Breadcrumbs>

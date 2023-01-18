@@ -26,11 +26,11 @@ export type MemFoldersProps = {
 export type MemFoldersComponent = React.FunctionComponent<MemFoldersProps>;
 
 export const MemFolders: MemFoldersComponent = ({ subfolders }): JSX.Element => {
-    const { folders } = useParams();
+    const { folder } = useParams();
     const navigate = useNavigate();
 
     const handleClick = (subfolder: string) => () => {
-        let current = (folders || "").split(FOLDER_SEP).filter((e) => !!e);
+        let current = (folder || "").split(FOLDER_SEP).filter((e) => !!e);
         current.push(subfolder);
         navigate(`/mems/${current.join(FOLDER_SEP)}`);
     };
@@ -48,7 +48,7 @@ export const MemFolders: MemFoldersComponent = ({ subfolders }): JSX.Element => 
                         </Box>
                         <ListItemSecondaryAction>
                             <MemFoldersLearnButton subfolders={subfolders} subfolder={subfolder} />
-                            <IconButton onClick={() => downloadMems(`${folders}/${subfolder}`, subfolders[subfolder])}>
+                            <IconButton onClick={() => downloadMems(`${folder}/${subfolder}`, subfolders[subfolder])}>
                                 <DownloadIcon />
                             </IconButton>
                             <IconButton onClick={handleClick(subfolder)}>

@@ -5,7 +5,6 @@ import { lightBlue, lightGreen, orange } from "@mui/material/colors";
 
 import { randomiseDeck } from "../lib";
 import { Mem } from "../Mem";
-import { FOLDER_SEP } from "../MemFolders";
 import { MemAnswer, MemScore, MemType, useStore } from "../store";
 
 const backgroundColour = (correctId: string, currentId: string, selectedId: string | null): string => {
@@ -30,9 +29,8 @@ export type QuizzProps = {
 
 const getAllMems = (mem: MemType, learnContext: MemType[], mems: MemType[]): MemType[] => {
     if (learnContext.length > 20) return learnContext;
-    const memsInFolder = mems.filter((m) => m.folders.join(FOLDER_SEP) == mem.folders.join(FOLDER_SEP));
-    if (memsInFolder.length > 20) return memsInFolder;
-    return mems;
+    const memsInFolders = mems.filter((m) => m.folders.filter((f) => mem.folders.includes(f)).length > 0);
+    return memsInFolders.length > 20 ? memsInFolders : mems;
 };
 
 export type QuizzComponent = React.FunctionComponent<QuizzProps>;
