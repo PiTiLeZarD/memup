@@ -27,10 +27,10 @@ export type FoldersInputProps = {
 export type FoldersInputComponent = React.FunctionComponent<FoldersInputProps>;
 
 export const FoldersInput: FoldersInputComponent = ({ register, setValue, watch }): JSX.Element => {
-    let folders = (JSON.parse(watch("folders") || []) as string[]).map((f) => f.split(FOLDER_SEP));
     const [open, setOpen] = useState<false | number[]>(false);
     const [currentFolder, setCurrentFolder] = useState<string>("");
 
+    let folders = (JSON.parse(watch("folders") || []) as string[]).map((f) => f.split(FOLDER_SEP));
     const save = () => setValue("folders", JSON.stringify(folders.map((f) => f.join(FOLDER_SEP))));
 
     const handleDeleteChip = (folderIndex: number, chipIndex: number) => () => {
