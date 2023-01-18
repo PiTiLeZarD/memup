@@ -88,18 +88,28 @@ export const ImportBackupPage: ImportBackupPageComponent = (): JSX.Element => {
             </ContentBox>
             <ContentBox>
                 <Box sx={{ textAlign: "center" }}>
-                    <Typography variant="h4">Import mems</Typography>
                     <Dropzone
                         onAcceptedFiles={handleImport}
-                        sx={{ background: grey[200], position: "relative" }}
+                        sx={{ background: grey[200], position: "relative", cursor: "pointer" }}
                         elevation={8}
                     >
-                        <Box sx={{ width: "100%", height: "10em" }}>
+                        <Box sx={{ width: "100%", height: "11em" }}>
                             <Typography variant="h5" sx={{ paddingTop: "2.5em" }}>
-                                Drop your file here!
+                                Import mems by dropping a file here.
                             </Typography>
+                            <Typography>or click here to open the file dialog</Typography>
                         </Box>
                     </Dropzone>
+                    <Typography>
+                        <Button
+                            target="_blank"
+                            variant="contained"
+                            sx={{ marginTop: "2em" }}
+                            href="https://raw.githubusercontent.com/PiTiLeZarD/memup/master/content/Japanese_Minnanonihongo.json"
+                        >
+                            If you need a starting point, use my file.
+                        </Button>
+                    </Typography>
                 </Box>
             </ContentBox>
         </>

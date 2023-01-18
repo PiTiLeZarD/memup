@@ -74,6 +74,11 @@ export const HomePage: HomePageComponent = (): JSX.Element => {
                             <Button onClick={() => navigate("/settings")}>Settings</Button>
                             <Button onClick={() => navigate("/importbackup")}>Import/Backup</Button>
                         </ButtonGroup>
+                        {mems.length == 0 && (
+                            <Typography sx={{ marginTop: "2em" }}>
+                                Looks like you've got nothing in here, start by creating or importing mems.
+                            </Typography>
+                        )}
                     </Box>
                     <MemClusters mems={mems} />
                 </Stack>
