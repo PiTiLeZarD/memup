@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useCountdown } from "usehooks-ts";
 
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import { Alert, Box, Button, Divider, Grid, Stack, Typography } from "@mui/material";
+import { Alert, Box, Button, Divider, Grid, Stack, Tooltip, Typography } from "@mui/material";
 
 import { useMemo } from "react";
 import { levelGapMap, memScore } from "../lib";
@@ -85,7 +86,18 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
 
                         {mem && score && (
                             <>
-                                {!titleDescription && <Mem mem={mem} variant="h2" />}
+                                {!titleDescription && (
+                                    <Stack direction="row" spacing={6} justifyContent="center">
+                                        <Mem mem={mem} variant="h2" />
+                                        {mem.hint ? (
+                                            <Tooltip title={mem.hint}>
+                                                <HelpOutlineIcon />
+                                            </Tooltip>
+                                        ) : (
+                                            <></>
+                                        )}
+                                    </Stack>
+                                )}
                                 {titleDescription && <Typography variant="h2">{mem.description}</Typography>}
 
                                 <Timer time={time} maxTime={maxTime} />

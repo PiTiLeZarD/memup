@@ -22,7 +22,6 @@ pnpm dev
 
 Planned and in order
 
--   Sort out the hint/notes bits and give them a purpose
 -   Import to match IDS and offer a merge/override
 -   Find a way to use a github folder as a source for import, allow to delete mems by folders/subfolders
 -   Merge mems and have multiple folders for a mem.
