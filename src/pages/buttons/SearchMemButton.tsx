@@ -79,8 +79,8 @@ export const SearchMemButton: SearchMemButtonComponent = (): JSX.Element => {
                                     <ul>
                                         <ListSubheader>{folder}</ListSubheader>
                                         {filteredMems[folder].map((mem) => (
-                                            <ListItem>
-                                                <MemListItem data={mem} key={mem.id} />
+                                            <ListItem key={`${folder}_${mem.id}`}>
+                                                <MemListItem data={mem} />
                                             </ListItem>
                                         ))}
                                     </ul>
