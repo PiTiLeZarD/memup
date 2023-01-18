@@ -5,13 +5,21 @@ import { Box, Button, Typography } from "@mui/material";
 
 import { grey } from "@mui/material/colors";
 import { Dropzone, FileWithPreview } from "../Dropzone";
-import { MemType } from "../store";
+import { memsToStore, MemType } from "../store";
 import { HomeButton } from "./buttons/HomeButton";
 import { ContentBox } from "./ContentBox";
 
 export type ImportBackupPageProps = {};
 
 export type ImportBackupPageComponent = React.FunctionComponent<ImportBackupPageProps>;
+
+export const downloadMems = (title: string, mems: MemType[]) =>
+    Object.assign(document.createElement("a"), {
+        href: `data:application/JSON, ${encodeURIComponent(
+            JSON.stringify(memsToStore(mems.map((m) => ({ ...m, checks: [] }))))
+        )}`,
+        download: title,
+    }).click();
 
 const downloadAllMems = () =>
     Object.assign(document.createElement("a"), {

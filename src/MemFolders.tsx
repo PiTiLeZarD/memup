@@ -7,15 +7,8 @@ import { Box, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText 
 
 import { MemFoldersLearnButton } from "./MemFoldersLearnButton";
 import { MemsLinearProgress } from "./MemsLinearProgress";
-import { memsToStore, MemType } from "./store";
-
-const downloadMems = (title: string, mems: MemType[]) =>
-    Object.assign(document.createElement("a"), {
-        href: `data:application/JSON, ${encodeURIComponent(
-            JSON.stringify(memsToStore(mems.map((m) => ({ ...m, checks: [] }))))
-        )}`,
-        download: title,
-    }).click();
+import { downloadMems } from "./pages/ImportBackupPage";
+import { MemType } from "./store";
 
 export const FOLDER_SEP = "|";
 
