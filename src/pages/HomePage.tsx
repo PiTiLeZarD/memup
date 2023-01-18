@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -17,24 +17,16 @@ import {
     Typography,
 } from "@mui/material";
 
-import { ImportMemsDialog } from "../ImportMemsDialog";
 import { levelGapMap, memDeck, ST_LT_THRESHOLD } from "../lib";
 import { MemClusters } from "../MemClusters";
 import { useStore } from "../store";
 import { ContentBox } from "./ContentBox";
-
-const downloadAllMems = () =>
-    Object.assign(document.createElement("a"), {
-        href: `data:application/JSON, ${encodeURIComponent(JSON.stringify(localStorage.getItem("memup")))}`,
-        download: "your_history",
-    }).click();
 
 export type HomePageProps = {};
 
 export type HomePageComponent = React.FunctionComponent<HomePageProps>;
 
 export const HomePage: HomePageComponent = (): JSX.Element => {
-    const [importOpen, setImportOpen] = useState<boolean>(false);
     const setLearnContext = useStore(({ setLearnContext }) => setLearnContext);
     const { learnNewCount } = useStore(({ settings }) => settings);
     const mems = useStore(({ mems }) => mems);
@@ -60,8 +52,6 @@ export const HomePage: HomePageComponent = (): JSX.Element => {
     return (
         <Stack>
             <ContentBox>
-                <ImportMemsDialog open={importOpen} onClose={() => setImportOpen(false)} />
-
                 <Stack spacing={6}>
                     <Box sx={{ textAlign: "center" }}>
                         <ButtonGroup variant="contained">
@@ -82,8 +72,7 @@ export const HomePage: HomePageComponent = (): JSX.Element => {
                             <Button onClick={() => navigate("/mems")}>List Mems</Button>
                             <Divider orientation="vertical" flexItem />
                             <Button onClick={() => navigate("/settings")}>Settings</Button>
-                            <Button onClick={downloadAllMems}>Backup Progress</Button>
-                            <Button onClick={() => setImportOpen(true)}>Import Mems</Button>
+                            <Button onClick={() => navigate("/importbackup")}>Import/Backup</Button>
                         </ButtonGroup>
                     </Box>
                     <MemClusters mems={mems} />

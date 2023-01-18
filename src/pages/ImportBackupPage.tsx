@@ -1,15 +1,23 @@
 import React from "react";
-
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
-
 import { array, boolean, number, object, string } from "yup";
-import { Dropzone, FileWithPreview } from "./Dropzone";
-import { MemType } from "./store";
 
-export type ImportMemsProps = {
-    open: boolean;
-    onClose: () => void;
-};
+import { Box, Button, Typography } from "@mui/material";
+
+import { grey } from "@mui/material/colors";
+import { Dropzone, FileWithPreview } from "../Dropzone";
+import { MemType } from "../store";
+import { HomeButton } from "./buttons/HomeButton";
+import { ContentBox } from "./ContentBox";
+
+export type ImportBackupPageProps = {};
+
+export type ImportBackupPageComponent = React.FunctionComponent<ImportBackupPageProps>;
+
+const downloadAllMems = () =>
+    Object.assign(document.createElement("a"), {
+        href: `data:application/JSON, ${encodeURIComponent(JSON.stringify(localStorage.getItem("memup")))}`,
+        download: "your_history",
+    }).click();
 
 const validationSchema = object({
     state: object({
@@ -37,9 +45,7 @@ const validationSchema = object({
     version: number(),
 });
 
-export type ImportMemsComponent = React.FunctionComponent<ImportMemsProps>;
-
-export const ImportMemsDialog: ImportMemsComponent = ({ open, onClose }): JSX.Element => {
+export const ImportBackupPage: ImportBackupPageComponent = (): JSX.Element => {
     const handleImport = (files: FileWithPreview[]) => {
         files.map((file) => {
             const fr = new FileReader();
@@ -56,7 +62,6 @@ export const ImportMemsDialog: ImportMemsComponent = ({ open, onClose }): JSX.El
                     : [];
                 validationSchema.validate(data).then((state) => {
                     localStorage.setItem("memup", JSON.stringify(state));
-                    onClose();
                 });
             };
             fr.readAsText(file);
@@ -65,21 +70,30 @@ export const ImportMemsDialog: ImportMemsComponent = ({ open, onClose }): JSX.El
 
     return (
         <>
-            <Dialog open={open} onClose={onClose}>
-                <DialogTitle>Import all mems</DialogTitle>
-                <DialogContent>
-                    <Dropzone onAcceptedFiles={handleImport}>
-                        <Box sx={{ width: "10em", height: "10em", textAlign: "center", paddinTop: "4em" }}>
-                            Drop your file here
+            <ContentBox>
+                <HomeButton />
+                <Box sx={{ textAlign: "center" }}>
+                    <Button variant="contained" size="large" onClick={downloadAllMems}>
+                        Backup
+                    </Button>
+                </Box>
+            </ContentBox>
+            <ContentBox>
+                <Box sx={{ textAlign: "center" }}>
+                    <Typography variant="h4">Import mems</Typography>
+                    <Dropzone
+                        onAcceptedFiles={handleImport}
+                        sx={{ background: grey[200], position: "relative" }}
+                        elevation={8}
+                    >
+                        <Box sx={{ width: "100%", height: "10em" }}>
+                            <Typography variant="h5" sx={{ paddingTop: "2.5em" }}>
+                                Drop your file here!
+                            </Typography>
                         </Box>
                     </Dropzone>
-                </DialogContent>
-                <DialogActions>
-                    <Button variant="contained" color="inherit">
-                        Close
-                    </Button>
-                </DialogActions>
-            </Dialog>
+                </Box>
+            </ContentBox>
         </>
     );
 };
