@@ -26,7 +26,7 @@ export const MemList: MemListComponent = ({ mems }): JSX.Element => {
 
     return (
         <>
-            <MemForm open={formOpen} onClose={() => setFormOpen(false)} />
+            <MemForm open={formOpen} setOpen={setFormOpen} />
             <List sx={{ marginTop: "0.5em" }}>
                 {mems.map((mem) => (
                     <ListItem key={mem.id}>

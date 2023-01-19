@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
+import ColorizeIcon from "@mui/icons-material/Colorize";
 import DoneIcon from "@mui/icons-material/Done";
 import ReportIcon from "@mui/icons-material/Report";
 import {
@@ -9,6 +10,7 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
+    IconButton,
     Paper,
     Stack,
     Table,
@@ -22,7 +24,7 @@ import {
 
 import { FoldersInput } from "./FoldersInput";
 import { FuriganaInput } from "./japanese/FuriganaInput";
-import { includesKanji, newMem } from "./lib";
+import { includesKanji } from "./lib";
 import { Mem } from "./Mem";
 import { SearchMemButton } from "./pages/buttons/SearchMemButton";
 import { MemQuizzAnswer, MemType, useStore } from "./store";
@@ -37,10 +39,10 @@ type FormState = {
 
 export type MemFormProps = {
     open: false | MemType;
-    onClose: () => void;
+    setOpen: (open: false | MemType) => void;
 };
 
-const mem2Form = ({ mem, description, hint, furigana, folders }: MemType): FormState => ({
+const mem2Form = ({ id, mem, description, hint, furigana, folders }: MemType): FormState => ({
     mem,
     description,
     furigana: JSON.stringify(furigana || ""),
@@ -50,7 +52,7 @@ const mem2Form = ({ mem, description, hint, furigana, folders }: MemType): FormS
 
 export type MemFormComponent = React.FunctionComponent<MemFormProps>;
 
-export const MemForm: MemFormComponent = ({ open, onClose }): JSX.Element => {
+export const MemForm: MemFormComponent = ({ open, setOpen }): JSX.Element => {
     const { register, handleSubmit, reset, watch, setValue } = useForm<FormState>({
         defaultValues: open ? mem2Form(open) : {},
     });
@@ -72,16 +74,16 @@ export const MemForm: MemFormComponent = ({ open, onClose }): JSX.Element => {
 
     const handleSave = ({ mem, description, hint, furigana, folders }) => {
         saveMem({
-            ...(open || newMem()),
+            ...(open as MemType),
             mem,
             description,
             furigana: furigana ? JSON.parse(furigana) : null,
             folders: folders ? JSON.parse(folders) : [],
             hint: hint || null,
         });
-        onClose();
+        setOpen(false);
     };
-    const handleClose = () => onClose();
+    const handleClose = () => setOpen(false);
 
     return (
         <>
@@ -152,6 +154,19 @@ export const MemForm: MemFormComponent = ({ open, onClose }): JSX.Element => {
                                         defaultSearch={memValue}
                                         Component={Button}
                                         ComponentProps={{ color: "primary", variant: "contained" }}
+                                        actions={[
+                                            {
+                                                child: <ColorizeIcon />,
+                                                Component: IconButton,
+                                                action: (mem, close) => {
+                                                    close();
+                                                    setOpen({
+                                                        ...mem,
+                                                        folders: [...mem.folders, ...(open as MemType).folders],
+                                                    });
+                                                },
+                                            },
+                                        ]}
                                     />
                                 )}
                             </Stack>

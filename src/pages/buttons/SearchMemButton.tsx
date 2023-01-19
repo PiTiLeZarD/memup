@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import SearchIcon from "@mui/icons-material/Search";
 import {
+    Box,
     Button,
     Dialog,
     DialogContent,
@@ -18,12 +19,6 @@ import { isKanji, splitByKanji } from "../../lib";
 import { MemListItem } from "../../MemListItem";
 import { MemType, useStore } from "../../store";
 
-export type SearchMemButtonProps = {
-    defaultSearch?: string;
-    Component?: React.FunctionComponent;
-    ComponentProps?: Object;
-};
-
 const memSearchTerms: (mem: MemType) => string = (mem) => {
     let terms = [mem.mem, mem.description];
     if ((mem.furigana || []).length > 0) {
@@ -35,6 +30,20 @@ const memSearchTerms: (mem: MemType) => string = (mem) => {
         );
     }
     return terms.join(" ");
+};
+
+export type SearchMemAction = {
+    child: React.ReactNode;
+    action: (mem: MemType, close: () => void) => void;
+    Component?: React.ElementType;
+    ComponentProps?: Object;
+};
+
+export type SearchMemButtonProps = {
+    defaultSearch?: string;
+    Component?: React.FunctionComponent;
+    ComponentProps?: Object;
+    actions?: SearchMemAction[];
 };
 
 export type SearchMemButtonComponent = React.FunctionComponent<SearchMemButtonProps>;
@@ -50,6 +59,7 @@ export const SearchMemButton: SearchMemButtonComponent = ({
         },
         color: "primary",
     },
+    actions = [],
 }): JSX.Element => {
     const [open, setOpen] = useState<boolean>(false);
     const [hiragana, setHiragana] = useState<boolean>(false);
@@ -110,6 +120,26 @@ export const SearchMemButton: SearchMemButtonComponent = ({
                                         {filteredMems[folder].map((mem) => (
                                             <ListItem key={`${folder}_${mem.id}`}>
                                                 <MemListItem data={mem} showDescription />
+                                                {actions.length > 0 && (
+                                                    <Box component="span" sx={{ paddingLeft: "1em" }}>
+                                                        {actions.map(
+                                                            (
+                                                                { child, action, Component = Button, ComponentProps },
+                                                                sbi
+                                                            ) => (
+                                                                <Component
+                                                                    key={sbi}
+                                                                    size="small"
+                                                                    variant="contained"
+                                                                    {...(ComponentProps as any)}
+                                                                    onClick={() => action(mem, () => setOpen(false))}
+                                                                >
+                                                                    {child as React.ReactNode}
+                                                                </Component>
+                                                            )
+                                                        )}
+                                                    </Box>
+                                                )}
                                             </ListItem>
                                         ))}
                                     </ul>

@@ -25,7 +25,7 @@ export const AddMemButton: AddMemButtonComponent = (): JSX.Element => {
 
     return (
         <>
-            <MemForm open={formOpen} onClose={() => setFormOpen(false)} />
+            <MemForm open={formOpen} setOpen={setFormOpen} />
             <Fab
                 color="primary"
                 onClick={handleAdd}
