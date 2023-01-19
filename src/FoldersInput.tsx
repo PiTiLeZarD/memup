@@ -8,6 +8,7 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
+    Divider,
     FormLabel,
     IconButton,
     ListItem,
@@ -90,32 +91,35 @@ export const FoldersInput: FoldersInputComponent = ({ register, setValue, watch 
 
             <Stack>
                 {folders.map((chips: string[], folderIndex: number) => (
-                    <Stack key={folderIndex} direction="row" spacing={2}>
-                        <Paper
-                            sx={{
-                                display: "flex",
-                                flexWrap: "wrap",
-                                listStyle: "none",
-                                p: 0.5,
-                                m: 0,
-                                width: "100%",
-                            }}
-                            component="ul"
-                        >
-                            {chips.map((chip, chipIndex) => (
-                                <ListItem key={chipIndex} sx={{ display: "inline", width: "auto", padding: 0 }}>
-                                    <Chip
-                                        label={chip}
-                                        onClick={handleClickChip(folderIndex, chipIndex)}
-                                        onDelete={handleDeleteChip(folderIndex, chipIndex)}
-                                    />
-                                </ListItem>
-                            ))}
-                        </Paper>
-                        <IconButton color="primary" onClick={handleAddChip(folderIndex)}>
-                            <AddIcon />
-                        </IconButton>
-                    </Stack>
+                    <>
+                        <Stack key={folderIndex} direction="row" spacing={2}>
+                            <Paper
+                                sx={{
+                                    display: "flex",
+                                    flexWrap: "wrap",
+                                    listStyle: "none",
+                                    p: 0.5,
+                                    m: 0,
+                                    width: "100%",
+                                }}
+                                component="ul"
+                            >
+                                {chips.map((chip, chipIndex) => (
+                                    <ListItem key={chipIndex} sx={{ display: "inline", width: "auto", padding: 0 }}>
+                                        <Chip
+                                            label={chip}
+                                            onClick={handleClickChip(folderIndex, chipIndex)}
+                                            onDelete={handleDeleteChip(folderIndex, chipIndex)}
+                                        />
+                                    </ListItem>
+                                ))}
+                            </Paper>
+                            <IconButton color="primary" onClick={handleAddChip(folderIndex)}>
+                                <AddIcon />
+                            </IconButton>
+                        </Stack>
+                        <Divider />
+                    </>
                 ))}
 
                 <Button onClick={handleAddNewFolder}>
