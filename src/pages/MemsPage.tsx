@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { Breadcrumbs, Chip } from "@mui/material";
 
+import { EmptyMems } from "../EmptyMems";
 import { memScore, sortByDate } from "../lib";
 import { FOLDER_SEP, MemFolders } from "../MemFolders";
 import { MemList } from "../MemList";
@@ -60,6 +61,8 @@ export const MemsPage: MemsPageComponent = (): JSX.Element => {
 
             <MemFolders subfolders={mems} />
             <MemList mems={mems["undefined"] || []} />
+
+            {Object.keys(mems).length == 0 && <EmptyMems />}
         </ContentBox>
     );
 };

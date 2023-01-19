@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams, useSearchParams } from "react-router-dom";
 
 import AddIcon from "@mui/icons-material/Add";
 import { Fab } from "@mui/material";
@@ -15,8 +15,14 @@ export type AddMemButtonComponent = React.FunctionComponent<AddMemButtonProps>;
 export const AddMemButton: AddMemButtonComponent = (): JSX.Element => {
     const { folder } = useParams();
 
+    const [searchParams, setSearchParams] = useSearchParams();
     const handleAdd = () => setFormOpen({ ...newMem(), folders: folder ? [folder] : [] });
     const [formOpen, setFormOpen] = useState<false | MemType>(false);
+
+    useEffect(() => {
+        setFormOpen(searchParams.get("create") !== null ? newMem() : false);
+    }, [searchParams.get("create")]);
+
     return (
         <>
             <MemForm open={formOpen} onClose={() => setFormOpen(false)} />
