@@ -23,11 +23,10 @@ pnpm dev
 Planned and in order
 
 -   Import to match IDS and offer a merge/override
-    -   Have import/backup on their own page
     -   add a zustand variables for import conflicts
     -   import would have a function to get 2 mems and see if they conflicts, returns the nature of the conflict
-    -   on import separate mems that can be imported as is and mems that conflicts
-    -   interfact to review conflicts, on the left the memform, on the right what we're trying to import, basic copy paste, if the logs conflict a button to accept incoming logs and override current logs
+    -   on import separate mems that can be imported as is and mems that conflict
+    -   interface to review conflicts, on the left the memform, on the right what we're trying to import, basic copy paste, if the logs conflict a button to accept incoming logs and override current logs
 -   Find a way to use a github folder as a source for import, allow to delete mems by folders/subfolders
 -   Merge mems and have multiple folders for a mem.
 -   Stats and graphs everywhere
