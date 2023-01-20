@@ -6,6 +6,7 @@ import { Grid, IconButton, List, ListItem } from "@mui/material";
 
 import { MemForm } from "./MemForm";
 import { MemListItem } from "./MemListItem";
+import { SearchMemButton } from "./pages/buttons/SearchMemButton";
 import { MemType, useStore } from "./store";
 
 export type MemListProps = {
@@ -26,6 +27,17 @@ export const MemList: MemListComponent = ({ mems }): JSX.Element => {
 
     return (
         <>
+            <SearchMemButton
+                actions={[
+                    {
+                        child: <EditIcon />,
+                        action: (mem, close: () => void) => {
+                            setFormOpen(mem);
+                        },
+                        Component: IconButton,
+                    },
+                ]}
+            />
             <MemForm open={formOpen} setOpen={setFormOpen} />
             <List sx={{ marginTop: "0.5em" }}>
                 {mems.map((mem) => (
