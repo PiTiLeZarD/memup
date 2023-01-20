@@ -91,7 +91,7 @@ export const FoldersInput: FoldersInputComponent = ({ register, setValue, watch 
 
             <Stack>
                 {folders.map((chips: string[], folderIndex: number) => (
-                    <>
+                    <div key={folderIndex}>
                         <Stack key={folderIndex} direction="row" spacing={2}>
                             <Paper
                                 sx={{
@@ -119,7 +119,7 @@ export const FoldersInput: FoldersInputComponent = ({ register, setValue, watch 
                             </IconButton>
                         </Stack>
                         <Divider />
-                    </>
+                    </div>
                 ))}
 
                 <Button onClick={handleAddNewFolder}>
