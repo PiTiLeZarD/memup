@@ -74,6 +74,11 @@ export const MemClusters: MemClustersComponent = ({ mems }): JSX.Element => {
                         zIndex: 1,
                     }}
                 />
+                <Box sx={{ position: "absolute", bottom: "-1em", left: 0 }}>Now</Box>
+                <Box sx={{ position: "absolute", bottom: "-1em", left: "50%", transform: "translateX(-50%)" }}>
+                    +24hr
+                </Box>
+                <Box sx={{ position: "absolute", bottom: "-1em", right: 0 }}>+48hr</Box>
                 <Box
                     sx={{
                         ...markerStyles,
