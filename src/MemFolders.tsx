@@ -7,7 +7,7 @@ import { Box, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText 
 
 import { MemFoldersLearnButton } from "./MemFoldersLearnButton";
 import { MemsLinearProgress } from "./MemsLinearProgress";
-import { downloadMems } from "./pages/ImportBackupPage";
+import { cleanMemsForExport, downloadMems } from "./pages/ImportBackupPage";
 import { MemType } from "./store";
 
 export const FOLDER_SEP = "|";
@@ -41,7 +41,16 @@ export const MemFolders: MemFoldersComponent = ({ subfolders }): JSX.Element => 
                         </Box>
                         <ListItemSecondaryAction>
                             <MemFoldersLearnButton subfolders={subfolders} subfolder={subfolder} />
-                            <IconButton onClick={() => downloadMems(`${folder}/${subfolder}`, subfolders[subfolder])}>
+                            <IconButton
+                                onClick={() =>
+                                    downloadMems(
+                                        `${folder}/${subfolder}`,
+                                        cleanMemsForExport(subfolders[subfolder], [
+                                            [folder, subfolder].join(FOLDER_SEP),
+                                        ])
+                                    )
+                                }
+                            >
                                 <DownloadIcon />
                             </IconButton>
                             <IconButton onClick={handleClick(subfolder)}>

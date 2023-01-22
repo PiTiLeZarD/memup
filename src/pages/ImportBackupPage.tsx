@@ -13,9 +13,22 @@ export type ImportBackupPageProps = {};
 
 export type ImportBackupPageComponent = React.FunctionComponent<ImportBackupPageProps>;
 
-export const downloadMems = (title: string, mems: MemType[]) =>
+export const cleanMemsForExport = (mems: MemType[], folders?: string[]): Partial<MemType>[] =>
+    mems.map((m) => {
+        let nm: Partial<MemType> = { id: m.id, mem: m.mem, description: m.description };
+        if (m.hint) nm.hint = m.hint;
+        if (m.furigana) nm.furigana = m.furigana;
+        if (folders && m.folders.length > 0)
+            nm.folders = m.folders.filter((f) => folders.filter((fs) => f.startsWith(fs)).length > 0);
+        return nm;
+    });
+
+export const cleanMemsForImport = (mems: Partial<MemType>[]): MemType[] =>
+    mems.map((m) => ({ ...m, checks: m.checks || [] } as MemType));
+
+export const downloadMems = (title: string, mems: Partial<MemType>[]) =>
     Object.assign(document.createElement("a"), {
-        href: `data:application/JSON, ${encodeURIComponent(JSON.stringify(mems.map((m) => ({ ...m, checks: [] }))))}`,
+        href: `data:application/JSON, ${encodeURIComponent(JSON.stringify(mems))}`,
         download: title,
     }).click();
 
@@ -94,7 +107,7 @@ export const ImportBackupPage: ImportBackupPageComponent = (): JSX.Element => {
                             target="_blank"
                             variant="contained"
                             sx={{ marginTop: "2em" }}
-                            href="https://raw.githubusercontent.com/PiTiLeZarD/memup/master/content/Japanese_Minnanonihongo.json"
+                            href="https://raw.githubusercontent.com/PiTiLeZarD/memup/master/content/Japanese_Minnanonihongo_N5.json"
                         >
                             If you need a starting point, use my file.
                         </Button>

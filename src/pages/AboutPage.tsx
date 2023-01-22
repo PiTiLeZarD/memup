@@ -52,7 +52,7 @@ export const AboutPage: AboutPageComponent = (): JSX.Element => {
                 <Typography>
                     If like me you're studying minnanonihongo N5, you can{" "}
                     <a
-                        href="https://raw.githubusercontent.com/PiTiLeZarD/memup/master/content/Japanese_Minnanonihongo.json"
+                        href="https://raw.githubusercontent.com/PiTiLeZarD/memup/master/content/Japanese_Minnanonihongo_N5.json"
                         target="_blank"
                     >
                         download my file here
