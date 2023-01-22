@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 
-import { Box, Chip, Stack, Tooltip, Typography } from "@mui/material";
+import { Box, Chip, Stack, Switch, Tooltip, Typography } from "@mui/material";
 
-import { lightBlue } from "@mui/material/colors";
+import { lightBlue, orange } from "@mui/material/colors";
 import { clusterByDate, dateDiff, memScore, timeUntil } from "./lib";
 import { MemType } from "./store";
 
@@ -19,10 +19,13 @@ const markerStyles = {
     zIndex: 1,
 };
 
+const MAX_DIFF_SHORT = 2 * 24 * 60 * 60000;
+const MAX_DIFF_LONG = 8 * 24 * 60 * 60000;
+
 export type MemClustersComponent = React.FunctionComponent<MemClustersProps>;
 
 export const MemClusters: MemClustersComponent = ({ mems }): JSX.Element => {
-    const maxDiff = 2 * 24 * 60 * 60000;
+    const [maxDiff, setMaxDiff] = useState<number>(MAX_DIFF_SHORT);
     const clusters = clusterByDate(
         mems.filter(
             (m) =>
@@ -41,6 +44,11 @@ export const MemClusters: MemClustersComponent = ({ mems }): JSX.Element => {
         <Stack spacing={2}>
             <Typography>Mems will be available as follows: (upcoming 2 days)</Typography>
             <Box sx={{ position: "relative", width: "100%", height: "3em" }}>
+                <Switch
+                    size="small"
+                    sx={{ position: "absolute", top: "-0.5em", right: 0 }}
+                    onChange={(ev) => setMaxDiff(ev.target.checked ? MAX_DIFF_LONG : MAX_DIFF_SHORT)}
+                />
                 {clusters
                     .map((c) => [memScore(c[c.length - 1]).nextCheck, c.length])
                     .map(([nextCheck, count], i) => (
@@ -76,9 +84,23 @@ export const MemClusters: MemClustersComponent = ({ mems }): JSX.Element => {
                 />
                 <Box sx={{ position: "absolute", bottom: "-1em", left: 0 }}>Now</Box>
                 <Box sx={{ position: "absolute", bottom: "-1em", left: "50%", transform: "translateX(-50%)" }}>
-                    +24hr
+                    +{maxDiff / (2 * 24 * 60 * 60000)}days
                 </Box>
-                <Box sx={{ position: "absolute", bottom: "-1em", right: 0 }}>+48hr</Box>
+                <Box sx={{ position: "absolute", bottom: "-1em", right: 0 }}>+{maxDiff / (24 * 60 * 60000)}days</Box>
+                {maxDiff == MAX_DIFF_LONG && (
+                    <Box
+                        sx={{
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
+                            zIndex: 2,
+                            width: `${(MAX_DIFF_SHORT / MAX_DIFF_LONG) * 100}%`,
+                            height: "3em",
+                            background: orange[100],
+                            opacity: 0.5,
+                        }}
+                    />
+                )}
                 <Box
                     sx={{
                         ...markerStyles,
