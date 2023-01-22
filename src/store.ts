@@ -55,15 +55,17 @@ export type StoreActionsPropsType = {
     set: (newSettings: Partial<AppSettings>) => void;
 };
 
+const defaultSettings: AppSettings = {
+    furiganaMode: "Furigana",
+    countdownSeconds: 10,
+    kanjiDefSource: "jisho.org",
+    learnNewCount: 20,
+};
+
 const InitialState: StorePropsType = {
     mems: [],
     learnContext: [],
-    settings: {
-        furiganaMode: "Furigana",
-        countdownSeconds: 10,
-        kanjiDefSource: "jisho.org",
-        learnNewCount: 20,
-    },
+    settings: defaultSettings,
 };
 
 const StoreActions = (set: Function, get: Function): StoreActionsPropsType => ({
@@ -81,7 +83,9 @@ const StoreActions = (set: Function, get: Function): StoreActionsPropsType => ({
 
 export type useStorePropsType = StorePropsType & StoreActionsPropsType;
 
-export const memsToStore = (mems: MemType[]): { state: Pick<StorePropsType, "mems"> } => ({ state: { mems } });
+export const memsToStore = (mems: MemType[]): { state: StorePropsType } => ({
+    state: { mems, learnContext: [], settings: defaultSettings },
+});
 
 const store = persist(combine(InitialState, StoreActions), {
     name: "memup",

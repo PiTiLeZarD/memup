@@ -15,50 +15,39 @@ export type ImportBackupPageComponent = React.FunctionComponent<ImportBackupPage
 
 export const downloadMems = (title: string, mems: MemType[]) =>
     Object.assign(document.createElement("a"), {
-        href: `data:application/JSON, ${encodeURIComponent(
-            JSON.stringify(memsToStore(mems.map((m) => ({ ...m, checks: [] }))))
-        )}`,
+        href: `data:application/JSON, ${encodeURIComponent(JSON.stringify(mems.map((m) => ({ ...m, checks: [] }))))}`,
         download: title,
     }).click();
 
-const downloadAllMems = () =>
-    Object.assign(document.createElement("a"), {
-        href: `data:application/JSON, ${encodeURIComponent(JSON.stringify(localStorage.getItem("memup")))}`,
-        download: "your_history",
-    }).click();
+const downloadAllMems = () => downloadMems("your_history", JSON.parse(localStorage.memup).state.mems);
 
-const validationSchema = object({
-    state: object({
-        mems: array()
-            .of(
+const validationSchema = array()
+    .of(
+        object({
+            id: string().required(),
+            mem: string().required(),
+            description: string().required(),
+            hint: string().nullable(true),
+            furigana: array().of(string()).nullable(),
+            folders: array().of(string()).nullable(),
+            checks: array().of(
                 object({
-                    id: string().required(),
-                    mem: string().required(),
-                    description: string().required(),
-                    hint: string().nullable(true),
-                    furigana: array().of(string()).nullable(),
-                    folders: array().of(string()).nullable(),
-                    checks: array().of(
-                        object({
-                            date: string().required(),
-                            success: boolean().required(),
-                            time: number().required(),
-                            selected: string().nullable(),
-                        })
-                    ),
+                    date: string().required(),
+                    success: boolean().required(),
+                    time: number().required(),
+                    selected: string().nullable(),
                 })
-            )
-            .required(),
-    }).required(),
-    version: number(),
-});
+            ),
+        })
+    )
+    .required();
 
 export const ImportBackupPage: ImportBackupPageComponent = (): JSX.Element => {
     const handleImport = (files: FileWithPreview[]) => {
         files.map((file) => {
             const fr = new FileReader();
             fr.onload = () => {
-                const data: MemType = fr.result
+                const data: MemType[] = fr.result
                     ? typeof fr.result == "string"
                         ? JSON.parse(fr.result)
                         : JSON.parse(
@@ -69,7 +58,7 @@ export const ImportBackupPage: ImportBackupPageComponent = (): JSX.Element => {
                           )
                     : [];
                 validationSchema.validate(data).then((state) => {
-                    localStorage.setItem("memup", JSON.stringify(state));
+                    localStorage.setItem("memup", JSON.stringify(memsToStore(data)));
                 });
             };
             fr.readAsText(file);
