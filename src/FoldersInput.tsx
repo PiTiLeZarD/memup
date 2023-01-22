@@ -56,14 +56,22 @@ export const FoldersInput: FoldersInputComponent = ({ register, setValue, watch 
         save();
     };
 
-    const handleAddChip = (folderIndex: number) => () => {
-        setCurrentFolder("");
-        setOpen([folderIndex, -1]);
+    const handleAddChip = (folderIndex: number) => (ev) => {
+        if (ev.nativeEvent.pointerId != -1) {
+            setCurrentFolder("");
+            setOpen([folderIndex, -1]);
+        }
     };
 
     const handleAddNewFolder = () => {
         setCurrentFolder("");
         setOpen([-1, -1]);
+    };
+
+    const handleKeyDown = (ev) => {
+        if (ev.keyCode == 13) {
+            handleSaveCurrentFolderChip();
+        }
     };
 
     return (
@@ -74,6 +82,7 @@ export const FoldersInput: FoldersInputComponent = ({ register, setValue, watch 
                         sx={{ marginTop: "0.5em" }}
                         label="Folder?"
                         value={currentFolder}
+                        onKeyDown={handleKeyDown}
                         onChange={(ev) => setCurrentFolder(ev.target.value)}
                     />
                 </DialogContent>
