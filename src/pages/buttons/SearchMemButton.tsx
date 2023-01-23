@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import SearchIcon from "@mui/icons-material/Search";
 import {
+    Badge,
     Box,
     Button,
     Dialog,
@@ -67,14 +68,13 @@ export const SearchMemButton: SearchMemButtonComponent = ({
     const mems = useStore(({ mems }) => mems);
 
     const InputComponent = hiragana ? HiraganaTextField : TextField;
+    const memsMatching = mems.filter((m) => memSearchTerms(m).includes(search));
     const filteredMems: { [folder: string]: MemType[] } =
         search.length > 0
-            ? mems
-                  .filter((m) => memSearchTerms(m).includes(search))
-                  .reduce<{ [folder: string]: MemType[] }>((acc, m) => {
-                      m.folders.forEach((f) => (acc[f] = [...(acc[f] || []), m]));
-                      return acc;
-                  }, {})
+            ? memsMatching.reduce<{ [folder: string]: MemType[] }>((acc, m) => {
+                  m.folders.forEach((f) => (acc[f] = [...(acc[f] || []), m]));
+                  return acc;
+              }, {})
             : {};
 
     return (
@@ -149,9 +149,18 @@ export const SearchMemButton: SearchMemButtonComponent = ({
                 </DialogContent>
             </Dialog>
 
-            <Component {...(ComponentProps as any)} onClick={() => setOpen(true)}>
-                <SearchIcon />
-            </Component>
+            {!!defaultSearch && (
+                <Badge invisible={memsMatching.length == 0} badgeContent={memsMatching.length} color="warning">
+                    <Component {...(ComponentProps as any)} onClick={() => setOpen(true)}>
+                        <SearchIcon />
+                    </Component>
+                </Badge>
+            )}
+            {!defaultSearch && (
+                <Component {...(ComponentProps as any)} onClick={() => setOpen(true)}>
+                    <SearchIcon />
+                </Component>
+            )}
         </>
     );
 };
