@@ -1,5 +1,5 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { Box, Button, ButtonGroup, Divider, Stack } from "@mui/material";
 
@@ -18,10 +18,18 @@ export const HomePage: HomePageComponent = (): JSX.Element => {
     const setLearnContext = useStore(({ setLearnContext }) => setLearnContext);
     const { learnNewCount } = useStore(({ settings }) => settings);
     const mems = useStore(({ mems }) => mems);
+    const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    useEffect(() => {
+        if (searchParams.get("refresh") !== null) {
+            navigate("/");
+            window.location.reload();
+        }
+    }, [searchParams.get("refresh")]);
+
     const reviseMems = memDeck(mems.filter((m) => !!m.checks.length));
     const learnMems = mems.filter((m) => !m.checks.length);
-
-    const navigate = useNavigate();
 
     const handleRevise = () => {
         if (reviseMems.length) {

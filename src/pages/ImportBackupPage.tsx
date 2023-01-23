@@ -1,9 +1,11 @@
 import React from "react";
 import { array, boolean, number, object, string } from "yup";
 
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContentText, DialogTitle, Typography } from "@mui/material";
 
 import { grey } from "@mui/material/colors";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Dropzone, FileWithPreview } from "../Dropzone";
 import { memsToStore, MemType } from "../store";
 import { HomeButton } from "./buttons/HomeButton";
@@ -56,6 +58,9 @@ const validationSchema = array()
     .required();
 
 export const ImportBackupPage: ImportBackupPageComponent = (): JSX.Element => {
+    const [imported, setImported] = useState<false | string>(false);
+    const navigate = useNavigate();
+
     const handleImport = (files: FileWithPreview[]) => {
         files.map((file) => {
             const fr = new FileReader();
@@ -72,6 +77,7 @@ export const ImportBackupPage: ImportBackupPageComponent = (): JSX.Element => {
                     : [];
                 validationSchema.validate(data).then((state) => {
                     localStorage.setItem("memup", JSON.stringify(memsToStore(data)));
+                    setImported("All went well!");
                 });
             };
             fr.readAsText(file);
@@ -80,6 +86,13 @@ export const ImportBackupPage: ImportBackupPageComponent = (): JSX.Element => {
 
     return (
         <>
+            <Dialog open={imported !== false}>
+                <DialogTitle>Import</DialogTitle>
+                <DialogContentText sx={{ padding: "1em 3em" }}>{imported}</DialogContentText>
+                <DialogActions>
+                    <Button onClick={() => navigate("/?refresh", { replace: true })}>OK</Button>
+                </DialogActions>
+            </Dialog>
             <ContentBox>
                 <HomeButton />
                 <Box sx={{ textAlign: "center" }}>
