@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Box, Paper } from "@mui/material";
-import { lightBlue, orange, red } from "@mui/material/colors";
+import { green, lightBlue, orange } from "@mui/material/colors";
 
 import { levelGapMap, memScore, ST_LT_THRESHOLD } from "./lib";
 import { MemType } from "./store";
@@ -70,7 +70,7 @@ export const MemsLinearProgress: MemsLinearProgressComponent = ({ mems, label })
                     sx={{
                         ...barStyle,
                         width: width(LT),
-                        background: red[500],
+                        background: green[200],
                     }}
                 >
                     long term memory
