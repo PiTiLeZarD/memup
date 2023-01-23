@@ -30,7 +30,7 @@ export const DailyWords: DailyWordsComponent = (): JSX.Element => {
                 </Typography>
                 <List sx={{ width: "60%", margin: "auto" }}>
                     {mems.map((m) => (
-                        <ListItem>
+                        <ListItem key={m.id}>
                             <MemListItem data={m} />
                         </ListItem>
                     ))}
