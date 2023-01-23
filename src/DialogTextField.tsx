@@ -1,12 +1,12 @@
 import React from "react";
 
 import {
+    Box,
     Button,
     Dialog,
     DialogActions,
     DialogContent,
     DialogTitle,
-    Stack,
     TextField,
     TextFieldProps,
 } from "@mui/material";
@@ -46,7 +46,7 @@ export const DialogTextField: DialogTextFieldComponent = ({
             <DialogTitle>{title || label}</DialogTitle>
             <DialogContent>
                 {open !== false && (
-                    <Stack spacing={2} sx={{ paddingTop: "0.5em" }}>
+                    <Box sx={{ paddingTop: "0.5em" }}>
                         <Component
                             label={label}
                             value={value}
@@ -54,7 +54,7 @@ export const DialogTextField: DialogTextFieldComponent = ({
                             onKeyDown={handleKeyDown}
                             {...ComponentProps}
                         />
-                    </Stack>
+                    </Box>
                 )}
             </DialogContent>
             <DialogActions>
