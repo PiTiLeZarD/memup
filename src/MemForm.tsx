@@ -149,26 +149,24 @@ export const MemForm: MemFormComponent = ({ open, setOpen }): JSX.Element => {
                                         +あ
                                     </Button>
                                 )}
-                                {(memValue || "").length > 0 && (
-                                    <SearchMemButton
-                                        defaultSearch={memValue}
-                                        Component={Button}
-                                        ComponentProps={{ color: "primary", variant: "contained" }}
-                                        actions={[
-                                            {
-                                                child: <ColorizeIcon />,
-                                                Component: IconButton,
-                                                action: (mem, close) => {
-                                                    close();
-                                                    setOpen({
-                                                        ...mem,
-                                                        folders: [...mem.folders, ...(open as MemType).folders],
-                                                    });
-                                                },
+                                <SearchMemButton
+                                    defaultSearch={memValue}
+                                    Component={Button}
+                                    ComponentProps={{ color: "primary", variant: "contained" }}
+                                    actions={[
+                                        {
+                                            child: <ColorizeIcon />,
+                                            Component: IconButton,
+                                            action: (mem, close) => {
+                                                close();
+                                                setOpen({
+                                                    ...mem,
+                                                    folders: [...mem.folders, ...(open as MemType).folders],
+                                                });
                                             },
-                                        ]}
-                                    />
-                                )}
+                                        },
+                                    ]}
+                                />
                             </Stack>
                             {hasKanji && setFurigana && (
                                 <FuriganaInput
