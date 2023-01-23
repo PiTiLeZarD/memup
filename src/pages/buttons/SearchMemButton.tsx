@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import SearchIcon from "@mui/icons-material/Search";
 import {
@@ -66,6 +66,12 @@ export const SearchMemButton: SearchMemButtonComponent = ({
     const [hiragana, setHiragana] = useState<boolean>(false);
     const [search, setSearch] = useState<string>(defaultSearch || "");
     const mems = useStore(({ mems }) => mems);
+
+    useEffect(() => {
+        if (!!defaultSearch) {
+            setSearch(defaultSearch as string);
+        }
+    }, [defaultSearch]);
 
     const InputComponent = hiragana ? HiraganaTextField : TextField;
     const memsMatching = mems.filter((m) => memSearchTerms(m).includes(search));
