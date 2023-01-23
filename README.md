@@ -28,6 +28,7 @@ Planned and in order
     -   on import separate mems that can be imported as is and mems that conflict
     -   interface to review conflicts, on the left the memform, on the right what we're trying to import, basic copy paste, if the logs conflict a button to accept incoming logs and override current logs
 -   Find a way to use a github folder as a source for import, allow to delete mems by folders/subfolders
+-   related mems, have a way to point which are related, save the ids, and on import, match ids and fill up accodingly
 -   Merge mems and have multiple folders for a mem.
 -   Stats and graphs everywhere
     -   At the end of a sesh (how many mems moved up to long term memory, how many new mems, time of the sesh, how many in the sesh, state of mems, etc..)
