@@ -2,21 +2,9 @@ import React, { useState } from "react";
 import { UseFormRegister, UseFormSetValue } from "react-hook-form";
 
 import ErrorIcon from "@mui/icons-material/Error";
-import {
-    Box,
-    Button,
-    Chip,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    FormLabel,
-    ListItem,
-    Paper,
-    Stack,
-    Typography,
-} from "@mui/material";
+import { Box, Chip, FormLabel, ListItem, Paper, Typography } from "@mui/material";
 
+import { DialogTextField } from "../DialogTextField";
 import { HiraganaTextField } from "../HiraganaTextField";
 import { isKanji, splitByKanji } from "../lib";
 import { Furigana } from "./Furigana";
@@ -39,7 +27,8 @@ export const FuriganaInput: FuriganaInputComponent = ({ memValue, furigana, regi
     const [open, setOpen] = useState<false | number>(false);
     const [furiganaValue, setFuriganaValue] = useState<string>("");
 
-    const handleFuriganaSave = () => {
+    const handleFuriganaSave = (cancel?: true) => {
+        if (cancel) return setOpen(false);
         const newGroups = [...kanjiGroups];
         newGroups[open as number][1] = furiganaValue;
         setKanjiGroups(newGroups);
@@ -47,38 +36,17 @@ export const FuriganaInput: FuriganaInputComponent = ({ memValue, furigana, regi
         setValue("furigana", JSON.stringify(newGroups.map(([k, f]) => f)));
     };
 
-    const handleKeyDown = (ev) => {
-        if (ev.keyCode == 13) {
-            handleFuriganaSave();
-        }
-    };
-
     return (
         <div>
-            <Dialog open={open !== false}>
-                <DialogTitle>Set Furigana</DialogTitle>
-                <DialogContent>
-                    {open !== false && (
-                        <Stack spacing={2}>
-                            <Typography variant="h4">{kanjiGroups[open][0]}</Typography>
-                            <HiraganaTextField
-                                label="Furigana"
-                                value={furiganaValue}
-                                onKeyDown={handleKeyDown}
-                                onChange={(ev) => setFuriganaValue(ev.target.value)}
-                            />
-                        </Stack>
-                    )}
-                </DialogContent>
-                <DialogActions>
-                    <Button variant="contained" color="inherit" onClick={() => setOpen(false)}>
-                        Cancel
-                    </Button>
-                    <Button variant="contained" onClick={handleFuriganaSave}>
-                        Save
-                    </Button>
-                </DialogActions>
-            </Dialog>
+            <DialogTextField
+                open={open !== false}
+                title={open === false ? "" : `Set furigana for ${kanjiGroups[open as number][0]}`}
+                label="Furigana"
+                value={furiganaValue}
+                onChange={setFuriganaValue}
+                onSave={handleFuriganaSave}
+                Component={HiraganaTextField}
+            />
 
             <FormLabel>Furigana:</FormLabel>
 

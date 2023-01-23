@@ -2,21 +2,9 @@ import React, { useState } from "react";
 import { UseFormRegister, UseFormSetValue, UseFormWatch } from "react-hook-form";
 
 import AddIcon from "@mui/icons-material/Add";
-import {
-    Button,
-    Chip,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    Divider,
-    FormLabel,
-    IconButton,
-    ListItem,
-    Paper,
-    Stack,
-    TextField,
-} from "@mui/material";
+import { Button, Chip, Divider, FormLabel, IconButton, ListItem, Paper, Stack } from "@mui/material";
 
+import { DialogTextField } from "./DialogTextField";
 import { FOLDER_SEP } from "./MemFolders";
 
 export type FoldersInputProps = {
@@ -45,7 +33,8 @@ export const FoldersInput: FoldersInputComponent = ({ register, setValue, watch 
         setOpen([folderIndex, chipIndex]);
     };
 
-    const handleSaveCurrentFolderChip = () => {
+    const handleSaveCurrentFolderChip = (cancel?: true) => {
+        if (cancel) return setOpen(false);
         const [folderIndex, chipIndex] = open as number[];
         if (folderIndex == -1) folders.push([currentFolder]);
         else {
@@ -68,33 +57,15 @@ export const FoldersInput: FoldersInputComponent = ({ register, setValue, watch 
         setOpen([-1, -1]);
     };
 
-    const handleKeyDown = (ev) => {
-        if (ev.keyCode == 13) {
-            handleSaveCurrentFolderChip();
-        }
-    };
-
     return (
         <>
-            <Dialog open={open !== false}>
-                <DialogContent>
-                    <TextField
-                        sx={{ marginTop: "0.5em" }}
-                        label="Folder?"
-                        value={currentFolder}
-                        onKeyDown={handleKeyDown}
-                        onChange={(ev) => setCurrentFolder(ev.target.value)}
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button variant="contained" color="inherit" onClick={() => setOpen(false)}>
-                        Cancel
-                    </Button>
-                    <Button variant="contained" onClick={handleSaveCurrentFolderChip}>
-                        Save
-                    </Button>
-                </DialogActions>
-            </Dialog>
+            <DialogTextField
+                open={open !== false}
+                value={currentFolder}
+                onChange={setCurrentFolder}
+                onSave={handleSaveCurrentFolderChip}
+                label="Folder?"
+            />
 
             <FormLabel>Folder:</FormLabel>
 
