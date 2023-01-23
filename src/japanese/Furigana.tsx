@@ -17,8 +17,8 @@ export const Furigana: FuriganaComponent = ({ furigana, children }): JSX.Element
     const split = splitByKanji(children);
 
     if (split.filter((block) => isKanji(block[0])).length !== furigana.length) {
+        console.error("Furigana and Kanji length don't match");
         console.log({ mem: children, furigana, split });
-        throw new Error("Furigana and Kanji length don't match");
     }
 
     let furiganaIt = 0;

@@ -12,7 +12,7 @@ export type KanjiProps = {
 
 export type KanjiComponent = React.FunctionComponent<React.PropsWithChildren<KanjiProps>>;
 
-export const Kanji: KanjiComponent = ({ furigana, opacity = 0.8, children }): JSX.Element => {
+export const Kanji: KanjiComponent = ({ furigana = "", opacity = 0.8, children }): JSX.Element => {
     const { furiganaMode } = useStore(({ settings }) => settings);
     const { kanjiDefSource } = useStore(({ settings }) => settings);
 
