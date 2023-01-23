@@ -7,11 +7,11 @@ import { MemListItem } from "../MemListItem";
 import { useStore } from "../store";
 import { ContentBox } from "./ContentBox";
 
-export type DailyWordsProps = {};
+export type DailyMemsProps = {};
 
-export type DailyWordsComponent = React.FunctionComponent<DailyWordsProps>;
+export type DailyMemsComponent = React.FunctionComponent<DailyMemsProps>;
 
-export const DailyWords: DailyWordsComponent = (): JSX.Element => {
+export const DailyMems: DailyMemsComponent = (): JSX.Element => {
     const mems = randomiseDeck(
         useStore(({ mems }) => mems)
             .filter((m) => memScore(m).memory == "LT")
@@ -23,10 +23,10 @@ export const DailyWords: DailyWordsComponent = (): JSX.Element => {
     return (
         <ContentBox>
             <Stack alignItems="center" spacing={4}>
-                <Typography variant="h4">Words of the day</Typography>
+                <Typography variant="h4">Mems of the day</Typography>
                 <Typography>
-                    These are words in your long term memory, every day you'll get 5 new ones. Try to use them in
-                    sentenses so they commit to your memory.
+                    These are mems in your long term memory, every day you'll get 5 new ones. Try to use them so they
+                    commit to your memory.
                 </Typography>
                 <List sx={{ width: "60%", margin: "auto" }}>
                     {mems.map((m) => (

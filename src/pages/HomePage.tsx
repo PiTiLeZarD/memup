@@ -8,7 +8,7 @@ import { memDeck } from "../lib";
 import { MemClusters } from "../MemClusters";
 import { useStore } from "../store";
 import { ContentBox } from "./ContentBox";
-import { DailyWords } from "./DailyWords";
+import { DailyMems } from "./DailyMems";
 
 export type HomePageProps = {};
 
@@ -68,7 +68,7 @@ export const HomePage: HomePageComponent = (): JSX.Element => {
                     <MemClusters mems={mems} />
                 </Stack>
             </ContentBox>
-            <DailyWords />
+            <DailyMems />
         </Stack>
     );
 };
