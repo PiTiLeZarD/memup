@@ -27,6 +27,11 @@ Planned and in order
     -   import would have a function to get 2 mems and see if they conflicts, returns the nature of the conflict
     -   on import separate mems that can be imported as is and mems that conflict
     -   interface to review conflicts, on the left the memform, on the right what we're trying to import, basic copy paste, if the logs conflict a button to accept incoming logs and override current logs
+-   Kanji reading game
+    -   take all long term memory mems with kanji
+    -   present them without the furigana, kanji only
+    -   hiragana input
+    -   record fail/success somewhere else, use the same logic to push mems through levels and all
 -   Find a way to use a github folder as a source for import, allow to delete mems by folders/subfolders
 -   related mems, have a way to point which are related, save the ids, and on import, match ids and fill up accodingly
 -   Merge mems and have multiple folders for a mem.
