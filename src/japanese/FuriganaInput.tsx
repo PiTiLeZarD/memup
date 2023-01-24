@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { UseFormRegister, UseFormSetValue } from "react-hook-form";
 
 import ErrorIcon from "@mui/icons-material/Error";
@@ -19,13 +19,17 @@ export type FuriganaInputProps = {
 export type FuriganaInputComponent = React.FunctionComponent<FuriganaInputProps>;
 
 export const FuriganaInput: FuriganaInputComponent = ({ memValue, furigana, register, setValue }): JSX.Element => {
-    const [kanjiGroups, setKanjiGroups] = useState<string[][]>(
+    const getKanjiGroups = () =>
         splitByKanji(memValue)
             .filter((s) => isKanji(s[0]))
-            .map((k, i) => [k, furigana[i] || ""])
-    );
+            .map((k, i) => [k, furigana[i] || ""]);
+    const [kanjiGroups, setKanjiGroups] = useState<string[][]>(getKanjiGroups());
     const [open, setOpen] = useState<false | number>(false);
     const [furiganaValue, setFuriganaValue] = useState<string>("");
+
+    useEffect(() => {
+        setKanjiGroups(getKanjiGroups());
+    }, [memValue, furigana]);
 
     const handleFuriganaSave = (cancel?: true) => {
         if (cancel) return setOpen(false);
