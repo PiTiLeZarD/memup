@@ -19,8 +19,9 @@ const markerStyles = {
     zIndex: 1,
 };
 
-const MAX_DIFF_SHORT = 2 * 24 * 60 * 60000;
-const MAX_DIFF_LONG = 8 * 24 * 60 * 60000;
+const DAY = 24 * 60 * 60000;
+const MAX_DIFF_SHORT = 2 * DAY;
+const MAX_DIFF_LONG = 8 * DAY;
 
 export type MemClustersComponent = React.FunctionComponent<MemClustersProps>;
 
@@ -44,7 +45,9 @@ export const MemClusters: MemClustersComponent = ({ mems }): JSX.Element => {
 
     return (
         <Stack spacing={2}>
-            <Typography>Mems will be available as follows: (upcoming 2 days)</Typography>
+            <Typography>
+                Mems will be available as follows: (upcoming {maxDiff / smallScreenFactor / DAY} days)
+            </Typography>
             <Box sx={{ position: "relative", width: "100%", height: "3em" }}>
                 <Switch
                     size="small"
@@ -86,10 +89,10 @@ export const MemClusters: MemClustersComponent = ({ mems }): JSX.Element => {
                 />
                 <Box sx={{ position: "absolute", bottom: "-1em", left: 0 }}>Now</Box>
                 <Box sx={{ position: "absolute", bottom: "-1em", left: "50%", transform: "translateX(-50%)" }}>
-                    +{maxDiff / smallScreenFactor / (2 * 24 * 60 * 60000)}days
+                    +{maxDiff / smallScreenFactor / (2 * DAY)}days
                 </Box>
                 <Box sx={{ position: "absolute", bottom: "-1em", right: 0 }}>
-                    +{maxDiff / smallScreenFactor / (24 * 60 * 60000)}days
+                    +{maxDiff / smallScreenFactor / DAY}days
                 </Box>
                 {maxDiff == MAX_DIFF_LONG && (
                     <Box
