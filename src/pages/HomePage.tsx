@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
+import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
+import SchoolIcon from "@mui/icons-material/School";
 import { Box, Button, Stack } from "@mui/material";
 
 import { EmptyMems } from "../EmptyMems";
@@ -53,6 +55,7 @@ export const HomePage: HomePageComponent = (): JSX.Element => {
                 <Stack spacing={6}>
                     <Box sx={{ textAlign: "center" }}>
                         <Button
+                            startIcon={<LocalLibraryIcon />}
                             size="large"
                             variant="contained"
                             color={reviseMems.length > 0 ? "primary" : "inherit"}
@@ -61,13 +64,14 @@ export const HomePage: HomePageComponent = (): JSX.Element => {
                             {reviseMems.length > 0 ? `Revise ${reviseMems.length} mems` : "All caught up!"}
                         </Button>
                         <Button
+                            startIcon={<SchoolIcon />}
                             size="large"
                             variant="contained"
                             color={learnMems.length > learnNewCount ? "primary" : "inherit"}
                             onClick={handleLearn}
                         >
                             {learnMems.length > learnNewCount
-                                ? `Learn new mems`
+                                ? `Learn ${learnNewCount} new mems`
                                 : learnMems.length > 0
                                 ? "Not enough new mems!"
                                 : "No new mems!"}
