@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
-import { Box, Button, ButtonGroup, Divider, Stack } from "@mui/material";
+import { Box, Button, Stack } from "@mui/material";
 
 import { EmptyMems } from "../EmptyMems";
 import { memDeck } from "../lib";
 import { MemClusters } from "../MemClusters";
 import { useStore } from "../store";
+import { SidebarButton } from "./buttons/SidebarButton";
 import { ContentBox } from "./ContentBox";
 import { DailyMems } from "./DailyMems";
 
@@ -48,29 +49,29 @@ export const HomePage: HomePageComponent = (): JSX.Element => {
     return (
         <Stack>
             <ContentBox>
+                <SidebarButton />
                 <Stack spacing={6}>
                     <Box sx={{ textAlign: "center" }}>
-                        <ButtonGroup variant="contained">
-                            <Button color={reviseMems.length > 0 ? "primary" : "inherit"} onClick={handleRevise}>
-                                {reviseMems.length > 0 ? `Revise ${reviseMems.length} mems` : "All caught up!"}
-                            </Button>
-                            <Button
-                                color={learnMems.length > learnNewCount ? "primary" : "inherit"}
-                                onClick={handleLearn}
-                            >
-                                {learnMems.length > learnNewCount
-                                    ? `Learn new mems`
-                                    : learnMems.length > 0
-                                    ? "Not enough new mems!"
-                                    : "No new mems!"}
-                            </Button>
-                            <Divider orientation="vertical" flexItem />
-                            <Button onClick={() => navigate("/mems")}>List Mems</Button>
-                            <Divider orientation="vertical" flexItem />
-                            <Button onClick={() => navigate("/about")}>About</Button>
-                            <Button onClick={() => navigate("/settings")}>Settings</Button>
-                            <Button onClick={() => navigate("/importbackup")}>Import/Backup</Button>
-                        </ButtonGroup>
+                        <Button
+                            size="large"
+                            variant="contained"
+                            color={reviseMems.length > 0 ? "primary" : "inherit"}
+                            onClick={handleRevise}
+                        >
+                            {reviseMems.length > 0 ? `Revise ${reviseMems.length} mems` : "All caught up!"}
+                        </Button>
+                        <Button
+                            size="large"
+                            variant="contained"
+                            color={learnMems.length > learnNewCount ? "primary" : "inherit"}
+                            onClick={handleLearn}
+                        >
+                            {learnMems.length > learnNewCount
+                                ? `Learn new mems`
+                                : learnMems.length > 0
+                                ? "Not enough new mems!"
+                                : "No new mems!"}
+                        </Button>
                         {mems.length == 0 && <EmptyMems />}
                     </Box>
                     <MemClusters mems={mems} />
