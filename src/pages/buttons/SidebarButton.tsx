@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 
+import BrokenImageIcon from "@mui/icons-material/BrokenImage";
 import HistoryEduIcon from "@mui/icons-material/HistoryEdu";
 import ImportExportIcon from "@mui/icons-material/ImportExport";
 import InfoIcon from "@mui/icons-material/Info";
 import MenuIcon from "@mui/icons-material/Menu";
 import SettingsIcon from "@mui/icons-material/Settings";
-import { Fab, List, ListItemButton, ListItemIcon, ListItemText, SwipeableDrawer } from "@mui/material";
+import { Divider, Fab, List, ListItemButton, ListItemIcon, ListItemText, SwipeableDrawer } from "@mui/material";
+import { orange } from "@mui/material/colors";
 import { useNavigate } from "react-router-dom";
+import { useStore } from "../../store";
 
 export type SidebarButtonProps = {};
 
@@ -14,6 +17,7 @@ export type SidebarButtonComponent = React.FunctionComponent<SidebarButtonProps>
 
 export const SidebarButton: SidebarButtonComponent = (): JSX.Element => {
     const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
+    const conflicts = useStore(({ conflicts }) => conflicts);
     const navigate = useNavigate();
 
     return (
@@ -49,6 +53,17 @@ export const SidebarButton: SidebarButtonComponent = (): JSX.Element => {
                         </ListItemIcon>
                         <ListItemText primary="Import/Backup" />
                     </ListItemButton>
+                    {conflicts.length > 0 && (
+                        <>
+                            <Divider />
+                            <ListItemButton onClick={() => navigate("/conflicts")} sx={{ background: orange[100] }}>
+                                <ListItemIcon>
+                                    <BrokenImageIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Conflicts" secondary={`${conflicts.length} to review`} />
+                            </ListItemButton>
+                        </>
+                    )}
                 </List>
             </SwipeableDrawer>
             <Fab

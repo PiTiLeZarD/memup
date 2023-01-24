@@ -23,9 +23,6 @@ pnpm dev
 Planned and in order
 
 -   Import to match IDS and offer a merge/override
-    -   add a zustand variables for import conflicts
-    -   import would have a function to get 2 mems and see if they conflicts, returns the nature of the conflict
-    -   on import separate mems that can be imported as is and mems that conflict
     -   interface to review conflicts, on the left the memform, on the right what we're trying to import, basic copy paste, if the logs conflict a button to accept incoming logs and override current logs
 -   Kanji reading game
     -   take all long term memory mems with kanji

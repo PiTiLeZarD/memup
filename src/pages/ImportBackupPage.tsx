@@ -1,7 +1,7 @@
 import React from "react";
 import { array, boolean, number, object, string } from "yup";
 
-import { Box, Button, Dialog, DialogActions, DialogContentText, DialogTitle, Typography } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContentText, DialogTitle, Stack, Typography } from "@mui/material";
 
 import { grey } from "@mui/material/colors";
 import { useState } from "react";
@@ -61,6 +61,7 @@ export const ImportBackupPage: ImportBackupPageComponent = (): JSX.Element => {
     const [imported, setImported] = useState<false | string>(false);
     const navigate = useNavigate();
     const importMems = useStore(({ importMems }) => importMems);
+    const conflicts = useStore(({ conflicts }) => conflicts);
 
     const handleImport = (files: FileWithPreview[]) => {
         files.map((file) => {
@@ -78,7 +79,9 @@ export const ImportBackupPage: ImportBackupPageComponent = (): JSX.Element => {
                     : [];
                 validationSchema.validate(data).then((state) => {
                     importMems(deserialiseMems(state), (conflicts) =>
-                        setImported(`${state.length} mems imported with ${conflicts.length} conflicts`)
+                        setImported(
+                            `${state.length - conflicts.length} mems imported with ${conflicts.length} conflicts`
+                        )
                     );
                 });
             };
@@ -92,7 +95,7 @@ export const ImportBackupPage: ImportBackupPageComponent = (): JSX.Element => {
                 <DialogTitle>Import</DialogTitle>
                 <DialogContentText sx={{ padding: "1em 3em" }}>{imported}</DialogContentText>
                 <DialogActions>
-                    <Button onClick={() => navigate("/?refresh", { replace: true })}>OK</Button>
+                    <Button onClick={() => setImported(false)}>OK</Button>
                 </DialogActions>
             </Dialog>
             <ContentBox>
@@ -103,6 +106,18 @@ export const ImportBackupPage: ImportBackupPageComponent = (): JSX.Element => {
                     </Button>
                 </Box>
             </ContentBox>
+            {conflicts && (
+                <ContentBox>
+                    <Stack spacing={4}>
+                        <Typography>
+                            You currently have <b>{conflicts.length} conflicts</b> from previous imports
+                        </Typography>
+                        <Button variant="contained" onClick={() => navigate("/conflicts")}>
+                            Review conflicts
+                        </Button>
+                    </Stack>
+                </ContentBox>
+            )}
             <ContentBox>
                 <Box sx={{ textAlign: "center" }}>
                     <Dropzone

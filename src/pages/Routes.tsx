@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Routes as RRDRoutes } from "react-router-dom";
 import { AboutPage } from "./AboutPage";
+import { ConflictsPage } from "./ConflictsPage";
 
 import { HomePage } from "./HomePage";
 import { ImportBackupPage } from "./ImportBackupPage";
@@ -21,6 +22,7 @@ export const Routes: RoutesComponent = (): JSX.Element => {
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="/importbackup" element={<ImportBackupPage />} />
             <Route path="/about" element={<AboutPage />} />
+            <Route path="/conflicts" element={<ConflictsPage />} />
         </RRDRoutes>
     );
 };

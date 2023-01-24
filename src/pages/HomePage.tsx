@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
 import SchoolIcon from "@mui/icons-material/School";
@@ -22,14 +22,6 @@ export const HomePage: HomePageComponent = (): JSX.Element => {
     const { learnNewCount } = useStore(({ settings }) => settings);
     const mems = useStore(({ mems }) => mems);
     const navigate = useNavigate();
-    const [searchParams, setSearchParams] = useSearchParams();
-
-    useEffect(() => {
-        if (searchParams.get("refresh") !== null) {
-            navigate("/");
-            window.location.reload();
-        }
-    }, [searchParams.get("refresh")]);
 
     const reviseMems = memDeck(mems.filter((m) => !!m.checks.length));
     const learnMems = mems.filter((m) => !m.checks.length);
