@@ -12,11 +12,7 @@ export type DailyMemsProps = {};
 export type DailyMemsComponent = React.FunctionComponent<DailyMemsProps>;
 
 export const DailyMems: DailyMemsComponent = (): JSX.Element => {
-    const mems = randomiseDeck(
-        useStore(({ mems }) => mems)
-            .filter((m) => memScore(m).memory == "LT")
-            .splice(0, 5)
-    );
+    const mems = randomiseDeck(useStore(({ mems }) => mems).filter((m) => memScore(m).memory == "LT")).splice(0, 5);
 
     if (mems.length == 0) return <></>;
 
