@@ -20,8 +20,10 @@ import {
     TableHead,
     TableRow,
     TextField,
+    Typography,
 } from "@mui/material";
 
+import { grey } from "@mui/material/colors";
 import { FoldersInput } from "./FoldersInput";
 import { FuriganaInput } from "./japanese/FuriganaInput";
 import { includesKanji } from "./lib";
@@ -127,6 +129,9 @@ export const MemForm: MemFormComponent = ({ open, setOpen }): JSX.Element => {
                     </TableContainer>
                 </DialogContent>
                 <DialogActions>
+                    <Typography sx={{ flexGrow: "1", color: grey[200] }} variant="subtitle2">
+                        {(open as MemType).id}
+                    </Typography>
                     <Button variant="contained" onClick={() => setLogsOpen(false)}>
                         OK
                     </Button>
