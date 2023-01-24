@@ -15,7 +15,9 @@ export const DailyMems: DailyMemsComponent = (): JSX.Element => {
     const mems = randomiseDeck(
         useStore(({ mems }) => mems).filter((m) => memScore(m).memory == "LT"),
         parseInt(
-            new Date().toLocaleDateString({ year: "numeric", month: "numeric", day: "numeric" }).replaceAll("/", "")
+            new Date()
+                .toLocaleDateString(undefined, { year: "numeric", month: "numeric", day: "numeric" })
+                .replace(/[/]/g, "")
         )
     ).splice(0, 5);
 
