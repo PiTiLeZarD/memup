@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Box, Chip, Stack, Switch, Tooltip, Typography } from "@mui/material";
+import { Box, Chip, Stack, Switch, Tooltip, Typography, useMediaQuery, useTheme } from "@mui/material";
 
 import { lightBlue, orange } from "@mui/material/colors";
 import { clusterByDate, dateDiff, memScore, timeUntil } from "./lib";
@@ -25,20 +25,22 @@ const MAX_DIFF_LONG = 8 * 24 * 60 * 60000;
 export type MemClustersComponent = React.FunctionComponent<MemClustersProps>;
 
 export const MemClusters: MemClustersComponent = ({ mems }): JSX.Element => {
+    const smallScreenFactor = useMediaQuery(useTheme().breakpoints.down("md")) ? 2 : 1;
     const [maxDiff, setMaxDiff] = useState<number>(MAX_DIFF_SHORT);
+
     const clusters = clusterByDate(
         mems.filter(
             (m) =>
                 (m.checks || []).length > 0 &&
                 memScore(m).nextCheck > new Date() &&
-                -dateDiff(memScore(m).nextCheck) < maxDiff
+                -dateDiff(memScore(m).nextCheck) < maxDiff / smallScreenFactor
         ),
         (mem) => memScore(mem).nextCheck
     );
 
     if (clusters.length == 0) return <></>;
 
-    const left = (d: Date) => ((-dateDiff(d) > 0 ? -dateDiff(d) : 0) / maxDiff) * 100;
+    const left = (d: Date) => ((-dateDiff(d) > 0 ? -dateDiff(d) : 0) / (maxDiff / smallScreenFactor)) * 100;
 
     return (
         <Stack spacing={2}>
@@ -84,9 +86,11 @@ export const MemClusters: MemClustersComponent = ({ mems }): JSX.Element => {
                 />
                 <Box sx={{ position: "absolute", bottom: "-1em", left: 0 }}>Now</Box>
                 <Box sx={{ position: "absolute", bottom: "-1em", left: "50%", transform: "translateX(-50%)" }}>
-                    +{maxDiff / (2 * 24 * 60 * 60000)}days
+                    +{maxDiff / smallScreenFactor / (2 * 24 * 60 * 60000)}days
                 </Box>
-                <Box sx={{ position: "absolute", bottom: "-1em", right: 0 }}>+{maxDiff / (24 * 60 * 60000)}days</Box>
+                <Box sx={{ position: "absolute", bottom: "-1em", right: 0 }}>
+                    +{maxDiff / smallScreenFactor / (24 * 60 * 60000)}days
+                </Box>
                 {maxDiff == MAX_DIFF_LONG && (
                     <Box
                         sx={{
