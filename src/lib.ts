@@ -108,11 +108,20 @@ export const clusterByDate: <T>(objects: T[], cb: (o: T) => Date, interval?: num
         return clusters;
     }, []);
 
-export const randomiseDeck = (mems: MemType[]): MemType[] =>
-    mems
-        .map((mem: MemType) => [Math.random(), mem])
+const mulberry32 = (a: number) => () => {
+    let t = (a += 0x6d2b79f5);
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+};
+
+export const randomiseDeck = (mems: MemType[], seed?: number): MemType[] => {
+    const randomiser = mulberry32(seed || new Date().getTime());
+    return mems
+        .map((mem: MemType) => [randomiser(), mem])
         .sort(([a, memA], [b, memB]) => (a as number) - (b as number))
         .map(([_, mem]) => mem as MemType);
+};
 
 export const memDeck = (mems: MemType[]): MemType[] =>
     randomiseDeck(mems.filter((mem: MemType) => memScore(mem).nextCheck <= new Date()));
