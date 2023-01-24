@@ -44,9 +44,9 @@ export const MemFolders: MemFoldersComponent = ({ subfolders }): JSX.Element => 
                             <IconButton
                                 onClick={() =>
                                     downloadMems(
-                                        `${folder}/${subfolder}`,
+                                        `${folder ? `${folder}/` : ""}${subfolder}`,
                                         cleanMemsForExport(subfolders[subfolder], [
-                                            [folder, subfolder].join(FOLDER_SEP),
+                                            folder ? [folder, subfolder].join(FOLDER_SEP) : subfolder,
                                         ])
                                     )
                                 }
