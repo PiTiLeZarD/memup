@@ -7,7 +7,7 @@ import { grey } from "@mui/material/colors";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Dropzone, FileWithPreview } from "../Dropzone";
-import { memsToStore, MemType } from "../store";
+import { deserialiseMems, MemType, useStore } from "../store";
 import { HomeButton } from "./buttons/HomeButton";
 import { ContentBox } from "./ContentBox";
 
@@ -42,9 +42,9 @@ const validationSchema = array()
             id: string().required(),
             mem: string().required(),
             description: string().required(),
-            hint: string().nullable(true),
-            furigana: array().of(string()).nullable(),
-            folders: array().of(string()).nullable(),
+            hint: string().nullable(),
+            furigana: array().of(string().required()).nullable(),
+            folders: array().of(string().required()).required(),
             checks: array().of(
                 object({
                     date: string().required(),
@@ -60,12 +60,13 @@ const validationSchema = array()
 export const ImportBackupPage: ImportBackupPageComponent = (): JSX.Element => {
     const [imported, setImported] = useState<false | string>(false);
     const navigate = useNavigate();
+    const importMems = useStore(({ importMems }) => importMems);
 
     const handleImport = (files: FileWithPreview[]) => {
         files.map((file) => {
             const fr = new FileReader();
             fr.onload = () => {
-                const data: MemType[] = fr.result
+                const data = fr.result
                     ? typeof fr.result == "string"
                         ? JSON.parse(fr.result)
                         : JSON.parse(
@@ -76,8 +77,9 @@ export const ImportBackupPage: ImportBackupPageComponent = (): JSX.Element => {
                           )
                     : [];
                 validationSchema.validate(data).then((state) => {
-                    localStorage.setItem("memup", JSON.stringify(memsToStore(data)));
-                    setImported("All went well!");
+                    importMems(deserialiseMems(state), (conflicts) =>
+                        setImported(`${state.length} mems imported with ${conflicts.length} conflicts`)
+                    );
                 });
             };
             fr.readAsText(file);

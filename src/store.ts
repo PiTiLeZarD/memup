@@ -44,15 +44,18 @@ export type MemType = {
 export type StorePropsType = {
     mems: MemType[];
     learnContext: MemType[];
+    conflicts: MemType[];
     settings: AppSettings;
 };
 
 export type StoreActionsPropsType = {
     saveMem: (mem: MemType) => void;
     setLearnContext: (mems: MemType[]) => void;
+    setConflicts: (mems: MemType[]) => void;
     deleteMem: (mem: MemType) => void;
     addAnswer: (memId: string, check: MemAnswer) => void;
     set: (newSettings: Partial<AppSettings>) => void;
+    importMems: (mems: MemType[], cb?: (conflicts: MemType[]) => void) => void;
 };
 
 const defaultSettings: AppSettings = {
@@ -65,12 +68,18 @@ const defaultSettings: AppSettings = {
 const InitialState: StorePropsType = {
     mems: [],
     learnContext: [],
+    conflicts: [],
     settings: defaultSettings,
+};
+
+const memHasConflicts = (mem: MemType, existingMems: MemType[]): string[] => {
+    return [];
 };
 
 const StoreActions = (set: Function, get: Function): StoreActionsPropsType => ({
     saveMem: (mem) => set(({ mems }) => ({ mems: [...mems.filter((m: MemType) => m.id != mem.id), mem] })),
     setLearnContext: (mems) => set(() => ({ learnContext: mems })),
+    setConflicts: (mems) => set(() => ({ conflicts: mems })),
     deleteMem: (mem) => set(({ mems }) => ({ mems: mems.filter((m: MemType) => m.id != mem.id) })),
     addAnswer: (memId, check) =>
         set(({ mems }) => {
@@ -79,23 +88,46 @@ const StoreActions = (set: Function, get: Function): StoreActionsPropsType => ({
             return { mems };
         }),
     set: (newSettings) => set(({ settings }) => ({ settings: { ...settings, ...newSettings } })),
+    importMems: (newMems, cb) =>
+        set(({ mems, conflicts }) => {
+            const { memsToImport, newConflicts } = newMems.reduce<{ memsToImport: MemType[]; newConflicts: MemType[] }>(
+                (acc, newMem) => {
+                    if (memHasConflicts(newMem, mems).length > 0) {
+                        acc.newConflicts.push(newMem);
+                    } else {
+                        acc.memsToImport.push(newMem);
+                    }
+                    return acc;
+                },
+                { memsToImport: [], newConflicts: [] }
+            );
+            if (cb) cb(newConflicts);
+            return {
+                mems: [...mems, ...memsToImport],
+                conflicts: [...conflicts, ...newConflicts],
+            };
+        }),
 });
 
 export type useStorePropsType = StorePropsType & StoreActionsPropsType;
 
-export const memsToStore = (mems: MemType[]): { state: StorePropsType } => ({
-    state: { mems, learnContext: [], settings: defaultSettings },
+export const memsToStore = (mems: MemType[], conflicts: MemType[]): { state: StorePropsType } => ({
+    state: { mems, learnContext: [], conflicts, settings: defaultSettings },
 });
+
+export const deserialiseMems = (mems: any[]): MemType[] =>
+    mems.map((m) => ({
+        ...m,
+        checks: (m.checks || []).map((c: any) => ({ ...c, date: new Date(c.date as Date) })),
+    }));
 
 const store = persist(combine(InitialState, StoreActions), {
     name: "memup",
     deserialize: (s: string) => {
         const storage: { state: useStorePropsType; version: number } = JSON.parse(s);
 
-        storage.state.mems = storage.state.mems.map((m) => ({
-            ...m,
-            checks: (m.checks || []).map((c) => ({ ...c, date: new Date(c.date as Date) })),
-        }));
+        storage.state.mems = deserialiseMems(storage.state.mems);
+        storage.state.conflicts = deserialiseMems(storage.state.conflicts);
 
         return storage;
     },
