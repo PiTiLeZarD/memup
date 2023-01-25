@@ -42,7 +42,7 @@ export const DialogTextField: DialogTextFieldComponent = ({
     };
 
     return (
-        <Dialog open={open !== false}>
+        <Dialog open={open !== false} onClose={() => onSave(true)}>
             <DialogTitle>{title || label}</DialogTitle>
             <DialogContent>
                 {open !== false && (
