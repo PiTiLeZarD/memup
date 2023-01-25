@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-import ColorizeIcon from "@mui/icons-material/Colorize";
 import DoneIcon from "@mui/icons-material/Done";
 import ReportIcon from "@mui/icons-material/Report";
 import {
@@ -10,25 +9,19 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
-    IconButton,
     Paper,
-    Stack,
     Table,
     TableBody,
     TableCell,
     TableContainer,
     TableHead,
     TableRow,
-    TextField,
     Typography,
 } from "@mui/material";
 
 import { grey } from "@mui/material/colors";
-import { FoldersInput } from "./FoldersInput";
-import { FuriganaInput } from "./japanese/FuriganaInput";
-import { includesKanji } from "./lib";
 import { Mem } from "./Mem";
-import { SearchMemButton } from "./pages/buttons/SearchMemButton";
+import { MemFormFields } from "./MemFormFields";
 import { MemQuizzAnswer, MemType, useStore } from "./store";
 
 type FormState = {
@@ -59,15 +52,10 @@ export const MemForm: MemFormComponent = ({ open, setOpen }): JSX.Element => {
         defaultValues: open ? mem2Form(open) : {},
     });
     const [logsOpen, setLogsOpen] = useState<boolean>(false);
-    const [setFurigana, setSetFurigana] = useState<boolean>(false);
-
-    const memValue = watch("mem");
-    const hasKanji = includesKanji(memValue);
 
     useEffect(() => {
         if (open) {
             reset(mem2Form(open));
-            setSetFurigana((open.furigana || []).length > 0);
         }
     }, [open]);
 
@@ -141,49 +129,15 @@ export const MemForm: MemFormComponent = ({ open, setOpen }): JSX.Element => {
                 <Dialog open={!!open} onClose={handleClose}>
                     <DialogTitle>Add a mem</DialogTitle>
                     <DialogContent sx={{ minWidth: "500px" }}>
-                        <Stack spacing={2} sx={{ margin: "0.5em 0" }}>
-                            <FoldersInput watch={watch} register={register} setValue={setValue} />
-                            <Stack direction="row" sx={{ width: "100%" }}>
-                                <TextField label="Mem" {...register("mem")} required fullWidth />
-                                {hasKanji && (
-                                    <Button
-                                        color={setFurigana ? "primary" : "inherit"}
-                                        variant="contained"
-                                        onClick={() => setSetFurigana(!setFurigana)}
-                                    >
-                                        +あ
-                                    </Button>
-                                )}
-                                <SearchMemButton
-                                    defaultSearch={memValue}
-                                    Component={Button}
-                                    ComponentProps={{ color: "primary", variant: "contained" }}
-                                    actions={[
-                                        {
-                                            child: <ColorizeIcon />,
-                                            Component: IconButton,
-                                            action: (mem, close) => {
-                                                close();
-                                                setOpen({
-                                                    ...mem,
-                                                    folders: [...mem.folders, ...(open as MemType).folders],
-                                                });
-                                            },
-                                        },
-                                    ]}
-                                />
-                            </Stack>
-                            {hasKanji && setFurigana && (
-                                <FuriganaInput
-                                    memValue={memValue}
-                                    furigana={open ? open.furigana || [] : []}
-                                    register={register}
-                                    setValue={setValue}
-                                />
-                            )}
-                            <TextField label="Description" {...register("description")} required />
-                            <TextField label="Hint" {...register("hint")} />
-                        </Stack>
+                        {open && (
+                            <MemFormFields
+                                watch={watch}
+                                setValue={setValue}
+                                register={register}
+                                mem={open}
+                                pickMem={setOpen}
+                            />
+                        )}
                     </DialogContent>
                     <DialogActions>
                         {open && open.checks && <Button onClick={() => setLogsOpen(true)}>Logs</Button>}
