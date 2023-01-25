@@ -4,6 +4,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Grid, IconButton, List, ListItem } from "@mui/material";
 
+import { lightBlue } from "@mui/material/colors";
 import { MemForm } from "./MemForm";
 import { MemListItem } from "./MemListItem";
 import { SearchMemButton } from "./pages/buttons/SearchMemButton";
@@ -40,8 +41,8 @@ export const MemList: MemListComponent = ({ mems }): JSX.Element => {
             />
             <MemForm open={formOpen} setOpen={setFormOpen} />
             <List sx={{ marginTop: "0.5em" }}>
-                {mems.map((mem) => (
-                    <ListItem key={mem.id}>
+                {mems.map((mem, i) => (
+                    <ListItem key={mem.id} sx={{ background: i % 2 ? "inherit" : lightBlue[50], padding: "1em" }}>
                         <Grid container>
                             <Grid item xs={10}>
                                 <MemListItem data={mem} />

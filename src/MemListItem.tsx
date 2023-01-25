@@ -12,9 +12,9 @@ export type MemListItemProps = {
     showDescription?: boolean;
 };
 
-export type MemListItemComponent = React.FunctionComponent<MemListItemProps>;
+export type MemListItemComponent = React.FunctionComponent<React.PropsWithChildren<MemListItemProps>>;
 
-export const MemListItem: MemListItemComponent = ({ data, showDescription }): JSX.Element => {
+export const MemListItem: MemListItemComponent = ({ data, showDescription, children }): JSX.Element => {
     const { mem, furigana, description } = data;
     const score = memScore(data);
 
@@ -27,16 +27,19 @@ export const MemListItem: MemListItemComponent = ({ data, showDescription }): JS
                 </Stack>
             </Grid>
             <Grid item xs={12} md={4}>
-                <MemsLinearProgress
-                    mems={[data]}
-                    label={
-                        -dateDiff(score.nextCheck) > 0 ? (
-                            <Typography>Available in: {timeUntil(score.nextCheck)}</Typography>
-                        ) : (
-                            <Typography>Available now!</Typography>
-                        )
-                    }
-                />
+                {children == undefined && (
+                    <MemsLinearProgress
+                        mems={[data]}
+                        label={
+                            -dateDiff(score.nextCheck) > 0 ? (
+                                <Typography>Available in: {timeUntil(score.nextCheck)}</Typography>
+                            ) : (
+                                <Typography>Available now!</Typography>
+                            )
+                        }
+                    />
+                )}
+                {children && children}
             </Grid>
         </Grid>
     );

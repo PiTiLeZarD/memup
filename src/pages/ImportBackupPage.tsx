@@ -106,7 +106,7 @@ export const ImportBackupPage: ImportBackupPageComponent = (): JSX.Element => {
                     </Button>
                 </Box>
             </ContentBox>
-            {conflicts && (
+            {conflicts.length > 0 && (
                 <ContentBox>
                     <Stack spacing={4}>
                         <Typography>
