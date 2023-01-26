@@ -29,15 +29,13 @@ export const MemClusters: MemClustersComponent = ({ mems }): JSX.Element => {
     const smallScreenFactor = useMediaQuery(useTheme().breakpoints.down("md")) ? 2 : 1;
     const [maxDiff, setMaxDiff] = useState<number>(MAX_DIFF_SHORT);
 
-    const clusters = clusterByDate(
-        mems.filter(
-            (m) =>
-                (m.checks || []).length > 0 &&
-                memScore(m).nextCheck > new Date() &&
-                -dateDiff(memScore(m).nextCheck) < maxDiff / smallScreenFactor
-        ),
-        (mem) => memScore(mem).nextCheck
+    const memsToCluster = mems.filter(
+        (m) =>
+            (m.checks || []).length > 0 &&
+            memScore(m).nextCheck > new Date() &&
+            -dateDiff(memScore(m).nextCheck) < maxDiff / smallScreenFactor
     );
+    const clusters = clusterByDate(memsToCluster, (mem) => memScore(mem).nextCheck);
 
     if (clusters.length == 0) return <></>;
 
@@ -46,7 +44,8 @@ export const MemClusters: MemClustersComponent = ({ mems }): JSX.Element => {
     return (
         <Stack spacing={2}>
             <Typography>
-                Mems will be available as follows: (upcoming {maxDiff / smallScreenFactor / DAY} days)
+                {memsToCluster.length} Mems will be available as follows: (upcoming {maxDiff / smallScreenFactor / DAY}{" "}
+                days)
             </Typography>
             <Box sx={{ position: "relative", width: "100%", height: "3em" }}>
                 <Switch
