@@ -17,9 +17,10 @@ import {
     Stack,
     Typography,
 } from "@mui/material";
-
 import { lightBlue } from "@mui/material/colors";
+
 import { Mem } from "../Mem";
+import { MemForm } from "../MemForm";
 import { MemListItem } from "../MemListItem";
 import { memConflicts, useStore } from "../store";
 import { useForceRender } from "../useForceRender";
@@ -57,9 +58,28 @@ export const ConflictsPage: ConflictsPageComponent = (): JSX.Element => {
         <ContentBox>
             <HomeButton />
 
-            <Dialog open={diffOpen !== false} onClose={() => setDiffOpen(false)}>
+            <Dialog fullScreen open={diffOpen !== false} onClose={() => setDiffOpen(false)}>
                 <DialogTitle>Review the conflict</DialogTitle>
-                <DialogContent>Here the content</DialogContent>
+                <DialogContent>
+                    <Grid container spacing={4}>
+                        <Grid item xs={6}>
+                            {diffOpen !== false && (
+                                <MemForm
+                                    mem={conflicts[diffOpen]}
+                                    FieldsWrapper={({ onSubmit, children }) => <Box>{children}</Box>}
+                                />
+                            )}
+                        </Grid>
+                        <Grid item xs={6}>
+                            {diffOpen !== false && (
+                                <MemForm
+                                    mem={conflicts[diffOpen]}
+                                    FieldsWrapper={({ onSubmit, children }) => <Box>{children}</Box>}
+                                />
+                            )}
+                        </Grid>
+                    </Grid>
+                </DialogContent>
                 <DialogActions>
                     <Button onClick={() => setDiffOpen(false)}>Cancel</Button>
                     <Button variant="contained">Save</Button>
