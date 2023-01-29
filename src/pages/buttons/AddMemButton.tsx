@@ -5,7 +5,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { Fab } from "@mui/material";
 
 import { newMem } from "../../lib";
-import { MemForm } from "../../MemForm";
+import { MemFormDialog } from "../../MemFormDialog";
 import { MemType } from "../../store";
 
 export type AddMemButtonProps = {};
@@ -25,7 +25,7 @@ export const AddMemButton: AddMemButtonComponent = (): JSX.Element => {
 
     return (
         <>
-            <MemForm open={formOpen} setOpen={setFormOpen} />
+            <MemFormDialog open={formOpen} setOpen={setFormOpen} />
             <Fab
                 color="primary"
                 onClick={handleAdd}
