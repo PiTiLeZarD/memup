@@ -15,5 +15,5 @@ export const HiraganaTextField: HiraganaTextFieldComponent = (props): JSX.Elemen
         }
     }, [hiraganaInputRef.current]);
 
-    return <TextField {...props} inputRef={hiraganaInputRef} />;
+    return <TextField {...(props as any)} inputRef={hiraganaInputRef} />;
 };
