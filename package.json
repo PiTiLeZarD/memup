@@ -9,7 +9,25 @@
         "build": "pnpm prebuild && parcel build ./src/index.html",
         "build:demo": "pnpm prebuild && parcel build --public-url /memup ./src/index.html",
         "prepages": "pnpm build:demo",
-        "pages": "pnpm prepages && gh-pages -b ghpages -d dist"
+        "pages": "pnpm prepages && gh-pages -b ghpages -d dist",
+        "test": "export NODE_OPTIONS=--experimental-vm-modules && pnpm jest"
+    },
+    "jest": {
+        "roots": [
+            "<rootDir>/src"
+        ],
+        "preset": "ts-jest/presets/default-esm",
+        "testEnvironment": "node",
+        "moduleFileExtensions": [
+            "js",
+            "ts",
+            "tsx"
+        ],
+        "extensionsToTreatAsEsm": [
+            ".ts",
+            ".tsx"
+        ],
+        "transform": {}
     },
     "keywords": [],
     "author": "",
@@ -32,12 +50,16 @@
         "zustand": "^4.2.0"
     },
     "devDependencies": {
+        "@types/jest": "^29.4.0",
         "@types/node": "^18.11.18",
         "@types/react": "^18.0.26",
         "@types/react-dom": "^18.0.10",
         "@types/wanakana": "^4.0.3",
         "gh-pages": "^4.0.0",
+        "jest": "^29.4.1",
         "parcel": "^2.8.2",
-        "process": "^0.11.10"
+        "process": "^0.11.10",
+        "ts-jest": "^29.0.5",
+        "typescript": "^4.9.4"
     }
 }
