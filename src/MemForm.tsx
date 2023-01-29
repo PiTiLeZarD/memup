@@ -29,6 +29,8 @@ const mem2Form = ({ mem, description, hint, furigana, folders }: MemType): FormS
 export type MemFormComponent = React.FunctionComponent<MemFormProps>;
 
 export const MemForm: MemFormComponent = ({ mem, FieldsWrapper, ...wrapperProps }): JSX.Element => {
+    if (!mem) return <></>;
+
     const { register, handleSubmit, reset, watch, setValue } = useForm<FormState>({
         defaultValues: mem2Form(mem),
     });
