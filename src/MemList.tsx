@@ -5,7 +5,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { Grid, IconButton, List, ListItem } from "@mui/material";
 
 import { lightBlue } from "@mui/material/colors";
-import { MemForm } from "./MemForm";
+import { MemFormDialog } from "./MemFormDialog";
 import { MemListItem } from "./MemListItem";
 import { SearchMemButton } from "./pages/buttons/SearchMemButton";
 import { MemType, useStore } from "./store";
@@ -39,7 +39,7 @@ export const MemList: MemListComponent = ({ mems }): JSX.Element => {
                     },
                 ]}
             />
-            <MemForm open={formOpen} setOpen={setFormOpen} />
+            <MemFormDialog open={formOpen} setOpen={setFormOpen} />
             <List sx={{ marginTop: "0.5em" }}>
                 {mems.map((mem, i) => (
                     <ListItem key={mem.id} sx={{ background: i % 2 ? "inherit" : lightBlue[50], padding: "1em" }}>
