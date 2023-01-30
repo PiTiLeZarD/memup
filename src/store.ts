@@ -1,5 +1,6 @@
 import create from "zustand";
 import { combine, devtools, persist } from "zustand/middleware";
+import { deserialiseMems, findConflicts } from "./lib";
 
 export type NanoID = string;
 
@@ -72,9 +73,6 @@ const InitialState: StorePropsType = {
     settings: defaultSettings,
 };
 
-export const memConflicts = (mem: MemType, existingMems: MemType[]): MemType[] =>
-    existingMems.filter((m) => m.id == mem.id || m.mem == mem.mem);
-
 const StoreActions = (set: Function, get: Function): StoreActionsPropsType => ({
     saveMem: (mem) => set(({ mems }) => ({ mems: [...mems.filter((m: MemType) => m.id != mem.id), mem] })),
     setLearnContext: (mems) => set(() => ({ learnContext: mems })),
@@ -89,20 +87,7 @@ const StoreActions = (set: Function, get: Function): StoreActionsPropsType => ({
     set: (newSettings) => set(({ settings }) => ({ settings: { ...settings, ...newSettings } })),
     importMems: (newMems, cb) =>
         set(({ mems, conflicts }) => {
-            const { memsToImport, newConflicts } = newMems.reduce<{
-                memsToImport: MemType[];
-                newConflicts: MemType[];
-            }>(
-                (acc, newMem) => {
-                    if (memConflicts(newMem, [...mems, ...newMems]).length > 0) {
-                        acc.newConflicts.push(newMem);
-                    } else {
-                        acc.memsToImport.push(newMem);
-                    }
-                    return acc;
-                },
-                { memsToImport: [], newConflicts: [] }
-            );
+            const { memsToImport, newConflicts } = findConflicts(newMems, mems);
             if (cb) cb(newConflicts);
             return {
                 mems: [...mems, ...memsToImport],
@@ -112,12 +97,6 @@ const StoreActions = (set: Function, get: Function): StoreActionsPropsType => ({
 });
 
 export type useStorePropsType = StorePropsType & StoreActionsPropsType;
-
-export const deserialiseMems = (mems: any[]): MemType[] =>
-    mems.map((m) => ({
-        ...m,
-        checks: (m.checks || []).map((c: any) => ({ ...c, date: new Date(c.date as Date) })),
-    }));
 
 const store = persist(combine(InitialState, StoreActions), {
     name: "memup",

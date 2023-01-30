@@ -7,26 +7,14 @@ import { grey } from "@mui/material/colors";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Dropzone, FileWithPreview } from "../Dropzone";
-import { deserialiseMems, MemType, useStore } from "../store";
+import { deserialiseMems } from "../lib";
+import { MemType, useStore } from "../store";
 import { HomeButton } from "./buttons/HomeButton";
 import { ContentBox } from "./ContentBox";
 
 export type ImportBackupPageProps = {};
 
 export type ImportBackupPageComponent = React.FunctionComponent<ImportBackupPageProps>;
-
-export const cleanMemsForExport = (mems: MemType[], folders?: string[]): Partial<MemType>[] =>
-    mems.map((m) => {
-        let nm: Partial<MemType> = { id: m.id, mem: m.mem, description: m.description };
-        if (m.hint) nm.hint = m.hint;
-        if (m.furigana) nm.furigana = m.furigana;
-        if (folders && m.folders.length > 0)
-            nm.folders = m.folders.filter((f) => folders.filter((fs) => f.startsWith(fs)).length > 0);
-        return nm;
-    });
-
-export const cleanMemsForImport = (mems: Partial<MemType>[]): MemType[] =>
-    mems.map((m) => ({ ...m, checks: m.checks || [] } as MemType));
 
 export const downloadMems = (title: string, mems: Partial<MemType>[]) =>
     Object.assign(document.createElement("a"), {

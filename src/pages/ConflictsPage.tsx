@@ -19,10 +19,11 @@ import {
 } from "@mui/material";
 import { lightBlue } from "@mui/material/colors";
 
+import { memConflicts } from "../lib";
 import { Mem } from "../Mem";
 import { MemForm } from "../MemForm";
 import { MemListItem } from "../MemListItem";
-import { memConflicts, useStore } from "../store";
+import { useStore } from "../store";
 import { useForceRender } from "../useForceRender";
 import { HomeButton } from "./buttons/HomeButton";
 import { ContentBox } from "./ContentBox";

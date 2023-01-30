@@ -5,9 +5,10 @@ import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import DownloadIcon from "@mui/icons-material/Download";
 import { Box, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText } from "@mui/material";
 
+import { cleanMemsForExport } from "./lib";
 import { MemFoldersLearnButton } from "./MemFoldersLearnButton";
 import { MemsLinearProgress } from "./MemsLinearProgress";
-import { cleanMemsForExport, downloadMems } from "./pages/ImportBackupPage";
+import { downloadMems } from "./pages/ImportBackupPage";
 import { MemType } from "./store";
 
 export const FOLDER_SEP = "|";
