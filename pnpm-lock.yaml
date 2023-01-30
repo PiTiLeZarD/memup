@@ -12,6 +12,7 @@ specifiers:
   '@types/wanakana': ^4.0.3
   gh-pages: ^4.0.0
   humanize-duration: ^3.28.0
+  husky: ^8.0.3
   jest: ^29.4.1
   nanoid: ^4.0.0
   parcel: ^2.8.3
@@ -52,6 +53,7 @@ devDependencies:
   '@types/react-dom': 18.0.10
   '@types/wanakana': 4.0.3
   gh-pages: 4.0.0
+  husky: 8.0.3
   jest: 29.4.1_@types+node@18.11.18
   parcel: 2.8.3
   process: 0.11.10
@@ -2721,6 +2723,12 @@ packages:
   /humanize-duration/3.28.0:
     resolution: {integrity: sha512-jMAxraOOmHuPbffLVDKkEKi/NeG8dMqP8lGRd6Tbf7JgAeG33jjgPWDbXXU7ypCI0o+oNKJFgbSB9FKVdWNI2A==}
     dev: false
+
+  /husky/8.0.3:
+    resolution: {integrity: sha512-+dQSyqPh4x1hlO1swXBiNb2HzTDN1I2IGLQx1GrBuiqFJfoMrnZWwVmatvSiO+Iz8fBUnf+lekwNo4c2LlXItg==}
+    engines: {node: '>=14'}
+    hasBin: true
+    dev: true
 
   /import-fresh/3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
