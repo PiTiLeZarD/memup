@@ -75,7 +75,11 @@ export const memScore = (mem: MemType): MemScore => {
     const memory = groupedChecks.filter((g) => g.length > ST_LT_THRESHOLD).length > 0 ? "LT" : "ST";
     let level = groupedChecks.length == 0 ? 0 : groupedChecks[0][0].success ? groupedChecks[0].length : 1;
     if (memory == "LT") {
-        level = Math.max(ST_LT_THRESHOLD + 1, level);
+        level = groupedChecks[0][0].success
+            ? groupedChecks[0].length > ST_LT_THRESHOLD
+                ? groupedChecks[0].length
+                : groupedChecks[0].length + ST_LT_THRESHOLD + 1
+            : ST_LT_THRESHOLD + 1;
     }
 
     const nextCheck = new Date(
