@@ -11,27 +11,27 @@ I know a lot of these tools exist here and there, but:
 
 ## Install & run
 
-Probably works with yarn npm and all these but I use pnpm:
+If you want to have this running on your machine, particiapte in coding this or if you're just curious:
+
+Probably works with yarn/npm and all these but I use pnpm:
 
 ```
 pnpm install
 pnpm dev
 ```
 
+Parcel skips a lot of TS stuff to make it faster, so typechecking is done on build or you can run:
+
+```
+pnpm types
+```
+
+Running tests is easy too:
+
+```
+pnpm test
+```
+
 ## TODO
 
-Planned and in order
-
--   Import to match IDS and offer a merge/override
-    -   interface to review conflicts, on the left the memform, on the right what we're trying to import, basic copy paste, if the logs conflict a button to accept incoming logs and override current logs
--   Kanji reading game
-    -   take all long term memory mems with kanji
-    -   present them without the furigana, kanji only
-    -   hiragana input
-    -   record fail/success somewhere else, use the same logic to push mems through levels and all
--   Find a way to use a github folder as a source for import, allow to delete mems by folders/subfolders
--   related mems, have a way to point which are related, save the ids, and on import, match ids and fill up accodingly
--   Merge mems and have multiple folders for a mem.
--   Stats and graphs everywhere
-    -   At the end of a sesh (how many mems moved up to long term memory, how many new mems, time of the sesh, how many in the sesh, state of mems, etc..)
-    -   homepage with an overall view of everything
+If you're curious about what I'm working on, checkout the [todolist](TODO.md)
