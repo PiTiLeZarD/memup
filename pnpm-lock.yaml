@@ -27,7 +27,7 @@ specifiers:
   usehooks-ts: ^2.9.1
   wanakana: ^5.0.2
   yup: ^0.32.11
-  zustand: ^4.3.2
+  zustand: 4.2.0
 
 dependencies:
   '@emotion/react': 11.10.5_3stiutgnnbnfnf3uowm5cip22i
@@ -44,7 +44,7 @@ dependencies:
   usehooks-ts: 2.9.1_biqbaboplfbrettd7655fr4n2y
   wanakana: 5.0.2
   yup: 0.32.11
-  zustand: 4.3.2_react@18.2.0
+  zustand: 4.2.0_react@18.2.0
 
 devDependencies:
   '@types/jest': 29.4.0
@@ -4388,8 +4388,8 @@ packages:
       toposort: 2.0.2
     dev: false
 
-  /zustand/4.3.2_react@18.2.0:
-    resolution: {integrity: sha512-rd4haDmlwMTVWVqwvgy00ny8rtti/klRoZjFbL/MAcDnmD5qSw/RZc+Vddstdv90M5Lv6RPgWvm1Hivyn0QgJw==}
+  /zustand/4.2.0_react@18.2.0:
+    resolution: {integrity: sha512-eNwaDoD2FYVnMgtNxiMUhTJO780wonZUzJrPQTLYI0erSIMZF8cniWFW22kGQUECd8rdHRJ/ZJL2XO54c9Ttuw==}
     engines: {node: '>=12.7.0'}
     peerDependencies:
       immer: '>=9.0'
