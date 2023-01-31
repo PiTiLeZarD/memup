@@ -27,6 +27,9 @@
 ## General
 
 -   [ ] mobile tests
+-   [ ] folders
+    -   [x] list of other available folders in the same subfolder when adding
+    -   [ ] ability to rename a folder
 -   [ ] hide&seek mode, hide the options and start the counter on seek
 -   [ ] Stats and graphs everywhere
     -   [ ] At the end of a sesh (how many mems moved up to long term memory, how many new mems, time of the sesh, how many in the sesh, state of mems, etc..)

@@ -6,6 +6,19 @@ import { Button, Chip, Divider, FormLabel, IconButton, ListItem, Paper, Stack } 
 
 import { DialogTextField } from "./DialogTextField";
 import { FOLDER_SEP } from "./MemFolders";
+import { MemType, useStore } from "./store";
+
+const getFoldersSuggestions = (folders: string[], mems: MemType[]): string[] =>
+    mems.reduce<string[]>(
+        (acc, mem) => [
+            ...acc,
+            ...mem.folders
+                .filter((f) => f.startsWith(folders.join(FOLDER_SEP)))
+                .map((f) => f.split(FOLDER_SEP)[folders.length] || null)
+                .reduce<string[]>((facc, f) => ([...acc, ...facc].includes(f) ? facc : [...facc, f]), []),
+        ],
+        []
+    );
 
 export type FoldersInputProps = {
     watch: UseFormWatch<any>;
@@ -16,8 +29,11 @@ export type FoldersInputProps = {
 export type FoldersInputComponent = React.FunctionComponent<FoldersInputProps>;
 
 export const FoldersInput: FoldersInputComponent = ({ register, setValue, watch }): JSX.Element => {
+    const mems = useStore(({ mems }) => mems);
     const [open, setOpen] = useState<false | number[]>(false);
     const [currentFolder, setCurrentFolder] = useState<string>("");
+
+    console.log({ currentFolder });
 
     let folders = (JSON.parse(watch("folders") || []) as string[]).map((f) => f.split(FOLDER_SEP));
     const save = () => setValue("folders", JSON.stringify(folders.map((f) => f.join(FOLDER_SEP))));
@@ -65,6 +81,7 @@ export const FoldersInput: FoldersInputComponent = ({ register, setValue, watch 
                 onChange={setCurrentFolder}
                 onSave={handleSaveCurrentFolderChip}
                 label="Folder?"
+                suggestions={open && folders[open[0]] ? getFoldersSuggestions(folders[open[0]], mems) : undefined}
             />
 
             <FormLabel>Folder:</FormLabel>
