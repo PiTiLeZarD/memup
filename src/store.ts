@@ -1,6 +1,6 @@
 import create from "zustand";
 import { combine, devtools, persist } from "zustand/middleware";
-import { ConflictType, deserialiseMems, findConflicts } from "./lib";
+import { deserialiseMems, findConflicts, ImportConflictsType } from "./lib";
 
 export type NanoID = string;
 
@@ -56,7 +56,7 @@ export type StoreActionsPropsType = {
     deleteMem: (mem: MemType) => void;
     addAnswer: (memId: string, check: MemAnswer) => void;
     set: (newSettings: Partial<AppSettings>) => void;
-    importMems: (mems: MemType[], cb?: (conflicts: { [k in ConflictType]?: MemType[] }) => void) => void;
+    importMems: (mems: MemType[], cb?: (conflicts: ImportConflictsType) => void) => void;
 };
 
 const defaultSettings: AppSettings = {

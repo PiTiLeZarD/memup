@@ -1,13 +1,13 @@
 import React from "react";
 import { array, boolean, number, object, string } from "yup";
 
-import { Box, Button, Dialog, DialogActions, DialogContentText, DialogTitle, Stack, Typography } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, Typography } from "@mui/material";
 
 import { grey } from "@mui/material/colors";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Dropzone, FileWithPreview } from "../Dropzone";
-import { deserialiseMems } from "../lib";
+import { deserialiseMems, ImportConflictsType } from "../lib";
 import { MemType, useStore } from "../store";
 import { HomeButton } from "./buttons/HomeButton";
 import { ContentBox } from "./ContentBox";
@@ -46,7 +46,7 @@ const validationSchema = array()
     .required();
 
 export const ImportBackupPage: ImportBackupPageComponent = (): JSX.Element => {
-    const [imported, setImported] = useState<false | string>(false);
+    const [imported, setImported] = useState<false | ImportConflictsType>(false);
     const navigate = useNavigate();
     const importMems = useStore(({ importMems }) => importMems);
     const conflicts = useStore(({ conflicts }) => conflicts);
@@ -54,33 +54,16 @@ export const ImportBackupPage: ImportBackupPageComponent = (): JSX.Element => {
     const handleImport = (files: FileWithPreview[]) => {
         files.map((file) => {
             const fr = new FileReader();
-            fr.onload = () => {
-                const data = fr.result
-                    ? typeof fr.result == "string"
-                        ? JSON.parse(fr.result)
-                        : JSON.parse(
-                              (() => {
-                                  const enc = new TextDecoder("utf-8");
-                                  return enc.decode(fr.result);
-                              })()
-                          )
-                    : [];
-                validationSchema.validate(data).then((state) => {
-                    importMems(deserialiseMems(state), (statuses) => {
-                        const total = Object.values(statuses).reduce<number>((acc, l) => acc + l.length, 0);
-                        setImported(
-                            `
-                                <p>${total} mems in the file</p>
-                                <ul>
-                                    <li>${(statuses.FINE || []).length} imported</li>
-                                    <li>${(statuses.CONFLICTS || []).length} conflicts</li>
-                                    <li>${(statuses.IGNORE || []).length} ignored</li>
-                                </ul>
-                            `
-                        );
-                    });
-                });
-            };
+            fr.onload = () =>
+                validationSchema
+                    .validate(
+                        fr.result
+                            ? typeof fr.result == "string"
+                                ? JSON.parse(fr.result)
+                                : JSON.parse(new TextDecoder("utf-8").decode(fr.result))
+                            : []
+                    )
+                    .then((state) => importMems(deserialiseMems(state), (statuses) => setImported(statuses)));
             fr.readAsText(file);
         });
     };
@@ -89,9 +72,17 @@ export const ImportBackupPage: ImportBackupPageComponent = (): JSX.Element => {
         <>
             <Dialog open={imported !== false}>
                 <DialogTitle>Import</DialogTitle>
-                <DialogContentText sx={{ padding: "1em 3em" }}>
-                    <span dangerouslySetInnerHTML={{ __html: imported as string }} />
-                </DialogContentText>
+                <DialogContent sx={{ padding: "1em 3em" }}>
+                    <Typography>
+                        ${Object.values(imported as ImportConflictsType).reduce<number>((acc, l) => acc + l.length, 0)}{" "}
+                        mems in the file
+                    </Typography>
+                    <ul>
+                        <li>${((imported as ImportConflictsType).FINE || []).length} imported</li>
+                        <li>${((imported as ImportConflictsType).CONFLICTS || []).length} conflicts</li>
+                        <li>${((imported as ImportConflictsType).IGNORE || []).length} ignored</li>
+                    </ul>
+                </DialogContent>
                 <DialogActions>
                     <Button onClick={() => setImported(false)}>OK</Button>
                 </DialogActions>
