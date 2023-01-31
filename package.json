@@ -11,6 +11,7 @@
         "prepages": "pnpm build:demo",
         "pages": "pnpm prepages && gh-pages -b ghpages -d dist",
         "test": "export NODE_OPTIONS=--experimental-vm-modules && pnpm jest",
+        "test:coverage": "export NODE_OPTIONS=--experimental-vm-modules && pnpm jest --coverage && open coverage/lcov-report/index.html",
         "types": "tsc --noEmit",
         "precommit": "pnpm types && pnpm test"
     },
