@@ -70,8 +70,9 @@ export const ImportBackupPage: ImportBackupPageComponent = (): JSX.Element => {
                         const total = Object.values(statuses).reduce<number>((acc, l) => acc + l.length, 0);
                         setImported(
                             `
-                                <p>${total - (statuses.FINE || []).length} mems in the file</p>
+                                <p>${total} mems in the file</p>
                                 <ul>
+                                    <li>${(statuses.FINE || []).length} imported</li>
                                     <li>${(statuses.CONFLICTS || []).length} conflicts</li>
                                     <li>${(statuses.IGNORE || []).length} ignored</li>
                                 </ul>
