@@ -54,8 +54,17 @@ export const deserialiseMems = (mems: any[]): MemType[] =>
         checks: (m.checks || []).map((c: any) => ({ ...c, date: new Date(c.date as Date) })),
     }));
 
-export const memConflicts = (mem: MemType, existingMems: MemType[]): MemType[] =>
-    existingMems.filter((m) => m.id == mem.id || m.mem == mem.mem);
+export type ConflictType = "IGNORE" | "CONFLICTS" | "FINE" | "MERGE";
+export const memConflicts = (mem: MemType, existingMems: MemType[]): ConflictType =>
+    existingMems.reduce<ConflictType>((status, m) => {
+        if (status != "FINE") return status;
+        if (m.id == mem.id) {
+            if (m.mem == mem.mem && m.description == mem.description) return "IGNORE";
+            return "CONFLICTS";
+        }
+        if (m.mem == mem.mem) return "CONFLICTS";
+        return "FINE";
+    }, "FINE");
 
 export const findConflicts = (newMems: MemType[], mems: MemType[]) =>
     newMems.reduce<{
@@ -63,7 +72,7 @@ export const findConflicts = (newMems: MemType[], mems: MemType[]) =>
         newConflicts: MemType[];
     }>(
         (acc, newMem) => {
-            if (memConflicts(newMem, [...mems, ...newMems]).length > 0) {
+            if (memConflicts(newMem, [...mems, ...newMems]) != "FINE") {
                 acc.newConflicts.push(newMem);
             } else {
                 acc.memsToImport.push(newMem);

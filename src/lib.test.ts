@@ -1,5 +1,5 @@
-import { deserialiseMems, levelGapMap, memScore, newMem, ST_LT_THRESHOLD } from "./lib";
-import { MemAnswer } from "./store";
+import { deserialiseMems, levelGapMap, memConflicts, memScore, newMem, ST_LT_THRESHOLD } from "./lib";
+import { MemAnswer, MemType } from "./store";
 
 const newCheck = (success: boolean): MemAnswer => ({ success, date: new Date() });
 
@@ -43,4 +43,17 @@ test("deserialiseMems", () => {
     expect(typeof serialised[0].checks[0].date).toBe("string");
     const mems = deserialiseMems(serialised);
     expect(typeof mems[0].checks[0].date).toBe("object");
+});
+
+test("memConflics", () => {
+    const existingMem: MemType = { ...newMem(), mem: "Test", description: "TestDescription" };
+    const importingMem: MemType = { ...newMem(), mem: "Test2", description: "Test2Description" };
+    const ignoringMem: MemType = { ...existingMem };
+    const conflictingMem: MemType = { ...existingMem, description: "SomeOtherDescription" };
+
+    expect(memConflicts(newMem(), [])).toBe("FINE");
+    expect(memConflicts(importingMem, [existingMem])).toBe("FINE");
+    expect(memConflicts(ignoringMem, [existingMem])).toBe("IGNORE");
+    expect(memConflicts(conflictingMem, [existingMem])).toBe("CONFLICTS");
+    expect(memConflicts(ignoringMem, [existingMem])).toBe("IGNORE");
 });

@@ -19,7 +19,7 @@ import {
 } from "@mui/material";
 import { lightBlue } from "@mui/material/colors";
 
-import { memConflicts } from "../lib";
+import { findConflicts } from "../lib";
 import { Mem } from "../Mem";
 import { MemForm } from "../MemForm";
 import { MemListItem } from "../MemListItem";
@@ -102,7 +102,7 @@ export const ConflictsPage: ConflictsPageComponent = (): JSX.Element => {
                                     <MemListItem data={mem} showDescription>
                                         Conflicts with:
                                         <Box component="ul" sx={{ paddingTop: "0.5em" }}>
-                                            {memConflicts(mem, mems).map((m, i) => (
+                                            {findConflicts([mem], mems).newConflicts.map((m, i) => (
                                                 <Stack key={i} direction="row" spacing={2}>
                                                     <Mem mem={m} variant="h5" />
                                                     <Typography>{m.description}</Typography>
