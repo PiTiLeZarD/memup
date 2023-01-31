@@ -1,4 +1,4 @@
-import { deserialiseMems, levelGapMap, memConflicts, memScore, newMem, ST_LT_THRESHOLD } from "./lib";
+import { deserialiseMems, findConflicts, levelGapMap, memConflicts, memScore, newMem, ST_LT_THRESHOLD } from "./lib";
 import { MemAnswer, MemType } from "./store";
 
 const newCheck = (success: boolean): MemAnswer => ({ success, date: new Date() });
@@ -56,4 +56,35 @@ test("memConflics", () => {
     expect(memConflicts(ignoringMem, [existingMem])).toBe("IGNORE");
     expect(memConflicts(conflictingMem, [existingMem])).toBe("CONFLICTS");
     expect(memConflicts(ignoringMem, [existingMem])).toBe("IGNORE");
+});
+
+test("findConflicts", () => {
+    const mems = [
+        { ...newMem(), mem: "Test1", description: "Test1Description" },
+        { ...newMem(), mem: "Test2", description: "Test2Description" },
+        { ...newMem(), mem: "Test3", description: "Test3Description" },
+        { ...newMem(), mem: "Test4", description: "Test4Description" },
+    ];
+
+    const imports = [
+        { ...mems[0] },
+        { ...newMem(), mem: "Test1", description: "Somestuff" },
+        { ...newMem(), mem: "Test5", description: "Test5Description" },
+    ];
+
+    let conflicts = findConflicts(imports, mems);
+
+    expect(Object.keys(conflicts).length).toBe(3);
+    expect(conflicts["FINE"].length).toBe(1);
+    expect(conflicts["FINE"][0].id).toBe(imports[2].id);
+    expect(conflicts["CONFLICTS"].length).toBe(1);
+    expect(conflicts["CONFLICTS"][0].id).toBe(imports[1].id);
+    expect(conflicts["IGNORE"].length).toBe(1);
+    expect(conflicts["IGNORE"][0].id).toBe(imports[0].id);
+
+    // Testing if the import has duplicates or whatever
+    conflicts = findConflicts([...imports, imports[2]], mems);
+    expect(Object.keys(conflicts).length).toBe(3);
+    expect(conflicts["FINE"].length).toBe(1);
+    expect(conflicts["IGNORE"].length).toBe(2);
 });

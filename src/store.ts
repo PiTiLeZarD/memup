@@ -1,6 +1,6 @@
 import create from "zustand";
 import { combine, devtools, persist } from "zustand/middleware";
-import { deserialiseMems, findConflicts } from "./lib";
+import { ConflictType, deserialiseMems, findConflicts } from "./lib";
 
 export type NanoID = string;
 
@@ -56,7 +56,7 @@ export type StoreActionsPropsType = {
     deleteMem: (mem: MemType) => void;
     addAnswer: (memId: string, check: MemAnswer) => void;
     set: (newSettings: Partial<AppSettings>) => void;
-    importMems: (mems: MemType[], cb?: (conflicts: MemType[]) => void) => void;
+    importMems: (mems: MemType[], cb?: (conflicts: { [k in ConflictType]?: MemType[] }) => void) => void;
 };
 
 const defaultSettings: AppSettings = {
@@ -87,11 +87,11 @@ const StoreActions = (set: Function, get: Function): StoreActionsPropsType => ({
     set: (newSettings) => set(({ settings }) => ({ settings: { ...settings, ...newSettings } })),
     importMems: (newMems, cb) =>
         set(({ mems, conflicts }) => {
-            const { memsToImport, newConflicts } = findConflicts(newMems, mems);
-            if (cb) cb(newConflicts);
+            const statuses = findConflicts(newMems, mems);
+            if (cb) cb(statuses);
             return {
-                mems: [...mems, ...memsToImport],
-                conflicts: [...conflicts, ...newConflicts],
+                mems: [...mems, ...statuses.FINE],
+                conflicts: [...conflicts, ...statuses.CONFLICTS],
             };
         }),
 });

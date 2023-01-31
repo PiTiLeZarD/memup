@@ -66,11 +66,12 @@ export const ImportBackupPage: ImportBackupPageComponent = (): JSX.Element => {
                           )
                     : [];
                 validationSchema.validate(data).then((state) => {
-                    importMems(deserialiseMems(state), (conflicts) =>
+                    importMems(deserialiseMems(state), (statuses) => {
+                        const total = Object.values(statuses).reduce<number>((acc, l) => acc + l.length, 0);
                         setImported(
-                            `${state.length - conflicts.length} mems imported with ${conflicts.length} conflicts`
-                        )
-                    );
+                            `${total - statuses.FINE.length} mems imported with ${statuses.CONFLICTS.length} conflicts`
+                        );
+                    });
                 });
             };
             fr.readAsText(file);

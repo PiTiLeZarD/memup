@@ -67,19 +67,15 @@ export const memConflicts = (mem: MemType, existingMems: MemType[]): ConflictTyp
     }, "FINE");
 
 export const findConflicts = (newMems: MemType[], mems: MemType[]) =>
-    newMems.reduce<{
-        memsToImport: MemType[];
-        newConflicts: MemType[];
-    }>(
-        (acc, newMem) => {
-            if (memConflicts(newMem, [...mems, ...newMems]) != "FINE") {
-                acc.newConflicts.push(newMem);
-            } else {
-                acc.memsToImport.push(newMem);
-            }
-            return acc;
-        },
-        { memsToImport: [], newConflicts: [] }
+    newMems.reduce<{ [k in ConflictType]?: MemType[] }>(
+        (acc, newMem) =>
+            ((conflictStatus) => ({ ...acc, [conflictStatus]: [...(acc[conflictStatus] || []), newMem] }))(
+                memConflicts(newMem, [
+                    ...mems,
+                    ...Object.entries(acc).reduce<MemType[]>((previousMems, [c, ms]) => [...previousMems, ...ms], []),
+                ])
+            ),
+        {}
     );
 
 export const cleanMemsForExport = (mems: MemType[], folders?: string[]): Partial<MemType>[] =>

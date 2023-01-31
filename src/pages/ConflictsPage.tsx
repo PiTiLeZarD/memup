@@ -102,7 +102,7 @@ export const ConflictsPage: ConflictsPageComponent = (): JSX.Element => {
                                     <MemListItem data={mem} showDescription>
                                         Conflicts with:
                                         <Box component="ul" sx={{ paddingTop: "0.5em" }}>
-                                            {findConflicts([mem], mems).newConflicts.map((m, i) => (
+                                            {findConflicts([mem], mems).CONFLICTS.map((m, i) => (
                                                 <Stack key={i} direction="row" spacing={2}>
                                                     <Mem mem={m} variant="h5" />
                                                     <Typography>{m.description}</Typography>
