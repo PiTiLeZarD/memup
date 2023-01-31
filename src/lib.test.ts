@@ -1,4 +1,4 @@
-import { levelGapMap, memScore, newMem, ST_LT_THRESHOLD } from "./lib";
+import { deserialiseMems, levelGapMap, memScore, newMem, ST_LT_THRESHOLD } from "./lib";
 import { MemAnswer } from "./store";
 
 const newCheck = (success: boolean): MemAnswer => ({ success, date: new Date() });
@@ -36,4 +36,11 @@ test("LT behaviour", () => {
     mem.checks = [newCheck(true), newCheck(true), ...mem.checks];
     score = memScore(mem);
     expect(score.level).toBe(ST_LT_THRESHOLD + 3);
+});
+
+test("deserialiseMems", () => {
+    const serialised = [{ ...newMem(), checks: [{ date: new Date().toString() }] }];
+    expect(typeof serialised[0].checks[0].date).toBe("string");
+    const mems = deserialiseMems(serialised);
+    expect(typeof mems[0].checks[0].date).toBe("object");
 });
