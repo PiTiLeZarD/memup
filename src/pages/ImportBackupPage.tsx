@@ -69,7 +69,13 @@ export const ImportBackupPage: ImportBackupPageComponent = (): JSX.Element => {
                     importMems(deserialiseMems(state), (statuses) => {
                         const total = Object.values(statuses).reduce<number>((acc, l) => acc + l.length, 0);
                         setImported(
-                            `${total - statuses.FINE.length} mems imported with ${statuses.CONFLICTS.length} conflicts`
+                            `
+                                <p>${total - (statuses.FINE || []).length} mems in the file</p>
+                                <ul>
+                                    <li>${(statuses.CONFLICTS || []).length} conflicts</li>
+                                    <li>${(statuses.IGNORE || []).length} ignored</li>
+                                </ul>
+                            `
                         );
                     });
                 });
@@ -82,7 +88,9 @@ export const ImportBackupPage: ImportBackupPageComponent = (): JSX.Element => {
         <>
             <Dialog open={imported !== false}>
                 <DialogTitle>Import</DialogTitle>
-                <DialogContentText sx={{ padding: "1em 3em" }}>{imported}</DialogContentText>
+                <DialogContentText sx={{ padding: "1em 3em" }}>
+                    <span dangerouslySetInnerHTML={{ __html: imported as string }} />
+                </DialogContentText>
                 <DialogActions>
                     <Button onClick={() => setImported(false)}>OK</Button>
                 </DialogActions>

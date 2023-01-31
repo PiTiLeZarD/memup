@@ -90,8 +90,8 @@ const StoreActions = (set: Function, get: Function): StoreActionsPropsType => ({
             const statuses = findConflicts(newMems, mems);
             if (cb) cb(statuses);
             return {
-                mems: [...mems, ...statuses.FINE],
-                conflicts: [...conflicts, ...statuses.CONFLICTS],
+                mems: [...mems, ...(statuses.FINE || [])],
+                conflicts: [...conflicts, ...(statuses.CONFLICTS || [])],
             };
         }),
 });
