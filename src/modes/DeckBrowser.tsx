@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useCountdown } from "usehooks-ts";
 
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
-import ThumbDownIcon from "@mui/icons-material/ThumbDown";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import MovingIcon from "@mui/icons-material/Moving";
+import TrendingDownIcon from "@mui/icons-material/TrendingDown";
 import { Alert, Box, Button, Divider, Grid, Stack, Tooltip, Typography } from "@mui/material";
 
 import { useMemo } from "react";
@@ -30,7 +30,7 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
     const addAnswer = useStore(({ addAnswer }) => addAnswer);
 
     const { countdownSeconds } = useStore(({ settings }) => settings);
-    const maxTime = countdownSeconds * (score && score.memory == "LT" ? 2.5 : 1);
+    const maxTime = countdownSeconds * (score && score.memory == "LT" ? 2 : 1);
     const [time, { startCountdown, stopCountdown, resetCountdown }] = useCountdown({
         countStart: maxTime,
         countStop: 0,
@@ -67,7 +67,7 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
                 <Box sx={{ padding: "2em" }}>
                     <Stack spacing={4} sx={{ textAlign: "center" }}>
                         <Stack direction="row" sx={{ width: "auto", margin: "auto" }}>
-                            <Alert severity="success" icon={<ThumbUpIcon />}>
+                            <Alert severity="success" icon={<MovingIcon />}>
                                 {scores.up}
                             </Alert>
                             <Typography variant="h5" sx={{ padding: "6px 2em" }}>
@@ -79,7 +79,7 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
                                     "Done!"
                                 )}
                             </Typography>
-                            <Alert severity="error" icon={<ThumbDownIcon />}>
+                            <Alert severity="error" icon={<TrendingDownIcon />}>
                                 {scores.down}
                             </Alert>
                         </Stack>
