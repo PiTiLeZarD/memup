@@ -67,7 +67,7 @@ export const Quizz: QuizzComponent = ({ mem, answer, timesup, memory }): JSX.Ele
     };
 
     return (
-        <Grid container spacing={2}>
+        <Grid container spacing={1}>
             {options.map((m) => (
                 <Grid item xs={4} key={m.id}>
                     <Paper
@@ -84,7 +84,7 @@ export const Quizz: QuizzComponent = ({ mem, answer, timesup, memory }): JSX.Ele
                         onClick={handleAnswer(m.id)}
                     >
                         {memory == "ST" && <Typography variant="h6">{m.description}</Typography>}
-                        {memory == "LT" && <Mem variant="h5" mem={m} />}
+                        {memory == "LT" && <Mem variant="h4" mem={m} />}
                     </Paper>
                 </Grid>
             ))}
