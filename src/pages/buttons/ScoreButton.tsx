@@ -39,9 +39,9 @@ export const ScoreButton: ScoreButtonComponent = (): JSX.Element => {
     const handleClick = () => {
         let msg = [`My score on memup: ${score}`];
         msg.push(`${totalSuccess} successes / ${totalFailure} failures`);
-        msg.push(`${progressBar("⬜", allLevels.NEW / mems.length)} New mems`);
-        msg.push(`${progressBar("🟦", allLevels.ST / mems.length)} Short Term Memory`);
-        msg.push(`${progressBar("🟩", allLevels.LT / mems.length)} Long Term Memory`);
+        msg.push(`${progressBar("⬜", allLevels.NEW / mems.length)} ${allLevels.NEW} new mems`);
+        msg.push(`${progressBar("🟦", allLevels.ST / mems.length)} ${allLevels.ST} short term memory`);
+        msg.push(`${progressBar("🟩", allLevels.LT / mems.length)} ${allLevels.LT} long term memory`);
         navigator.clipboard.writeText(msg.join("\n"));
         setOpen(true);
     };
