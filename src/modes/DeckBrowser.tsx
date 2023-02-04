@@ -87,8 +87,8 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
                         {mem && score && (
                             <>
                                 {!titleDescription && (
-                                    <Stack direction="row" spacing={6} justifyContent="center">
-                                        <Mem mem={mem} variant="h2" />
+                                    <Stack direction="row" spacing={4} justifyContent="center">
+                                        <Mem mem={mem} variant="h2" sx={{ paddingTop: "0.5em" }} />
                                         {mem.hint ? (
                                             <Tooltip title={mem.hint}>
                                                 <HelpOutlineIcon />
