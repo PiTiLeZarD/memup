@@ -9,6 +9,7 @@ import { EmptyMems } from "../EmptyMems";
 import { memDeck } from "../lib";
 import { MemClusters } from "../MemClusters";
 import { useStore } from "../store";
+import { ScoreButton } from "./buttons/ScoreButton";
 import { SidebarButton } from "./buttons/SidebarButton";
 import { ContentBox } from "./ContentBox";
 import { DailyMems } from "./DailyMems";
@@ -45,6 +46,7 @@ export const HomePage: HomePageComponent = (): JSX.Element => {
             <ContentBox>
                 <SidebarButton />
                 <Stack spacing={6}>
+                    <ScoreButton />
                     <Box sx={{ textAlign: "center" }}>
                         <Button
                             startIcon={<LocalLibraryIcon />}
