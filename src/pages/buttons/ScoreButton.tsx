@@ -22,11 +22,16 @@ export const ScoreButton: ScoreButtonComponent = (): JSX.Element => {
     const mems = useStore(({ mems }) => mems);
     const score = userScore(mems);
 
-    const allLevels = mems.reduce<{ [k: string]: number }>((acc, mem) => {
-        const score = memScore(mem);
-        const k = score.level == 0 ? "NEW" : score.memory;
-        return { ...acc, [k]: (acc[k] || 0) + 1 };
-    }, {});
+    if (mems.length == 0) return <></>;
+
+    const allLevels = mems.reduce<{ [k: string]: number }>(
+        (acc, mem) => {
+            const score = memScore(mem);
+            const k = score.level == 0 ? "NEW" : score.memory;
+            return { ...acc, [k]: (acc[k] || 0) + 1 };
+        },
+        { NEW: 0, ST: 0, LT: 0 }
+    );
 
     const [totalSuccess, totalFailure] = mems.reduce<number[]>(
         ([s, f], mem) => [
@@ -39,9 +44,12 @@ export const ScoreButton: ScoreButtonComponent = (): JSX.Element => {
     const handleClick = () => {
         let msg = [`My score on memup: ${score}`];
         msg.push(`${totalSuccess} successes / ${totalFailure} failures`);
-        msg.push(`${progressBar("⬜", allLevels.NEW / mems.length)} ${allLevels.NEW} new mems`);
-        msg.push(`${progressBar("🟦", allLevels.ST / mems.length)} ${allLevels.ST} short term memory`);
-        msg.push(`${progressBar("🟩", allLevels.LT / mems.length)} ${allLevels.LT} long term memory`);
+        msg.push(`${allLevels.LT} long term memory`);
+        msg.push(`${progressBar("🟩", allLevels.LT / mems.length)}`);
+        msg.push(`${allLevels.ST} short term memory`);
+        msg.push(`${progressBar("🟦", allLevels.ST / mems.length)}`);
+        msg.push(`${allLevels.NEW} new mems`);
+        msg.push(`${progressBar("⬜", allLevels.NEW / mems.length)}`);
         navigator.clipboard.writeText(msg.join("\n"));
         setOpen(true);
     };
