@@ -34,3 +34,12 @@
 -   [ ] Stats and graphs everywhere
     -   [ ] At the end of a sesh (how many mems moved up to long term memory, how many new mems, time of the sesh, how many in the sesh, state of mems, etc..)
     -   [ ] homepage with an overall view of everything
+
+## Korean
+
+-   [ ] Refactor everything so it's not so Japanese specific
+    -   [ ] Kanji/Furigana is really just a string with a tagline
+    -   [ ] Kanji/Hungul detection (maybe more?)
+    -   [ ] Furigana interface to be more tagline
+    -   [ ] Find everywhere where it's japanese and adapt that too
+-   [ ] Add the 100 most used korean words https://flexiclasses.com/korean/common-korean-words/
