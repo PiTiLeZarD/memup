@@ -14,6 +14,7 @@ type FormState = {
 
 export type MemFormProps = {
     mem: MemType;
+    setMem: (m: MemType) => void;
     FieldsWrapper: React.ElementType;
     [k: string]: any;
 };
@@ -28,7 +29,7 @@ const mem2Form = ({ mem, description, hint, furigana, folders }: MemType): FormS
 
 export type MemFormComponent = React.FunctionComponent<MemFormProps>;
 
-export const MemForm: MemFormComponent = ({ mem, FieldsWrapper, ...wrapperProps }): JSX.Element => {
+export const MemForm: MemFormComponent = ({ mem, setMem, FieldsWrapper, ...wrapperProps }): JSX.Element => {
     const { register, handleSubmit, reset, watch, setValue } = useForm<FormState>({
         defaultValues: mem2Form(mem),
     });
@@ -53,13 +54,7 @@ export const MemForm: MemFormComponent = ({ mem, FieldsWrapper, ...wrapperProps 
     return (
         <form onSubmit={handleSubmit(handleSave)}>
             <FieldsWrapper onSubmit={handleSubmit(handleSave)} {...wrapperProps}>
-                <MemFormFields
-                    watch={watch}
-                    setValue={setValue}
-                    register={register}
-                    mem={mem}
-                    pickMem={(m) => reset(mem2Form(m))}
-                />
+                <MemFormFields watch={watch} setValue={setValue} register={register} mem={mem} pickMem={setMem} />
             </FieldsWrapper>
         </form>
     );

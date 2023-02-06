@@ -67,6 +67,7 @@ export const ConflictsPage: ConflictsPageComponent = (): JSX.Element => {
                             {diffOpen !== false && (
                                 <MemForm
                                     mem={conflicts[diffOpen]}
+                                    setMem={() => {}}
                                     FieldsWrapper={({ onSubmit, children }) => <Box>{children}</Box>}
                                 />
                             )}
@@ -75,6 +76,7 @@ export const ConflictsPage: ConflictsPageComponent = (): JSX.Element => {
                             {diffOpen !== false && (
                                 <MemForm
                                     mem={conflicts[diffOpen]}
+                                    setMem={() => {}}
                                     FieldsWrapper={({ onSubmit, children }) => <Box>{children}</Box>}
                                 />
                             )}

@@ -89,6 +89,7 @@ export const MemFormDialog: MemFormDialogComponent = ({ open, setOpen }): JSX.El
             {open && (
                 <MemForm
                     mem={open}
+                    setMem={(mem) => setOpen(mem)}
                     FieldsWrapper={MemFormDialogWrapper}
                     setOpen={setOpen}
                     open={open}
