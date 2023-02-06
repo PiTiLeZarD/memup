@@ -23,7 +23,7 @@ export const downloadMems = (title: string, mems: Partial<MemType>[]) =>
     }).click();
 
 const downloadAllMems = () =>
-    downloadMems("your_history", cleanMemsForExport(JSON.parse(localStorage.memup).state.mems, undefined, true));
+    downloadMems("your_history", cleanMemsForExport(JSON.parse(localStorage.memup).state.mems, true, true));
 
 const validationSchema = array()
     .of(
