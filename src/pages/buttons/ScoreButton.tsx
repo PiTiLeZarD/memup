@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { Fab, Snackbar } from "@mui/material";
 
-import { memScore } from "../../lib";
+import { levelGapMap, memScore } from "../../lib";
 import { MemType, useStore } from "../../store";
 
 const progressBar = (emoji: string, pct: number, maxSize = 8) => {
@@ -27,10 +27,11 @@ export const ScoreButton: ScoreButtonComponent = (): JSX.Element => {
     const allLevels = mems.reduce<{ [k: string]: number }>(
         (acc, mem) => {
             const score = memScore(mem);
-            const k = score.level == 0 ? "NEW" : score.memory;
+            const k =
+                score.level == 0 ? "NEW" : score.level > Object.keys(levelGapMap).length ? "MASTERED" : score.memory;
             return { ...acc, [k]: (acc[k] || 0) + 1 };
         },
-        { NEW: 0, ST: 0, LT: 0 }
+        { NEW: 0, ST: 0, LT: 0, MASTERED: 0 }
     );
 
     const [totalSuccess, totalFailure] = mems.reduce<number[]>(
@@ -44,6 +45,8 @@ export const ScoreButton: ScoreButtonComponent = (): JSX.Element => {
     const handleClick = () => {
         let msg = [`My score on memup: ${score}`];
         msg.push(`${totalSuccess} successes / ${totalFailure} failures`);
+        msg.push(`${allLevels.MASTERED} mastered`);
+        msg.push(`${progressBar("🟥", allLevels.MASTERED / mems.length)}`);
         msg.push(`${allLevels.LT} long term memory`);
         msg.push(`${progressBar("🟩", allLevels.LT / mems.length)}`);
         msg.push(`${allLevels.ST} short term memory`);
