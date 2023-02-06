@@ -79,13 +79,14 @@ export const findConflicts = (newMems: MemType[], mems: MemType[]) =>
         {}
     );
 
-export const cleanMemsForExport = (mems: MemType[], folders?: string[]): Partial<MemType>[] =>
+export const cleanMemsForExport = (mems: MemType[], folders?: string[], keepChecks?: boolean): Partial<MemType>[] =>
     mems.map((m) => {
         let nm: Partial<MemType> = { id: m.id, mem: m.mem, description: m.description };
         if (m.hint) nm.hint = m.hint;
         if (m.furigana) nm.furigana = m.furigana;
         if (folders && m.folders.length > 0)
             nm.folders = m.folders.filter((f) => folders.filter((fs) => f.startsWith(fs)).length > 0);
+        if (keepChecks) nm.checks = m.checks;
         return nm;
     });
 

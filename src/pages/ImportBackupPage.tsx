@@ -7,7 +7,7 @@ import { grey } from "@mui/material/colors";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Dropzone, FileWithPreview } from "../Dropzone";
-import { deserialiseMems, ImportConflictsType } from "../lib";
+import { cleanMemsForExport, deserialiseMems, ImportConflictsType } from "../lib";
 import { MemType, useStore } from "../store";
 import { HomeButton } from "./buttons/HomeButton";
 import { ContentBox } from "./ContentBox";
@@ -22,7 +22,8 @@ export const downloadMems = (title: string, mems: Partial<MemType>[]) =>
         download: title,
     }).click();
 
-const downloadAllMems = () => downloadMems("your_history", JSON.parse(localStorage.memup).state.mems);
+const downloadAllMems = () =>
+    downloadMems("your_history", cleanMemsForExport(JSON.parse(localStorage.memup).state.mems, undefined, true));
 
 const validationSchema = array()
     .of(
@@ -74,13 +75,13 @@ export const ImportBackupPage: ImportBackupPageComponent = (): JSX.Element => {
                 <DialogTitle>Import</DialogTitle>
                 <DialogContent sx={{ padding: "1em 3em" }}>
                     <Typography>
-                        ${Object.values(imported as ImportConflictsType).reduce<number>((acc, l) => acc + l.length, 0)}{" "}
+                        {Object.values(imported as ImportConflictsType).reduce<number>((acc, l) => acc + l.length, 0)}{" "}
                         mems in the file
                     </Typography>
                     <ul>
-                        <li>${((imported as ImportConflictsType).FINE || []).length} imported</li>
-                        <li>${((imported as ImportConflictsType).CONFLICTS || []).length} conflicts</li>
-                        <li>${((imported as ImportConflictsType).IGNORE || []).length} ignored</li>
+                        <li>{((imported as ImportConflictsType).FINE || []).length} imported</li>
+                        <li>{((imported as ImportConflictsType).CONFLICTS || []).length} conflicts</li>
+                        <li>{((imported as ImportConflictsType).IGNORE || []).length} ignored</li>
                     </ul>
                 </DialogContent>
                 <DialogActions>
