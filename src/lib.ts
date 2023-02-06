@@ -63,7 +63,9 @@ export const memConflicts = (mem: MemType, existingMems: MemType[]): ConflictTyp
             if (m.mem == mem.mem && m.description == mem.description) return "IGNORE";
             return "CONFLICTS";
         }
-        if (m.mem == mem.mem) return "CONFLICTS";
+        if (m.mem == mem.mem) {
+            if ((m.furigana || []).join("") == (mem.furigana || []).join("")) return "CONFLICTS";
+        }
         return "FINE";
     }, "FINE");
 

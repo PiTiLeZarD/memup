@@ -58,6 +58,12 @@ test("memConflics", () => {
     expect(memConflicts(ignoringMem, [existingMem])).toBe("IGNORE");
 });
 
+test("memConflicts with different furigana", () => {
+    const memA: MemType = { ...newMem(), mem: "何時", furigana: ["いつ"], description: "when" };
+    const memB: MemType = { ...newMem(), mem: "何時", furigana: ["なんじ"], description: "what time" };
+    expect(memConflicts(memA, [memB])).toBe("FINE");
+});
+
 test("findConflicts", () => {
     const mems = [
         { ...newMem(), mem: "Test1", description: "Test1Description" },
