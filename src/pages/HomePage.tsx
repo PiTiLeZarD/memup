@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useInterval } from "usehooks-ts";
 
 import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
 import SchoolIcon from "@mui/icons-material/School";
@@ -9,6 +10,7 @@ import { EmptyMems } from "../EmptyMems";
 import { memDeck } from "../lib";
 import { MemClusters } from "../MemClusters";
 import { useStore } from "../store";
+import { useForceRender } from "../useForceRender";
 import { ScoreButton } from "./buttons/ScoreButton";
 import { SidebarButton } from "./buttons/SidebarButton";
 import { ContentBox } from "./ContentBox";
@@ -23,6 +25,7 @@ export const HomePage: HomePageComponent = (): JSX.Element => {
     const { learnNewCount } = useStore(({ settings }) => settings);
     const mems = useStore(({ mems }) => mems);
     const navigate = useNavigate();
+    useInterval(useForceRender(), 60000);
 
     const reviseMems = memDeck(mems.filter((m) => !!m.checks.length));
     const learnMems = mems.filter((m) => !m.checks.length);
