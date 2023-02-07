@@ -5,10 +5,8 @@ import { Fab, Snackbar } from "@mui/material";
 import { levelGapMap, memScore } from "../../lib";
 import { MemType, useStore } from "../../store";
 
-const progressBar = (emoji: string, pct: number, maxSize = 8) => {
-    const count = Math.round(pct * maxSize);
-    return [...new Array(count).fill(emoji), ...new Array(maxSize - count).fill("⬛")].join("");
-};
+const progressBar = (emoji: string, pct: number, maxSize = 15) =>
+    new Array(Math.round(pct * maxSize)).fill(emoji).join("");
 
 const userScore = (mems: MemType[]) =>
     mems.reduce((score, mem) => score + memScore(mem).level + mem.checks.filter((c) => !!c.success).length, 0);
@@ -33,6 +31,7 @@ export const ScoreButton: ScoreButtonComponent = (): JSX.Element => {
         },
         { NEW: 0, ST: 0, LT: 0, MASTERED: 0 }
     );
+    const learningCount = Object.values(allLevels).reduce<number>((s, v) => v + s, 0) - allLevels.NEW;
 
     const [totalSuccess, totalFailure] = mems.reduce<number[]>(
         ([s, f], mem) => [
@@ -45,16 +44,16 @@ export const ScoreButton: ScoreButtonComponent = (): JSX.Element => {
     const handleClick = () => {
         let msg = [`My score on memup: ${score}`];
         msg.push(`${totalSuccess} successes / ${totalFailure} failures`);
-        msg.push(`${allLevels.MASTERED} mastered`);
-        msg.push(`${progressBar("🟥", allLevels.MASTERED / mems.length)}`);
-        msg.push(`${allLevels.LT} long term memory`);
-        msg.push(`${progressBar("🟩", allLevels.LT / mems.length)}`);
-        msg.push(`${allLevels.ST} short term memory`);
-        msg.push(`${progressBar("🟦", allLevels.ST / mems.length)}`);
-        msg.push(`${allLevels.NEW} new mems`);
-        msg.push(`${progressBar("⬜", allLevels.NEW / mems.length)}`);
-        navigator.clipboard.writeText(msg.join("\n"));
+        msg.push(`Learning ${learningCount} mems${allLevels.MASTERED ? `, ${allLevels.MASTERED} mastered` : ""}`);
+        msg.push(`${allLevels.NEW} left to study`);
+        msg.push(
+            `${progressBar("🟦", allLevels.ST / learningCount)}${progressBar(
+                "🟨",
+                allLevels.LT / learningCount
+            )}${progressBar("🟩", allLevels.MASTERED / learningCount)}`
+        );
         setOpen(true);
+        navigator.clipboard.writeText(msg.join("\n"));
     };
 
     return (
