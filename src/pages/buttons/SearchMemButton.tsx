@@ -15,6 +15,7 @@ import {
     TextField,
 } from "@mui/material";
 
+import { useNavigate } from "react-router-dom";
 import { HiraganaTextField } from "../../HiraganaTextField";
 import { isKanji, splitByKanji } from "../../lib";
 import { MemListItem } from "../../MemListItem";
@@ -66,12 +67,18 @@ export const SearchMemButton: SearchMemButtonComponent = ({
     const [hiragana, setHiragana] = useState<boolean>(false);
     const [search, setSearch] = useState<string>(defaultSearch || "");
     const mems = useStore(({ mems }) => mems);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (!!defaultSearch) {
             setSearch(defaultSearch as string);
         }
     }, [defaultSearch]);
+
+    const handleHeaderClick = (folder) => (ev) => {
+        navigate(`/mems/${folder}`);
+        setOpen(false);
+    };
 
     const InputComponent = hiragana ? HiraganaTextField : TextField;
     const memsMatching = mems.filter((m) => memSearchTerms(m).includes(search));
@@ -122,7 +129,9 @@ export const SearchMemButton: SearchMemButtonComponent = ({
                             .map((folder) => (
                                 <li key={folder}>
                                     <ul>
-                                        <ListSubheader>{folder}</ListSubheader>
+                                        <ListSubheader sx={{ cursor: "pointer" }} onClick={handleHeaderClick(folder)}>
+                                            {folder}
+                                        </ListSubheader>
                                         {filteredMems[folder].map((mem) => (
                                             <ListItem key={`${folder}_${mem.id}`}>
                                                 <MemListItem data={mem} showDescription />
