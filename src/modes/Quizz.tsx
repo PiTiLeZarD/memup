@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react";
 
-import { Grid, Paper, Typography } from "@mui/material";
-import { lightBlue, lightGreen, orange } from "@mui/material/colors";
+import { Grid, PaletteMode, Paper, Typography } from "@mui/material";
+import { blue, lightBlue, lightGreen, orange } from "@mui/material/colors";
 
 import { randomiseDeck } from "../lib";
 import { Mem } from "../Mem";
 import { MemAnswer, MemScore, MemType, useStore } from "../store";
 
-const backgroundColour = (correctId: string, currentId: string, selectedId: string | null): string => {
-    if (!selectedId) return "white";
+const backgroundColour = (
+    mode: PaletteMode,
+    correctId: string,
+    currentId: string,
+    selectedId: string | null
+): string => {
+    if (!selectedId) return mode == "light" ? lightBlue[50] : blue[900];
 
     if (selectedId == correctId) {
         if (currentId == selectedId) return lightGreen[500];
@@ -39,6 +44,7 @@ export const Quizz: QuizzComponent = ({ mem, answer, timesup, memory }): JSX.Ele
     const allMems = useStore(({ learnContext, mems }) => getAllMems(mem, learnContext, mems));
     const [options, setOptions] = useState<MemType[]>([]);
     const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
+    const { displayMode } = useStore(({ settings }) => settings);
 
     useEffect(() => {
         const count = mem.checks.filter((c) => c.success).length > 0 ? 9 : 3;
@@ -78,7 +84,7 @@ export const Quizz: QuizzComponent = ({ mem, answer, timesup, memory }): JSX.Ele
                             marginBottom: 2,
                             borderRadius: "10px",
                             cursor: "pointer",
-                            background: backgroundColour(mem.id, m.id, selectedAnswer),
+                            background: backgroundColour(displayMode, mem.id, m.id, selectedAnswer),
                             "&:hover": selectedAnswer ? {} : { backgroundColor: orange[50] },
                         }}
                         onClick={handleAnswer(m.id)}

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import BrokenImageIcon from "@mui/icons-material/BrokenImage";
 import HistoryEduIcon from "@mui/icons-material/HistoryEdu";
@@ -8,7 +9,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { Divider, Fab, List, ListItemButton, ListItemIcon, ListItemText, SwipeableDrawer } from "@mui/material";
 import { orange } from "@mui/material/colors";
-import { useNavigate } from "react-router-dom";
+
 import { useStore } from "../../store";
 
 export type SidebarButtonProps = {};
@@ -19,6 +20,7 @@ export const SidebarButton: SidebarButtonComponent = (): JSX.Element => {
     const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
     const conflicts = useStore(({ conflicts }) => conflicts);
     const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
 
     return (
         <>
