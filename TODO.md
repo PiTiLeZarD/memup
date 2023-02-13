@@ -27,6 +27,8 @@
 ## General
 
 -   [ ] mobile tests
+-   [ ] dark mode
+-   [ ] typing mode on the flash card
 -   [ ] folders
     -   [x] list of other available folders in the same subfolder when adding
     -   [ ] ability to rename a folder
