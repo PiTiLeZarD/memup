@@ -112,7 +112,11 @@ export const ImportBackupPage: ImportBackupPageComponent = (): JSX.Element => {
                 <Box sx={{ textAlign: "center" }}>
                     <Dropzone
                         onAcceptedFiles={handleImport}
-                        sx={{ background: grey[200], position: "relative", cursor: "pointer" }}
+                        sx={{
+                            background: (theme) => (theme.palette.mode == "light" ? grey[100] : grey[800]),
+                            position: "relative",
+                            cursor: "pointer",
+                        }}
                         elevation={8}
                     >
                         <Box sx={{ width: "100%", height: "11em" }}>

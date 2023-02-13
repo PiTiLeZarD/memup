@@ -28,6 +28,22 @@ export const SettingsPage: SettingsPageComponent = (): JSX.Element => {
             <Stack spacing={4}>
                 <Typography variant="h3">Settings</Typography>
                 <Divider />
+                <Typography variant="h6">Display Mode</Typography>
+                <ButtonGroup variant="contained" sx={{ width: "auto" }}>
+                    <Button
+                        color={settings.displayMode == "light" ? "primary" : "inherit"}
+                        onClick={() => set({ displayMode: "light" })}
+                    >
+                        Light
+                    </Button>
+                    <Button
+                        color={settings.displayMode == "dark" ? "primary" : "inherit"}
+                        onClick={() => set({ displayMode: "dark" })}
+                    >
+                        Dark
+                    </Button>
+                </ButtonGroup>
+                <Divider />
                 <Typography variant="h6">Kanji display</Typography>
                 <Stack direction="row" spacing={4}>
                     <ButtonGroup variant="contained">

@@ -1,3 +1,4 @@
+import { PaletteMode } from "@mui/material";
 import create from "zustand";
 import { combine, devtools, persist } from "zustand/middleware";
 import { deserialiseMems, findConflicts, ImportConflictsType } from "./lib";
@@ -9,6 +10,7 @@ export type AppSettings = {
     countdownSeconds: number;
     kanjiDefSource: "jisho.org" | "classic.jisho.org";
     learnNewCount: number;
+    displayMode: PaletteMode;
 };
 
 export type MemQuizzAnswer = {
@@ -64,6 +66,7 @@ const defaultSettings: AppSettings = {
     countdownSeconds: 10,
     kanjiDefSource: "jisho.org",
     learnNewCount: 20,
+    displayMode: "light",
 };
 
 const InitialState: StorePropsType = {
