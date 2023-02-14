@@ -13,16 +13,17 @@ const backgroundColour = (
     currentId: string,
     selectedId: string | null
 ): string => {
-    if (!selectedId) return mode == "light" ? lightBlue[50] : blue[900];
+    const basic = mode == "light" ? lightBlue[50] : blue[900];
+    if (!selectedId) return basic;
 
     if (selectedId == correctId) {
         if (currentId == selectedId) return lightGreen[500];
-        return "white";
+        return basic;
     }
 
     if (currentId == selectedId) return orange[500];
     if (currentId == correctId) return lightBlue[300];
-    return "white";
+    return basic;
 };
 
 export type QuizzProps = {
@@ -85,7 +86,9 @@ export const Quizz: QuizzComponent = ({ mem, answer, timesup, memory }): JSX.Ele
                             borderRadius: "10px",
                             cursor: "pointer",
                             background: backgroundColour(displayMode, mem.id, m.id, selectedAnswer),
-                            "&:hover": selectedAnswer ? {} : { backgroundColor: orange[50] },
+                            "&:hover": selectedAnswer
+                                ? {}
+                                : { backgroundColor: orange[displayMode == "light" ? 50 : 900] },
                         }}
                         onClick={handleAnswer(m.id)}
                     >
