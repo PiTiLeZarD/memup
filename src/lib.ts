@@ -166,6 +166,16 @@ export const clusterByDate: <T>(objects: T[], cb: (o: T) => Date, interval?: num
         return clusters;
     }, []);
 
+export const hiraganaValue = (mem: MemType) => {
+    if ((mem.furigana || []).length > 0) {
+        let i = 0;
+        return splitByKanji(mem.mem)
+            .map((b) => (isKanji(b) ? (mem.furigana as string[])[i++] : b))
+            .join("");
+    }
+    return mem.mem;
+};
+
 const mulberry32 = (a: number) => () => {
     let t = (a += 0x6d2b79f5);
     t = Math.imul(t ^ (t >>> 15), t | 1);

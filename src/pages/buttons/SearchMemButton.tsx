@@ -17,19 +17,14 @@ import {
 
 import { useNavigate } from "react-router-dom";
 import { HiraganaTextField } from "../../HiraganaTextField";
-import { isKanji, splitByKanji } from "../../lib";
+import { hiraganaValue } from "../../lib";
 import { MemListItem } from "../../MemListItem";
 import { MemType, useStore } from "../../store";
 
 const memSearchTerms: (mem: MemType) => string = (mem) => {
     let terms = [mem.mem, mem.description];
     if ((mem.furigana || []).length > 0) {
-        let i = 0;
-        terms.push(
-            splitByKanji(mem.mem)
-                .map((b) => (isKanji(b) ? (mem.furigana as string[])[i++] : b))
-                .join("")
-        );
+        terms.push(hiraganaValue(mem));
     }
     return terms.join(" ");
 };
