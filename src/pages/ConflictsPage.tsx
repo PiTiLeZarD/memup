@@ -34,6 +34,7 @@ export type ConflictsPageComponent = React.FunctionComponent<ConflictsPageProps>
 
 export const ConflictsPage: ConflictsPageComponent = (): JSX.Element => {
     const forceRender = useForceRender();
+    const { displayMode } = useStore(({ settings }) => settings);
     const [diffOpen, setDiffOpen] = useState<false | number>(false);
     const conflicts = useStore(({ conflicts }) => conflicts);
     const setConflicts = useStore(({ setConflicts }) => setConflicts);
@@ -97,7 +98,10 @@ export const ConflictsPage: ConflictsPageComponent = (): JSX.Element => {
                     {conflicts.map((mem, i) => (
                         <ListItem
                             key={mem.id}
-                            sx={{ background: i % 2 ? "inherit" : lightBlue[50], paddingTop: "1.5em" }}
+                            sx={{
+                                background: i % 2 ? "inherit" : lightBlue[displayMode == "light" ? 50 : 900],
+                                paddingTop: "1.5em",
+                            }}
                         >
                             <Grid container>
                                 <Grid item xs={10}>
