@@ -1,19 +1,25 @@
 import React, { useEffect, useState } from "react";
+import * as stringSimilarity from "string-similarity";
 
-import { Box, Button, ButtonGroup, Divider, Typography } from "@mui/material";
+import { Box, Button, Divider, LinearProgress } from "@mui/material";
 
+import { HiraganaTextField } from "../HiraganaTextField";
+import { hiraganaValue } from "../lib";
+import { Mem } from "../Mem";
 import { MemAnswer, MemType } from "../store";
 
 export type FlashCardProps = {
     answer: (answer: MemAnswer) => void;
     mem: MemType;
-    timesup: boolean;
 };
 
 export type FlashCardComponent = React.FunctionComponent<FlashCardProps>;
 
-export const FlashCard: FlashCardComponent = ({ answer, mem, timesup }): JSX.Element => {
+export const FlashCard: FlashCardComponent = ({ answer, mem }): JSX.Element => {
+    const [value, setValue] = useState<string>("");
     const [showMe, setShowMe] = useState<boolean>(false);
+
+    const similarity = stringSimilarity.compareTwoStrings(hiraganaValue(mem), value);
 
     const handleClick = (show: boolean) => () => {
         answer({ success: !show });
@@ -21,33 +27,30 @@ export const FlashCard: FlashCardComponent = ({ answer, mem, timesup }): JSX.Ele
     };
 
     useEffect(() => {
-        setShowMe(timesup);
-    }, [timesup]);
+        if (similarity == 1) {
+            handleClick(true)();
+        }
+    }, [similarity]);
 
     return (
         <>
             {showMe && (
                 <>
                     <Divider />
-                    <Typography>{mem.description}</Typography>
+                    <Mem mem={mem} />
                 </>
             )}
 
             {!showMe && (
                 <>
                     <Divider />
+                    <HiraganaTextField value={value} onChange={(ev) => setValue(ev.target.value)} />
+                    <LinearProgress variant="determinate" value={100 * similarity} />
+                    <Divider />
                     <Box sx={{ textAlign: "center" }}>
-                        <ButtonGroup variant="contained" size="large">
-                            <Button color="warning" onClick={handleClick(true)}>
-                                No Idea
-                            </Button>
-                            <Button color="primary" onClick={handleClick(true)}>
-                                Show me
-                            </Button>
-                            <Button color="success" onClick={handleClick(false)}>
-                                I know
-                            </Button>
-                        </ButtonGroup>
+                        <Button variant="contained" size="large" onClick={handleClick(true)}>
+                            No Idea
+                        </Button>
                     </Box>
                 </>
             )}

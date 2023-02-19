@@ -9,6 +9,7 @@ specifiers:
   '@types/node': ^18.13.0
   '@types/react': ^18.0.27
   '@types/react-dom': ^18.0.10
+  '@types/string-similarity': ^4.0.0
   '@types/wanakana': ^4.0.3
   gh-pages: ^4.0.0
   humanize-duration: ^3.28.0
@@ -22,6 +23,7 @@ specifiers:
   react-dropzone: ^14.2.3
   react-hook-form: ^7.43.1
   react-router-dom: ^6.8.1
+  string-similarity: ^4.0.4
   ts-jest: ^29.0.5
   typescript: ^4.9.5
   usehooks-ts: ^2.9.1
@@ -41,6 +43,7 @@ dependencies:
   react-dropzone: 14.2.3_react@18.2.0
   react-hook-form: 7.43.1_react@18.2.0
   react-router-dom: 6.8.1_biqbaboplfbrettd7655fr4n2y
+  string-similarity: 4.0.4
   usehooks-ts: 2.9.1_biqbaboplfbrettd7655fr4n2y
   wanakana: 5.0.2
   yup: 0.32.11
@@ -51,6 +54,7 @@ devDependencies:
   '@types/node': 18.13.0
   '@types/react': 18.0.27
   '@types/react-dom': 18.0.10
+  '@types/string-similarity': 4.0.0
   '@types/wanakana': 4.0.3
   gh-pages: 4.0.0
   husky: 8.0.3
@@ -1913,6 +1917,10 @@ packages:
 
   /@types/stack-utils/2.0.1:
     resolution: {integrity: sha512-Hl219/BT5fLAaz6NDkSuhzasy49dwQS/DSdu4MdggFB8zcXv7vflBI3xp7FEmkmdDkBUI2bPUNeMttp2knYdxw==}
+    dev: true
+
+  /@types/string-similarity/4.0.0:
+    resolution: {integrity: sha512-dMS4S07fbtY1AILG/RhuwmptmzK1Ql8scmAebOTJ/8iBtK/KI17NwGwKzu1uipjj8Kk+3mfPxum56kKZE93mzQ==}
     dev: true
 
   /@types/wanakana/4.0.3:
@@ -4047,6 +4055,10 @@ packages:
       char-regex: 1.0.2
       strip-ansi: 6.0.1
     dev: true
+
+  /string-similarity/4.0.4:
+    resolution: {integrity: sha512-/q/8Q4Bl4ZKAPjj8WerIBJWALKkaPRfrvhfF8k/B23i4nzrlRj2/go1m90In7nG/3XDSbOo0+pu6RvCTM9RGMQ==}
+    dev: false
 
   /string-width/4.2.3:
     resolution: {integrity: sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==}
