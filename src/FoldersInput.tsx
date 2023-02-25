@@ -79,7 +79,7 @@ export const FoldersInput: FoldersInputComponent = ({ register, setValue, watch 
                 onChange={setCurrentFolder}
                 onSave={handleSaveCurrentFolderChip}
                 label="Folder?"
-                suggestions={open && folders[open[0]] ? getFoldersSuggestions(folders[open[0]], mems) : undefined}
+                suggestions={open ? getFoldersSuggestions(folders[open[0]] ? folders[open[0]] : [], mems) : undefined}
             />
 
             <FormLabel>Folder:</FormLabel>
