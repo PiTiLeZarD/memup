@@ -5,8 +5,8 @@ import { levelGapMap, ST_LT_THRESHOLD } from "./lib";
 
 export const useStyles = makeStyles((theme: Theme) => ({
     root: {
-        background: lightBlue[50],
-        border: `1px solid ${lightBlue[900]}`,
+        background: lightBlue[theme.palette.mode == "light" ? 50 : 900],
+        border: `1px solid ${lightBlue[lightBlue[theme.palette.mode == "light" ? 900 : 50]]}`,
         width: "100%",
         height: "2.5em",
         borderRadius: "10px",
@@ -20,7 +20,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
         lineHeight: "1.1em",
     },
     bar_LT: {
-        background: green[200],
+        background: green[theme.palette.mode == "light" ? 200 : 700],
     },
     ...Object.fromEntries(
         new Array(Object.keys(levelGapMap).length).fill(null).map((_, level) => [
