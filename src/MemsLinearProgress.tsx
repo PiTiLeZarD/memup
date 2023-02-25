@@ -1,9 +1,10 @@
 import React from "react";
 
 import { Box, Paper } from "@mui/material";
-import { green, lightBlue, orange } from "@mui/material/colors";
 
-import { levelGapMap, memScore, ST_LT_THRESHOLD } from "./lib";
+import { useVariant } from "./classes";
+import { levelGapMap, memScore } from "./lib";
+import { useStyles } from "./MemsLinearProgressStyles";
 import { MemType } from "./store";
 
 export type MemsLinearProgressProps = {
@@ -13,15 +14,9 @@ export type MemsLinearProgressProps = {
 
 export type MemsLinearProgressComponent = React.FunctionComponent<MemsLinearProgressProps>;
 
-const barStyle = {
-    float: "left",
-    height: "2.5em",
-    textAlign: "center",
-    paddingTop: "3px",
-    lineHeight: "1.1em",
-};
-
 export const MemsLinearProgress: MemsLinearProgressComponent = ({ mems, label }): JSX.Element => {
+    const classes = useStyles();
+
     const stats = mems.reduce((acc, m: MemType) => {
         if ((m.checks || []).length == 0) return { ...acc, [0]: (acc[0] || 0) + 1 };
         const score = memScore(m);
@@ -36,28 +31,13 @@ export const MemsLinearProgress: MemsLinearProgressComponent = ({ mems, label })
     const width = (n: number) => `${(n / mems.length) * 100}%`;
 
     return (
-        <Box
-            sx={{
-                background: lightBlue[50],
-                border: `1px solid ${lightBlue[900]}`,
-                width: "100%",
-                height: "2.5em",
-                borderRadius: "10px",
-                overflow: "hidden",
-            }}
-            component={Paper}
-            elevation={2}
-        >
+        <Box sx={classes.root} component={Paper} elevation={2}>
             {Object.keys(stats).map((level) => (
                 <Box
                     key={level}
                     sx={{
-                        ...barStyle,
+                        ...useVariant(classes, "bar", `L${level}`),
                         width: width(stats[parseInt(level)]),
-                        background:
-                            parseInt(level) > ST_LT_THRESHOLD
-                                ? orange[(parseInt(level) - ST_LT_THRESHOLD) * 100]
-                                : lightBlue[parseInt(level) * 100],
                     }}
                 >
                     level {level}
@@ -68,9 +48,8 @@ export const MemsLinearProgress: MemsLinearProgressComponent = ({ mems, label })
             {LT > 0 && (
                 <Box
                     sx={{
-                        ...barStyle,
+                        ...useVariant(classes, "bar", "LT"),
                         width: width(LT),
-                        background: green[200],
                     }}
                 >
                     long term memory
