@@ -38,14 +38,14 @@ export const FlashCard: FlashCardComponent = ({ answer, mem }): JSX.Element => {
             {showMe && (
                 <>
                     <Divider />
-                    <Mem mem={mem} />
+                    <Mem mem={mem} variant="h4" />
                 </>
             )}
 
             {!showMe && (
                 <>
                     <Divider />
-                    <HiraganaTextField value={value} onChange={(ev) => setValue(ev.target.value)} />
+                    <HiraganaTextField romaji value={value} onChange={(ev) => setValue(ev.target.value)} />
                     <LinearProgress variant="determinate" value={100 * similarity} />
                     <Divider />
                     <Box sx={{ textAlign: "center" }}>

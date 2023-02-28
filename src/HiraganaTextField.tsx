@@ -1,11 +1,21 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as wanakana from "wanakana";
 
-import { InputAdornment, TextField, TextFieldProps } from "@mui/material";
+import { Button, InputAdornment, TextField, TextFieldProps } from "@mui/material";
 
-export type HiraganaTextFieldComponent = React.FunctionComponent<Omit<TextFieldProps, "inputRef">>;
+export type HiraganaTextFieldProps = {
+    romaji?: boolean;
+    defaultRomaji?: boolean;
+} & Omit<TextFieldProps, "inputRef">;
 
-export const HiraganaTextField: HiraganaTextFieldComponent = (props): JSX.Element => {
+export type HiraganaTextFieldComponent = React.FunctionComponent<HiraganaTextFieldProps>;
+
+export const HiraganaTextField: HiraganaTextFieldComponent = ({
+    romaji = false,
+    defaultRomaji = false,
+    ...props
+}): JSX.Element => {
+    const [isHiragana, setisHiragana] = useState<boolean>(!(romaji && defaultRomaji));
     const hiraganaInputRef = useRef<HTMLInputElement>();
 
     useEffect(() => {
@@ -16,13 +26,24 @@ export const HiraganaTextField: HiraganaTextFieldComponent = (props): JSX.Elemen
         }
     }, [hiraganaInputRef.current]);
 
+    const handleClick = () => {
+        if (romaji) {
+            setisHiragana(!isHiragana);
+        }
+    };
+
     return (
         <TextField
-            helperText="Text automatically converted to hiragana"
-            InputProps={{
-                endAdornment: <InputAdornment position="end">あ</InputAdornment>,
-            }}
+            helperText={isHiragana ? "Text automatically converted to hiragana" : undefined}
             {...(props as any)}
+            InputProps={{
+                endAdornment: (
+                    <InputAdornment position="end">
+                        <Button onClick={handleClick}>{isHiragana ? "あ" : "ABC"}</Button>
+                    </InputAdornment>
+                ),
+                ...props.InputProps,
+            }}
             inputRef={hiraganaInputRef}
         />
     );

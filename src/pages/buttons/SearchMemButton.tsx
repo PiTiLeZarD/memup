@@ -12,7 +12,6 @@ import {
     List,
     ListItem,
     ListSubheader,
-    TextField,
 } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
@@ -75,7 +74,6 @@ export const SearchMemButton: SearchMemButtonComponent = ({
         setOpen(false);
     };
 
-    const InputComponent = hiragana ? HiraganaTextField : TextField;
     const memsMatching = mems.filter((m) => memSearchTerms(m).includes(search));
     const filteredMems: { [folder: string]: MemType[] } =
         search.length > 0
@@ -88,20 +86,17 @@ export const SearchMemButton: SearchMemButtonComponent = ({
     return (
         <>
             <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="lg">
-                <InputComponent
+                <HiraganaTextField
                     placeholder="Search..."
                     fullWidth
+                    romaji
+                    defaultRomaji={false}
                     value={search}
                     onChange={(ev) => setSearch(ev.target.value)}
                     InputProps={{
                         startAdornment: (
                             <InputAdornment position="start">
                                 <SearchIcon />
-                            </InputAdornment>
-                        ),
-                        endAdornment: (
-                            <InputAdornment position="end">
-                                <Button onClick={() => setHiragana(!hiragana)}>{hiragana ? "あ" : "ABC"}</Button>
                             </InputAdornment>
                         ),
                     }}
