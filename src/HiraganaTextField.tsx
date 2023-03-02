@@ -44,7 +44,7 @@ export const HiraganaTextField: HiraganaTextFieldComponent = ({
                 ),
                 ...props.InputProps,
             }}
-            inputRef={hiraganaInputRef}
+            inputRef={isHiragana ? hiraganaInputRef : undefined}
         />
     );
 };
