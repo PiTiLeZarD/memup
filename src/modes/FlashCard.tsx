@@ -4,7 +4,7 @@ import * as stringSimilarity from "string-similarity";
 import { Box, Button, Divider, LinearProgress, Stack } from "@mui/material";
 
 import { HiraganaTextField } from "../HiraganaTextField";
-import { hiraganaValue } from "../lib";
+import { hiraganaValue, sanitizeMem } from "../lib";
 import { Mem } from "../Mem";
 import { MemAnswer, MemType } from "../store";
 
@@ -19,7 +19,10 @@ export const FlashCard: FlashCardComponent = ({ answer, mem }): JSX.Element => {
     const [value, setValue] = useState<string>("");
     const [showMe, setShowMe] = useState<boolean>(false);
 
-    const similarity = mem.mem == value ? 1 : stringSimilarity.compareTwoStrings(hiraganaValue(mem), value);
+    const similarity =
+        sanitizeMem(mem.mem) == sanitizeMem(value)
+            ? 1
+            : stringSimilarity.compareTwoStrings(sanitizeMem(hiraganaValue(mem)), sanitizeMem(value));
 
     const handleClick = (show: boolean) => () => {
         answer({ success: !show });
