@@ -21,6 +21,7 @@ import {
 } from "@mui/material";
 
 import { grey } from "@mui/material/colors";
+import { sortByDate } from "./lib";
 import { Mem } from "./Mem";
 import { MemQuizzAnswer, MemType, useStore } from "./store";
 
@@ -59,7 +60,7 @@ export const MemChecksLogs: MemChecksLogsComponent = ({ mem, open, onClose }): J
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {mem.checks.map((check, i) => (
+                            {sortByDate(mem.checks, (c) => c.date as Date).map((check, i) => (
                                 <TableRow key={i}>
                                     <TableCell>{check.date?.toDateString()}</TableCell>
                                     <TableCell>{check.success ? <DoneIcon /> : <ReportIcon />}</TableCell>

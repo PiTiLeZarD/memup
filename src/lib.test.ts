@@ -25,6 +25,18 @@ test("Test link between successes and levels", () => {
     }
 });
 
+test("Test levels edge case 1", () => {
+    const mem = { ...newMem(), id: "test" };
+    mem.checks = JSON.parse(
+        '[{"success":true,"time":0,"date":"2023-02-28T04:22:31.091Z"},{"success":true,"time":5,"date":"2023-01-28T03:26:49.491Z"},{"success":true,"time":3,"date":"2023-01-20T20:53:58.887Z"},{"success":true,"time":2,"date":"2023-01-16T10:47:40.351Z"},{"success":true,"time":4,"date":"2023-01-15T20:12:42.138Z"},{"success":true,"time":5,"date":"2023-01-15T11:25:51.274Z"},{"success":true,"time":8,"date":"2023-01-15T09:48:39.798Z"},{"success":false,"selected":"HriNIy1F8fyGEhmMxqG56","time":9,"date":"2023-01-14T03:09:12.503Z"},{"success":true,"time":9,"date":"2023-01-13T22:16:27.329Z"},{"success":true,"time":2,"date":"2023-01-13T04:17:41.510Z"},{"success":true,"time":7,"date":"2023-01-12T04:08:21.406Z"},{"success":true,"time":6,"date":"2023-01-06T20:35:51.688Z"},{"success":true,"time":5,"date":"2023-01-04T20:24:05.400Z"},{"success":true,"time":8,"date":"2023-01-03T19:44:56.263Z"},{"success":true,"time":5,"date":"2023-01-03T08:20:46.399Z"},{"success":true,"time":4,"date":"2023-01-03T04:56:39.515Z"},{"success":true,"time":5,"date":"2023-01-03T04:25:24.040Z"}]'
+    ).map((c) => ({ ...c, date: new Date(c.date) }));
+
+    const score = memScore(mem);
+
+    expect(score.level).toBe(14);
+    expect(score.memory).toBe("LT");
+});
+
 test("LT behaviour", () => {
     const mem = newMem();
     mem.checks = [newCheck(false), ...new Array(ST_LT_THRESHOLD + 1).fill(newCheck(true)), newCheck(false)];

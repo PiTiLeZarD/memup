@@ -124,15 +124,19 @@ export const memScore = (mem: MemType): MemScore => {
 
     const checks = sortByDate(mem.checks, (c) => c.date as Date);
     const groupedChecks = groupChecksBySuccess(checks);
+    const ltGroups = groupedChecks.filter((g) => g.length > ST_LT_THRESHOLD);
 
-    const memory = groupedChecks.filter((g) => g.length > ST_LT_THRESHOLD).length > 0 ? "LT" : "ST";
-    let level = groupedChecks.length == 0 ? 0 : groupedChecks[0][0].success ? groupedChecks[0].length : 1;
+    const memory = ltGroups.length > 0 ? "LT" : "ST";
+
+    let level = groupedChecks[0][0].success ? groupedChecks[0].length : 0;
     if (memory == "LT") {
-        level = groupedChecks[0][0].success
-            ? groupedChecks[0].length > ST_LT_THRESHOLD
-                ? groupedChecks[0].length
-                : groupedChecks[0].length + ST_LT_THRESHOLD + 1
-            : ST_LT_THRESHOLD + 1;
+        if (
+            !groupedChecks[0][0].success ||
+            (groupedChecks[0][0].success && groupedChecks[0].length < ST_LT_THRESHOLD) ||
+            ltGroups.length > 1
+        ) {
+            level += ST_LT_THRESHOLD + 1;
+        }
     }
 
     const nextCheck = new Date(
