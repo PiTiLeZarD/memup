@@ -27,6 +27,11 @@ export const FlashCard: FlashCardComponent = ({ answer, mem }): JSX.Element => {
     };
 
     useEffect(() => {
+        setValue("");
+        setShowMe(false);
+    }, [mem]);
+
+    useEffect(() => {
         if (similarity == 1) {
             answer({ success: true });
             setShowMe(true);
