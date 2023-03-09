@@ -3,6 +3,8 @@ import { MemAnswer, MemType } from "./store";
 
 const newCheck = (success: boolean): MemAnswer => ({ success, date: new Date() });
 
+// const rtest = (desc, fn) => {};
+
 test("Empty checks should score 0", () => {
     const mem = newMem();
     expect(memScore(mem).level).toBe(0);
@@ -15,7 +17,6 @@ test("Test link between successes and levels", () => {
     for (let i = 0; i <= Object.keys(levelGapMap).length; i++) {
         mem.checks = new Array(i).fill(newCheck(true));
         const score = memScore(mem);
-        // console.log(`Testing ${i} successes`, score);
         expect(score.level).toBe(i);
         if (i <= ST_LT_THRESHOLD) {
             expect(score.memory).toBe("ST");
@@ -23,6 +24,12 @@ test("Test link between successes and levels", () => {
             expect(score.memory).toBe("LT");
         }
     }
+});
+test("Test first error", () => {
+    const mem = newMem();
+    mem.checks = [newCheck(false)];
+    const score = memScore(mem);
+    expect(score.level).toBe(1);
 });
 
 test("Test levels edge case 1", () => {
@@ -48,6 +55,11 @@ test("LT behaviour", () => {
     mem.checks = [newCheck(true), newCheck(true), ...mem.checks];
     score = memScore(mem);
     expect(score.level).toBe(ST_LT_THRESHOLD + 3);
+
+    mem.checks = new Array(11).fill(newCheck(true));
+    mem.id = newMem().id;
+    score = memScore(mem);
+    expect(score.level).toBe(11);
 });
 
 test("deserialiseMems", () => {

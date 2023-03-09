@@ -18,7 +18,7 @@ export const splitByKanji = (s: string): string[] =>
         [false, []]
     )[1];
 
-export const sanitizeMem = (s: string): string => s.replace(/[ ~\[\]]/g, "");
+export const sanitizeMem = (s: string): string => s.replace(/[ ~\[\]?]/g, "");
 
 export const includesKanji = (s: string): boolean =>
     s ? splitByKanji(s).filter((block) => isKanji(block[0])).length > 0 : false;
@@ -129,6 +129,7 @@ export const memScore = (mem: MemType): MemScore => {
     const memory = ltGroups.length > 0 ? "LT" : "ST";
 
     let level = groupedChecks[0][0].success ? groupedChecks[0].length : 0;
+
     if (memory == "LT") {
         if (
             !groupedChecks[0][0].success ||
@@ -137,6 +138,8 @@ export const memScore = (mem: MemType): MemScore => {
         ) {
             level += ST_LT_THRESHOLD + 1;
         }
+    } else if (!groupedChecks[0][0].success) {
+        level += 1;
     }
 
     const nextCheck = new Date(
