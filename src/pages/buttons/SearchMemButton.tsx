@@ -58,7 +58,6 @@ export const SearchMemButton: SearchMemButtonComponent = ({
     actions = [],
 }): JSX.Element => {
     const [open, setOpen] = useState<boolean>(false);
-    const [hiragana, setHiragana] = useState<boolean>(false);
     const [search, setSearch] = useState<string>(defaultSearch || "");
     const mems = useStore(({ mems }) => mems);
     const navigate = useNavigate();
@@ -90,7 +89,7 @@ export const SearchMemButton: SearchMemButtonComponent = ({
                     placeholder="Search..."
                     fullWidth
                     romaji
-                    defaultRomaji={false}
+                    defaultRomaji={true}
                     value={search}
                     onChange={(ev) => setSearch(ev.target.value)}
                     InputProps={{
