@@ -27,10 +27,15 @@
 ## General
 
 -   [ ] mobile tests
--   [ ] typing mode on the flash card
+-   [ ] BUG: adding a mem, hiragana gets reset if toying with folders
+-   [x] BUG: search should be romaji by default
+-   [x] edit button on a mem after answering it
+-   [ ] delete button in the edit form
 -   [ ] folders
     -   [x] list of other available folders in the same subfolder when adding
     -   [ ] ability to rename a folder
+    -   [ ] should be tree like and less cumbersome to pick
+    -   [ ] maybe have folders as external to the mems themselves
 -   [ ] hide&seek mode, hide the options and start the counter on seek
 -   [ ] Stats and graphs everywhere
     -   [ ] At the end of a sesh (how many mems moved up to long term memory, how many new mems, time of the sesh, how many in the sesh, state of mems, etc..)
