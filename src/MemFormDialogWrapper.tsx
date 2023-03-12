@@ -2,6 +2,7 @@ import React from "react";
 
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
 
+import { memScore } from "./lib";
 import { MemType } from "./store";
 
 export type MemFormDialogWrapperProps = {
@@ -22,7 +23,7 @@ export const MemFormDialogWrapper: MemFormDialogWrapperComponent = ({
 }): JSX.Element => {
     return (
         <Dialog open={!!open} onClose={() => setOpen(false)}>
-            <DialogTitle>Add a mem</DialogTitle>
+            <DialogTitle>{open && open.id ? `Edit a mem (Level ${memScore(open).level})` : "Add a mem"}</DialogTitle>
             <DialogContent sx={{ minWidth: "500px" }}>{children}</DialogContent>
             <DialogActions>
                 {open && open.checks && <Button onClick={() => setLogsOpen(true)}>Logs</Button>}

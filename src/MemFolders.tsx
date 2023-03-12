@@ -5,7 +5,7 @@ import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 import DownloadIcon from "@mui/icons-material/Download";
 import { Box, IconButton, List, ListItem, ListItemSecondaryAction, ListItemText } from "@mui/material";
 
-import { cleanMemsForExport } from "./lib";
+import { cleanMemsForExport, uniqueMems } from "./lib";
 import { MemFoldersLearnButton } from "./MemFoldersLearnButton";
 import { MemsLinearProgress } from "./MemsLinearProgress";
 import { downloadMems } from "./pages/ImportBackupPage";
@@ -36,9 +36,12 @@ export const MemFolders: MemFoldersComponent = ({ subfolders }): JSX.Element => 
                 .sort()
                 .map((subfolder) => (
                     <ListItem key={subfolder}>
-                        <ListItemText primary={subfolder} secondary={`${subfolders[subfolder].length} mems`} />
+                        <ListItemText
+                            primary={subfolder}
+                            secondary={`${uniqueMems(subfolders[subfolder]).length} mems`}
+                        />
                         <Box sx={{ width: "45%", marginRight: "10.5em" }} component="span">
-                            <MemsLinearProgress mems={subfolders[subfolder]} />
+                            <MemsLinearProgress mems={uniqueMems(subfolders[subfolder])} />
                         </Box>
                         <ListItemSecondaryAction>
                             <MemFoldersLearnButton subfolders={subfolders} subfolder={subfolder} />

@@ -111,6 +111,9 @@ export const timeUntil = (d: Date) =>
         round: true,
     });
 
+export const uniqueMems = (mems: MemType[]): MemType[] =>
+    mems.reduce((acc, m, ci) => (acc.findIndex((v) => v.id == m.id) >= 0 ? acc : [...acc, m]), []);
+
 export const memScore = (mem: MemType): MemScore => {
     if (mem.checks.length == 0)
         return {

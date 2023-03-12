@@ -11,6 +11,7 @@
     -   [ ] Check if the mem is actually the same and ignore it from the import
     -   [ ] Check if the mem can be merged, like if a folder is different merge that, or if a hint is added, if checks were previously missing and this one adds just that stuff like these
 -   [ ] Conflict Interface to allow manual merge/save of mems
+-   [ ] exporting mems (not the backup) will double them up if they're in 2 folders
 
 ## Kanji reading game
 
@@ -28,11 +29,8 @@
 
 -   [ ] mobile tests
 -   [ ] BUG: adding a mem, hiragana gets reset if toying with folders
--   [x] BUG: search should be romaji by default
--   [x] edit button on a mem after answering it
 -   [ ] delete button in the edit form
 -   [ ] folders
-    -   [x] list of other available folders in the same subfolder when adding
     -   [ ] ability to rename a folder
     -   [ ] should be tree like and less cumbersome to pick
     -   [ ] maybe have folders as external to the mems themselves
