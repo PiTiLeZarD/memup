@@ -31,7 +31,6 @@
 -   [ ] BUG: adding a mem, hiragana gets reset if toying with folders
 -   [ ] delete button in the edit form
 -   [ ] folders
-    -   [ ] ability to rename a folder
     -   [ ] should be tree like and less cumbersome to pick
     -   [ ] maybe have folders as external to the mems themselves
 -   [ ] hide&seek mode, hide the options and start the counter on seek
