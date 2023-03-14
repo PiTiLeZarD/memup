@@ -33,7 +33,8 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
     const [currentScore, setCurrentScore] = useState<boolean | null>(null);
     const addAnswer = useStore(({ addAnswer }) => addAnswer);
 
-    const { countdownSeconds } = useStore(({ settings }) => settings);
+    const { countdownSeconds, hideAndSeek } = useStore(({ settings }) => settings);
+    const [seek, setSeek] = useState<boolean>(!hideAndSeek);
     const maxTime = countdownSeconds * (score && score.memory == "LT" ? 2 : 1);
     const [time, { startCountdown, stopCountdown, resetCountdown }] = useCountdown({
         countStart: maxTime,
@@ -45,11 +46,15 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
 
     useEffect(() => {
         resetCountdown();
-        if (inLevels) {
+        if (inLevels && seek) {
             startCountdown();
             return stopCountdown;
         }
-    }, [currentMem, maxTime]);
+    }, [currentMem, maxTime, seek]);
+
+    useEffect(() => {
+        setSeek(!hideAndSeek);
+    }, [currentMem]);
 
     if (mems.length == 0) return <Typography variant="h2">You're all caught up!</Typography>;
 
@@ -111,15 +116,24 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
 
                                     {inLevels && <Timer time={time} maxTime={maxTime} />}
 
-                                    {inLevels ? (
-                                        <Quizz
-                                            answer={handleAnswer}
-                                            mem={mem}
-                                            timesup={time == 0}
-                                            memory={score.memory}
-                                        />
-                                    ) : (
-                                        <FlashCard answer={handleAnswer} mem={mem} />
+                                    {seek && (
+                                        <>
+                                            {inLevels ? (
+                                                <Quizz
+                                                    answer={handleAnswer}
+                                                    mem={mem}
+                                                    timesup={time == 0}
+                                                    memory={score.memory}
+                                                />
+                                            ) : (
+                                                <FlashCard answer={handleAnswer} mem={mem} />
+                                            )}
+                                        </>
+                                    )}
+                                    {!seek && (
+                                        <Button variant="contained" size="large" onClick={(ev) => setSeek(true)}>
+                                            Pick your answer
+                                        </Button>
                                     )}
                                 </>
                             )}

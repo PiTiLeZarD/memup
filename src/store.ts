@@ -11,6 +11,7 @@ export type AppSettings = {
     kanjiDefSource: "jisho.org" | "classic.jisho.org";
     learnNewCount: number;
     displayMode: PaletteMode;
+    hideAndSeek: boolean;
 };
 
 export type MemQuizzAnswer = {
@@ -67,6 +68,7 @@ const defaultSettings: AppSettings = {
     kanjiDefSource: "jisho.org",
     learnNewCount: 20,
     displayMode: "light",
+    hideAndSeek: false,
 };
 
 const InitialState: StorePropsType = {

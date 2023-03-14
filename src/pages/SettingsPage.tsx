@@ -92,13 +92,39 @@ export const SettingsPage: SettingsPageComponent = (): JSX.Element => {
                     </Button>
                 </ButtonGroup>
                 <Divider />
-                <Typography variant="h6">Deckbrowser timeout</Typography>
-                <TextField
-                    label="Countdown in s"
-                    value={settings.countdownSeconds}
-                    inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
-                    onChange={(ev) => set({ countdownSeconds: parseInt(ev.target.value) })}
-                />
+                <Stack direction="row" spacing={6}>
+                    <Stack spacing={4} sx={{ flex: 1 }}>
+                        <Typography variant="h6">Deckbrowser timeout</Typography>
+                        <TextField
+                            label="Countdown in s"
+                            value={settings.countdownSeconds}
+                            inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                            onChange={(ev) => set({ countdownSeconds: parseInt(ev.target.value) })}
+                        />
+                    </Stack>
+                    <Stack spacing={4} sx={{ flex: 1 }}>
+                        <Typography variant="h6">Deckbrowser hideAndSeek</Typography>
+                        <ButtonGroup variant="contained" sx={{ width: "auto" }}>
+                            <Button
+                                color={settings.hideAndSeek ? "primary" : "inherit"}
+                                onClick={() => set({ hideAndSeek: true })}
+                            >
+                                On
+                            </Button>
+                            <Button
+                                color={!settings.hideAndSeek ? "primary" : "inherit"}
+                                onClick={() => set({ hideAndSeek: false })}
+                            >
+                                Off
+                            </Button>
+                        </ButtonGroup>
+                        <Typography>
+                            By selecting On here, the deckbrowser will hide the answers and hold the timer and let you
+                            decide when to start it, it provides some thinking time and helps with not being biaised
+                            with the displayed answers. It is however less dynamic ¯\_(ツ)_/¯
+                        </Typography>
+                    </Stack>
+                </Stack>
                 <Divider />
                 <Typography variant="h6">Learn new mems</Typography>
                 <TextField
