@@ -100,7 +100,11 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
 
                             {mem && score && (
                                 <>
-                                    <Stack direction="row" spacing={4} justifyContent="center">
+                                    <Stack
+                                        direction="row"
+                                        spacing={4}
+                                        sx={{ justifyContent: "center", alignItems: "center" }}
+                                    >
                                         {!titleDescription && (
                                             <Mem mem={mem} variant="h2" sx={{ paddingTop: "0.5em" }} />
                                         )}
