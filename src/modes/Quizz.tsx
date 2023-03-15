@@ -56,9 +56,9 @@ export const Quizz: QuizzComponent = ({ mem, answer, timesup, memory }): JSX.Ele
     }, [mem.id]);
 
     useEffect(() => {
-        if (timesup) {
-            answer({ success: false });
+        if (timesup && selectedAnswer === null) {
             setSelectedAnswer("timesup");
+            answer({ success: false });
         }
     }, [timesup]);
 

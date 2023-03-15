@@ -65,10 +65,18 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
     };
 
     const handleAnswer = (answer: MemAnswer) => {
-        stopCountdown();
-        setCurrentScore(answer.success);
-        setScores({ up: scores.up + (answer.success ? 1 : 0), down: scores.down + (answer.success ? 0 : 1) });
-        addAnswer(mem.id, { ...answer, time: maxTime - time, date: new Date() });
+        if (currentScore == null) {
+            stopCountdown();
+            setCurrentScore(answer.success);
+            setScores({ up: scores.up + (answer.success ? 1 : 0), down: scores.down + (answer.success ? 0 : 1) });
+            addAnswer(mem.id, { ...answer, time: maxTime - time, date: new Date() });
+        }
+    };
+
+    const handleTimerClick = () => {
+        if (currentScore == null) {
+            handleAnswer({ success: false });
+        }
     };
 
     return (
@@ -116,7 +124,7 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
                                         )}
                                     </Stack>
 
-                                    {inLevels && <Timer time={time} maxTime={maxTime} />}
+                                    {inLevels && <Timer time={time} maxTime={maxTime} onClick={handleTimerClick} />}
 
                                     {inLevels ? (
                                         <>
@@ -124,7 +132,7 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
                                                 <Quizz
                                                     answer={handleAnswer}
                                                     mem={mem}
-                                                    timesup={time == 0}
+                                                    timesup={time == 0 || currentScore !== null}
                                                     memory={score.memory}
                                                 />
                                             )}
