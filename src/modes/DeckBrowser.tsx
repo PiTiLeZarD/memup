@@ -116,24 +116,28 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
 
                                     {inLevels && <Timer time={time} maxTime={maxTime} />}
 
-                                    {seek && (
+                                    {inLevels ? (
                                         <>
-                                            {inLevels ? (
+                                            {seek && (
                                                 <Quizz
                                                     answer={handleAnswer}
                                                     mem={mem}
                                                     timesup={time == 0}
                                                     memory={score.memory}
                                                 />
-                                            ) : (
-                                                <FlashCard answer={handleAnswer} mem={mem} />
+                                            )}
+                                            {!seek && (
+                                                <Button
+                                                    variant="contained"
+                                                    size="large"
+                                                    onClick={(ev) => setSeek(true)}
+                                                >
+                                                    Pick your answer
+                                                </Button>
                                             )}
                                         </>
-                                    )}
-                                    {!seek && (
-                                        <Button variant="contained" size="large" onClick={(ev) => setSeek(true)}>
-                                            Pick your answer
-                                        </Button>
+                                    ) : (
+                                        <FlashCard answer={handleAnswer} mem={mem} />
                                     )}
                                 </>
                             )}
