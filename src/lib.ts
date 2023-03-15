@@ -45,7 +45,8 @@ export const levelGapMap = {
     11: 14 * 24 * 60 * 60000,
 };
 export const ST_LT_THRESHOLD = 6;
-const MONTH = 30 * 24 * 60 * 60000;
+const WEEK = 7 * 24 * 60 * 60000;
+const MONTH = 4 * WEEK;
 
 const cache: { [key: string]: MemScore } = {};
 
@@ -147,7 +148,10 @@ export const memScore = (mem: MemType): MemScore => {
     }
 
     const nextCheck = new Date(
-        checks[0].date?.getTime() + (Object.keys(levelGapMap).includes(String(level)) ? levelGapMap[level] : MONTH)
+        checks[0].date?.getTime() +
+            (Object.keys(levelGapMap).includes(String(level))
+                ? levelGapMap[level]
+                : MONTH + (level - Object.keys(levelGapMap).length) * WEEK)
     );
 
     cache[cacheKey] = { level, memory, nextCheck };
