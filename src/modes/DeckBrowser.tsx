@@ -100,19 +100,19 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
 
                             {mem && score && (
                                 <>
-                                    {!titleDescription && (
-                                        <Stack direction="row" spacing={4} justifyContent="center">
+                                    <Stack direction="row" spacing={4} justifyContent="center">
+                                        {!titleDescription && (
                                             <Mem mem={mem} variant="h2" sx={{ paddingTop: "0.5em" }} />
-                                            {mem.hint ? (
-                                                <Tooltip title={mem.hint}>
-                                                    <HelpOutlineIcon />
-                                                </Tooltip>
-                                            ) : (
-                                                <></>
-                                            )}
-                                        </Stack>
-                                    )}
-                                    {titleDescription && <Typography variant="h2">{mem.description}</Typography>}
+                                        )}
+                                        {titleDescription && <Typography variant="h2">{mem.description}</Typography>}
+                                        {mem.hint ? (
+                                            <Tooltip title={mem.hint}>
+                                                <HelpOutlineIcon />
+                                            </Tooltip>
+                                        ) : (
+                                            <></>
+                                        )}
+                                    </Stack>
 
                                     {inLevels && <Timer time={time} maxTime={maxTime} />}
 
