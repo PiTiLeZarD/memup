@@ -31,22 +31,25 @@ export const newMem = (): MemType => ({
     folders: [],
 });
 
+const HOUR = 60 * 60000;
+const DAY = 24 * HOUR;
+const WEEK = 7 * DAY;
+const MONTH = 4 * WEEK;
+
 export const levelGapMap = {
-    1: 60 * 60000,
-    2: 6 * 60 * 60000,
-    3: 12 * 60 * 60000,
-    4: 24 * 60 * 60000,
-    5: 2 * 24 * 60 * 60000,
-    6: 5 * 24 * 60 * 60000,
-    7: 24 * 60 * 60000,
-    8: 2 * 24 * 60 * 60000,
-    9: 4 * 24 * 60 * 60000,
-    10: 7 * 24 * 60 * 60000,
-    11: 14 * 24 * 60 * 60000,
+    1: HOUR,
+    2: 12 * HOUR,
+    3: DAY,
+    4: 2 * DAY,
+    5: 4 * DAY,
+    6: 7 * DAY,
+    7: DAY,
+    8: 2 * DAY,
+    9: 4 * DAY,
+    10: WEEK,
+    11: 2 * WEEK,
 };
 export const ST_LT_THRESHOLD = 6;
-const WEEK = 7 * 24 * 60 * 60000;
-const MONTH = 4 * WEEK;
 
 const cache: { [key: string]: MemScore } = {};
 
