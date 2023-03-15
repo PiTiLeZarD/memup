@@ -105,12 +105,10 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
                                             <Mem mem={mem} variant="h2" sx={{ paddingTop: "0.5em" }} />
                                         )}
                                         {titleDescription && <Typography variant="h2">{mem.description}</Typography>}
-                                        {mem.hint ? (
+                                        {mem.hint && (
                                             <Tooltip title={mem.hint}>
                                                 <HelpOutlineIcon />
                                             </Tooltip>
-                                        ) : (
-                                            <></>
                                         )}
                                     </Stack>
 
