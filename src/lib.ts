@@ -42,6 +42,7 @@ export const levelGapMap = {
     8: 2 * 24 * 60 * 60000,
     9: 4 * 24 * 60 * 60000,
     10: 7 * 24 * 60 * 60000,
+    11: 14 * 24 * 60 * 60000,
 };
 export const ST_LT_THRESHOLD = 6;
 const MONTH = 30 * 24 * 60 * 60000;
