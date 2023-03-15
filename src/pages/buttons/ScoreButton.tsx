@@ -44,8 +44,10 @@ export const ScoreButton: ScoreButtonComponent = (): JSX.Element => {
     const handleClick = () => {
         let msg = [`My score on memup: ${score}`];
         msg.push(`${totalSuccess} successes / ${totalFailure} failures`);
-        msg.push(`Learning ${learningCount} mems${allLevels.MASTERED ? `, ${allLevels.MASTERED} mastered` : ""}`);
-        msg.push(`${allLevels.NEW} left to study`);
+        msg.push(`Learning ${learningCount} mems, ${allLevels.NEW} left to study`);
+        if (allLevels.MASTERED) {
+            msg.push(`${allLevels.MASTERED} mastered`);
+        }
         msg.push(
             `${progressBar("🟦", allLevels.ST / learningCount)}${progressBar(
                 "🟨",
