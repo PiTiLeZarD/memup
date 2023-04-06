@@ -7,6 +7,7 @@
 
 ## Import/Export
 
+-   [ ] When a mem is fine, and folders are different, they should be merged somehow
 -   [ ] Improve the conflict detection
     -   [ ] Check if the mem is actually the same and ignore it from the import
     -   [ ] Check if the mem can be merged, like if a folder is different merge that, or if a hint is added, if checks were previously missing and this one adds just that stuff like these
