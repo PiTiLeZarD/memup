@@ -7,14 +7,15 @@ import SchoolIcon from "@mui/icons-material/School";
 import { Box, Button, Stack } from "@mui/material";
 
 import { EmptyMems } from "../EmptyMems";
-import { memDeck } from "../lib";
+import { HeatMap } from "../HeatMap";
 import { MemClusters } from "../MemClusters";
+import { memDeck } from "../lib";
 import { useStore } from "../store";
 import { useForceRender } from "../useForceRender";
-import { ScoreButton } from "./buttons/ScoreButton";
-import { SidebarButton } from "./buttons/SidebarButton";
 import { ContentBox } from "./ContentBox";
 import { DailyMems } from "./DailyMems";
+import { ScoreButton } from "./buttons/ScoreButton";
+import { SidebarButton } from "./buttons/SidebarButton";
 
 export type HomePageProps = {};
 
@@ -78,6 +79,7 @@ export const HomePage: HomePageComponent = (): JSX.Element => {
                     <MemClusters mems={mems} />
                 </Stack>
             </ContentBox>
+            <HeatMap />
             <DailyMems />
         </Stack>
     );

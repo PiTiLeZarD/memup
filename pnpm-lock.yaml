@@ -6,8 +6,10 @@ specifiers:
   '@mui/icons-material': ^5.11.16
   '@mui/material': ^5.11.16
   '@types/jest': ^29.5.0
+  '@types/luxon': ^3.3.0
   '@types/node': ^18.15.11
   '@types/react': ^18.0.33
+  '@types/react-calendar-heatmap': ^1.6.3
   '@types/react-dom': ^18.0.11
   '@types/string-similarity': ^4.0.0
   '@types/wanakana': ^4.0.3
@@ -15,10 +17,12 @@ specifiers:
   humanize-duration: ^3.28.0
   husky: ^8.0.3
   jest: ^29.5.0
+  luxon: ^3.3.0
   nanoid: ^4.0.2
   parcel: ^2.8.3
   process: ^0.11.10
   react: ^18.2.0
+  react-calendar-heatmap: ^1.9.0
   react-dom: ^18.2.0
   react-dropzone: ^14.2.3
   react-hook-form: ^7.43.9
@@ -36,9 +40,13 @@ dependencies:
   '@emotion/styled': 11.10.6_wk7udrqmfetfur7bcmggr6k6fm
   '@mui/icons-material': 5.11.16_qvn7gklc3nivno6qdfiyqqkjfe
   '@mui/material': 5.11.16_zy4fdalh3zntkbuswwsbylvxqe
+  '@types/luxon': 3.3.0
+  '@types/react-calendar-heatmap': 1.6.3
   humanize-duration: 3.28.0
+  luxon: 3.3.0
   nanoid: 4.0.2
   react: 18.2.0
+  react-calendar-heatmap: 1.9.0_react@18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-dropzone: 14.2.3_react@18.2.0
   react-hook-form: 7.43.9_react@18.2.0
@@ -1857,6 +1865,10 @@ packages:
     resolution: {integrity: sha512-km+Vyn3BYm5ytMO13k9KTp27O75rbQ0NFw+U//g+PX7VZyjCioXaRFisqSIJRECljcTv73G3i6BpglNGHgUQ5A==}
     dev: false
 
+  /@types/luxon/3.3.0:
+    resolution: {integrity: sha512-uKRI5QORDnrGFYgcdAVnHvEIvEZ8noTpP/Bg+HeUzZghwinDlIS87DEenV5r1YoOF9G4x600YsUXLWZ19rmTmg==}
+    dev: false
+
   /@types/node/18.15.11:
     resolution: {integrity: sha512-E5Kwq2n4SbMzQOn6wnmBjuK9ouqlURrcZDVfbo9ftDDTFt3nk7ZKK4GMOzoYgnpQJKcxwQw+lGaBvvlMo0qN/Q==}
     dev: true
@@ -1870,6 +1882,12 @@ packages:
 
   /@types/prop-types/15.7.5:
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}
+
+  /@types/react-calendar-heatmap/1.6.3:
+    resolution: {integrity: sha512-C6hN9Nl0NBqeJEkivwwf/bvWNoPwpwGSNABwYl0yHD20rClSJqRgYoGPKDIn8QqoYHGJsTFJdFbBAZRPlJ/+qg==}
+    dependencies:
+      '@types/react': 18.0.33
+    dev: false
 
   /@types/react-dom/18.0.11:
     resolution: {integrity: sha512-O38bPbI2CWtgw/OoQoY+BRelw7uysmXbWvw3nLWO21H1HSh+GOlqPuXshJfjmpNlKiiSDG9cc1JZAaMmVdcTlw==}
@@ -3446,6 +3464,11 @@ packages:
       yallist: 4.0.0
     dev: true
 
+  /luxon/3.3.0:
+    resolution: {integrity: sha512-An0UCfG/rSiqtAIiBPO0Y9/zAnHUZxAMiCpTd5h2smgsj7GGmcenvrvww2cqNA8/4A5ZrD1gJpHN2mIHZQF+Mg==}
+    engines: {node: '>=12'}
+    dev: false
+
   /make-dir/3.1.0:
     resolution: {integrity: sha512-g3FeP20LNwhALb/6Cz6Dd4F2ngze0jz7tbzrD2wAV+o9FeNHe4rL+yK2md0J/fiSf1sa1ADhXqi5+oVwOM/eGw==}
     engines: {node: '>=8'}
@@ -3466,6 +3489,10 @@ packages:
   /mdn-data/2.0.14:
     resolution: {integrity: sha512-dn6wd0uw5GsdswPFfsgMp5NSB0/aDe6fK94YJV/AJDYXL6HVLWBsxeq7js7Ad+mU2K9LAlwpk6kN2D5mwCPVow==}
     dev: true
+
+  /memoize-one/5.2.1:
+    resolution: {integrity: sha512-zYiwtZUcYyXKo/np96AGZAckk+FWWsUdJ3cHGGmld7+AhvcWmQyGCYUh1hc4Q/pkOhb65dQR/pqCyK0cOaHz4Q==}
+    dev: false
 
   /merge-stream/2.0.0:
     resolution: {integrity: sha512-abv/qOcuPfk3URPfDzmZU1LKmuw8kT+0nIHvKrKgFrwifol/doWcdA4ZqsWQ8ENrFKkd67Mfpo/LovbIUsbt3w==}
@@ -3808,6 +3835,16 @@ packages:
   /pure-rand/6.0.1:
     resolution: {integrity: sha512-t+x1zEHDjBwkDGY5v5ApnZ/utcd4XYDiJsaQQoptTXgUXX95sDg1elCdJghzicm7n2mbCBJ3uYWr6M22SO19rg==}
     dev: true
+
+  /react-calendar-heatmap/1.9.0_react@18.2.0:
+    resolution: {integrity: sha512-mGed9any6QLOVckxwxC/eeP9s9wE8mTUW/FCE0V27xF9WOaCGuOftGSRH8DSDoSwgzMSVF6uuH7M1xvc+aZ8sg==}
+    peerDependencies:
+      react: ^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      memoize-one: 5.2.1
+      prop-types: 15.8.1
+      react: 18.2.0
+    dev: false
 
   /react-dom/18.2.0_react@18.2.0:
     resolution: {integrity: sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==}
