@@ -72,6 +72,7 @@ const Styles = () => {
 
 export const HeatMap: HeatMapComponent = (): JSX.Element => {
     const mems = useStore(({ mems }) => mems);
+    if (mems.length == 0) return <></>;
 
     const allchecks = mems
         .reduce((acc, m) => [...acc, ...m.checks.map((c) => DateTime.fromJSDate(c.date))], [])
