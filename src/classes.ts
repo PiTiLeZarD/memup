@@ -6,22 +6,25 @@ export type ClassesStyle = {
 
 const isObject = (item: any): item is object => item && typeof item === "object" && !Array.isArray(item);
 
-const mergeDeep = (target: object, ...sources: object[]): object => {
-    if (!sources.length) return target;
-    const source = sources.shift();
+const mergeDeep = <T extends object = {}>(...objs: Readonly<T>[]): T => {
+    const ret = {} as T;
 
-    if (isObject(target) && isObject(source)) {
-        for (const key in source) {
-            if (isObject(source[key])) {
-                if (!target[key]) Object.assign(target, { [key]: {} });
-                mergeDeep(target[key], source[key]);
-            } else {
-                Object.assign(target, { [key]: source[key] });
-            }
-        }
-    }
+    objs.forEach((o) => {
+        if (o && isObject(o))
+            Object.keys(o).forEach((k) => {
+                if (isObject(o[k])) {
+                    if (isObject(ret[k])) {
+                        ret[k] = mergeDeep(ret[k], o[k]);
+                    } else {
+                        ret[k] = { ...o[k] };
+                    }
+                } else {
+                    ret[k] = o[k];
+                }
+            });
+    });
 
-    return mergeDeep(target, ...sources);
+    return ret;
 };
 
 type makeStylesFn = (
@@ -39,14 +42,17 @@ export const makeStyles: makeStylesFn =
                   Object.fromEntries(Object.keys(classes).map((key) => [`${key}_${variant}`, {}]))
               )
             : [];
-        return mergeDeep(
-            classes as object,
-            ...(variantClasses as object[]),
-            ...(extendWith.map((e) => (typeof e == "function" ? e(theme) : e)) as object[])
-        ) as ClassesStyle;
+        return mergeDeep<ClassesStyle>(
+            classes,
+            ...variantClasses,
+            ...extendWith.map((e) => (typeof e == "function" ? e(theme) : e))
+        );
     };
 
-type useVariantFn = (styles: ClassesStyle, key: string, variant: string) => SxProps;
+type useVariantFn = (styles: Readonly<ClassesStyle>, key: string, variants: string | string[]) => SxProps;
 
-export const useVariant: useVariantFn = (styles, key, variant) =>
-    mergeDeep({ ...(styles[key] || {}) }, styles[`${key}_${variant}`] || {});
+export const useVariant: useVariantFn = (styles, key, variants) =>
+    mergeDeep<NonNullable<SxProps>>(
+        styles[key] || {},
+        ...(typeof variants === "string" ? [variants] : variants).map((v) => styles[`${key}_${v}`] || {})
+    );
