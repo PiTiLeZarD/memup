@@ -2,7 +2,7 @@ import { DateTime } from "luxon";
 import React from "react";
 import CalendarHeatmap from "react-calendar-heatmap";
 
-import { Box, Tooltip, useTheme } from "@mui/material";
+import { Box, Tooltip, useMediaQuery, useTheme } from "@mui/material";
 
 import { lightGreen } from "@mui/material/colors";
 import { ContentBox } from "./pages/ContentBox";
@@ -71,6 +71,7 @@ const Styles = () => {
 };
 
 export const HeatMap: HeatMapComponent = (): JSX.Element => {
+    const smallScreen = useMediaQuery(useTheme().breakpoints.down("md"));
     const mems = useStore(({ mems }) => mems);
     if (mems.length == 0) return <></>;
 
@@ -86,7 +87,9 @@ export const HeatMap: HeatMapComponent = (): JSX.Element => {
             <Styles />
             <Box sx={{ width: "80%", margin: "auto" }}>
                 <CalendarHeatmap
-                    startDate={DateTime.now().minus({ year: 1 }).toJSDate()}
+                    startDate={DateTime.now()
+                        .minus(smallScreen ? { month: 4 } : { year: 1 })
+                        .toJSDate()}
                     endDate={DateTime.now().toJSDate()}
                     values={Object.entries(allchecks).map(([date, count]) => ({ date, count }))}
                     classForValue={(value) =>
