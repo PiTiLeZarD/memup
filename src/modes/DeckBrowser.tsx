@@ -8,9 +8,9 @@ import TrendingDownIcon from "@mui/icons-material/TrendingDown";
 import { Alert, Box, Button, Divider, Grid, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 
 import { useMemo } from "react";
-import { levelGapMap, memScore } from "../lib";
 import { Mem } from "../Mem";
 import { MemFormDialog } from "../MemFormDialog";
+import { levelGapMap, memScore } from "../lib";
 import { MemAnswer, MemType, useStore } from "../store";
 import { FlashCard } from "./FlashCard";
 import { Quizz } from "./Quizz";
@@ -64,12 +64,16 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
         setCurrentMem(currentMem + 1);
     };
 
-    const handleAnswer = (answer: MemAnswer) => {
+    const handleAnswer = (answer: MemAnswer | null) => {
         if (currentScore == null) {
             stopCountdown();
-            setCurrentScore(answer.success);
-            setScores({ up: scores.up + (answer.success ? 1 : 0), down: scores.down + (answer.success ? 0 : 1) });
-            addAnswer(mem.id, { ...answer, time: maxTime - time, date: new Date() });
+            if (answer != null) {
+                setCurrentScore(answer.success);
+                setScores({ up: scores.up + (answer.success ? 1 : 0), down: scores.down + (answer.success ? 0 : 1) });
+                addAnswer(mem.id, { ...answer, time: maxTime - time, date: new Date() });
+            } else {
+                handleNextMem();
+            }
         }
     };
 

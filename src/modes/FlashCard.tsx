@@ -24,9 +24,13 @@ export const FlashCard: FlashCardComponent = ({ answer, mem }): JSX.Element => {
             ? 1
             : stringSimilarity.compareTwoStrings(sanitizeMem(hiraganaValue(mem)), sanitizeMem(value));
 
-    const handleClick = (show: boolean) => () => {
-        answer({ success: !show });
-        setShowMe(show);
+    const handleClick = (show: boolean | null) => () => {
+        if (show === null) {
+            answer(null);
+        } else {
+            answer({ success: !show });
+            setShowMe(show);
+        }
     };
 
     useEffect(() => {
@@ -59,6 +63,9 @@ export const FlashCard: FlashCardComponent = ({ answer, mem }): JSX.Element => {
                     <Box sx={{ textAlign: "center" }}>
                         <Button variant="contained" size="large" onClick={handleClick(true)}>
                             No Idea
+                        </Button>
+                        <Button color="inherit" variant="contained" size="large" onClick={handleClick(null)}>
+                            Pass
                         </Button>
                     </Box>
                 </>
