@@ -5,7 +5,7 @@ import * as wanakana from "wanakana";
 import { MemAnswer, MemScore, MemType } from "./store";
 
 export const isKanji = (ch: string): boolean =>
-    (ch >= "\u4e00" && ch <= "\u9faf") || (ch >= "\u3400" && ch <= "\u4dbf") || ch === "𠮟";
+    (ch >= "\u4e00" && ch <= "\u9faf") || (ch >= "\u3400" && ch <= "\u4dbf") || ch === "𠮟" || ch === "々";
 
 export const splitByKanji = (s: string): string[] =>
     [...s].reduce<[boolean, string[]]>(
@@ -141,7 +141,7 @@ export const memScore = (mem: MemType): MemScore => {
     if (memory == "LT") {
         if (
             !groupedChecks[0][0].success ||
-            (groupedChecks[0][0].success && groupedChecks[0].length < ST_LT_THRESHOLD) ||
+            (groupedChecks[0][0].success && (groupedChecks[0].length <= ST_LT_THRESHOLD || ltGroups.length > 1)) ||
             ltGroups.length > 1
         ) {
             level += ST_LT_THRESHOLD + 1;

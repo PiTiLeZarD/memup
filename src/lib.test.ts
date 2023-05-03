@@ -118,3 +118,13 @@ test("findConflicts", () => {
     expect(conflicts["FINE"].length).toBe(1);
     expect(conflicts["IGNORE"].length).toBe(2);
 });
+
+test("edgecase score", () => {
+    const checks =
+        '[{"success":true,"time":12,"date":"2023-03-15T02:38:01.075Z"},{"success":true,"time":11,"date":"2023-02-26T20:57:19.269Z"},{"success":true,"time":4,"date":"2023-02-19T20:55:32.308Z"},{"success":true,"time":7,"date":"2023-02-15T20:20:12.369Z"},{"success":true,"time":12,"date":"2023-02-13T03:55:23.567Z"},{"success":false,"selected":"tz67LGgLRXMRYyFVfR-uY","time":12,"date":"2023-02-11T19:31:22.313Z"},{"success":true,"time":15,"date":"2023-02-09T12:05:51.269Z"},{"success":false,"time":20,"date":"2023-02-08T09:58:08.100Z"},{"success":true,"time":4,"date":"2023-02-04T08:01:03.006Z"},{"success":true,"time":10,"date":"2023-02-02T03:58:10.315Z"},{"success":false,"selected":"Hulq9YtXRyRjSrv8ZX_Ns","time":19,"date":"2023-02-01T02:14:31.596Z"},{"success":true,"time":16,"date":"2023-01-30T00:51:20.920Z"},{"success":true,"time":9,"date":"2023-01-19T09:46:01.937Z"},{"success":true,"time":8,"date":"2023-01-14T04:30:18.693Z"},{"success":true,"time":9,"date":"2023-01-12T04:02:59.339Z"},{"success":true,"time":5,"date":"2023-01-09T20:58:56.659Z"},{"success":true,"time":4,"date":"2023-01-08T20:44:35.328Z"},{"success":true,"time":9,"date":"2023-01-08T03:27:58.345Z"},{"success":true,"time":7,"date":"2023-01-08T01:03:34.235Z"},{"success":false,"time":10,"date":"2023-01-07T21:10:35.534Z"},{"success":false,"time":10,"date":"2023-01-07T20:22:00.971Z"}]';
+
+    const mem = deserialiseMems([{ ...newMem(), checks: JSON.parse(checks) }])[0];
+    expect(memScore(mem).level).toBe(12);
+    mem.checks = [newCheck(true), ...mem.checks];
+    expect(memScore(mem).level).toBe(13);
+});
