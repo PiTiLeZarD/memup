@@ -91,8 +91,8 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
                 <Grid item xs={0} lg={2}></Grid>
                 <Grid item xs={12} lg={8}>
                     <Box>
-                        <Stack spacing={2} sx={{ textAlign: "center" }}>
-                            <Stack direction="row" sx={{ width: "auto", margin: "auto" }}>
+                        <Stack spacing={2}>
+                            <Stack direction="row" alignItems="center" justifyContent="center">
                                 <Alert severity="success" icon={<MovingIcon />}>
                                     {scores.up}
                                 </Alert>
@@ -112,11 +112,7 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
 
                             {mem && score && (
                                 <>
-                                    <Stack
-                                        direction="row"
-                                        spacing={4}
-                                        sx={{ justifyContent: "center", alignItems: "center" }}
-                                    >
+                                    <Stack direction="row" spacing={4} alignItems="center" justifyContent="center">
                                         {!titleDescription && (
                                             <Mem mem={mem} variant="h2" sx={{ paddingTop: "0.5em" }} />
                                         )}

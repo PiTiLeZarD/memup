@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import * as stringSimilarity from "string-similarity";
 
-import { Box, Button, Divider, LinearProgress, Stack } from "@mui/material";
+import { Button, Divider, LinearProgress, Stack } from "@mui/material";
 
 import { HiraganaTextField } from "../HiraganaTextField";
 import { hiraganaValue, sanitizeMem } from "../lib";
@@ -60,14 +60,14 @@ export const FlashCard: FlashCardComponent = ({ answer, mem }): JSX.Element => {
                     <HiraganaTextField romaji value={value} onChange={(ev) => setValue(ev.target.value)} />
                     <LinearProgress variant="determinate" value={100 * similarity} />
                     <Divider />
-                    <Box sx={{ textAlign: "center" }}>
+                    <Stack direction="row" justifyContent="center">
                         <Button variant="contained" size="large" onClick={handleClick(true)}>
                             No Idea
                         </Button>
                         <Button color="inherit" variant="contained" size="large" onClick={handleClick(null)}>
                             Pass
                         </Button>
-                    </Box>
+                    </Stack>
                 </>
             )}
         </>
