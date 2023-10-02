@@ -88,8 +88,8 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
             {" "}
             <MemFormDialog open={formOpen} setOpen={setFormOpen} />
             <Grid container>
-                <Grid item xs={0} md={2}></Grid>
-                <Grid item xs={12} md={8}>
+                <Grid item xs={0} lg={2}></Grid>
+                <Grid item xs={12} lg={8}>
                     <Box>
                         <Stack spacing={2} sx={{ textAlign: "center" }}>
                             <Stack direction="row" sx={{ width: "auto", margin: "auto" }}>
@@ -175,7 +175,7 @@ export const DeckBrowser: DeckBrowserComponent = ({ mems }): JSX.Element => {
                         </Stack>
                     </Box>
                 </Grid>
-                <Grid item xs={0} md={2}></Grid>
+                <Grid item xs={0} lg={2}></Grid>
             </Grid>
         </>
     );
