@@ -127,4 +127,6 @@ test("edgecase score", () => {
     expect(memScore(mem).level).toBe(12);
     mem.checks = [newCheck(true), ...mem.checks];
     expect(memScore(mem).level).toBe(13);
+    mem.checks = [newCheck(true), ...mem.checks];
+    expect(memScore(mem).level).toBe(14);
 });

@@ -48,6 +48,7 @@ export const levelGapMap = {
     9: 4 * DAY,
     10: WEEK,
     11: 2 * WEEK,
+    12: MONTH
 };
 export const ST_LT_THRESHOLD = 6;
 
