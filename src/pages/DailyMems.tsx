@@ -2,7 +2,7 @@ import React from "react";
 
 import { List, ListItem, Stack, Typography } from "@mui/material";
 
-import { memScore, randomiseDeck } from "../lib";
+import { levelGapMap, memScore, randomiseDeck } from "../lib";
 import { MemListItem } from "../MemListItem";
 import { useStore } from "../store";
 import { ContentBox } from "./ContentBox";
@@ -13,7 +13,7 @@ export type DailyMemsComponent = React.FunctionComponent<DailyMemsProps>;
 
 export const DailyMems: DailyMemsComponent = (): JSX.Element => {
     const mems = randomiseDeck(
-        useStore(({ mems }) => mems).filter((m) => memScore(m).memory == "LT"),
+        useStore(({ mems }) => mems).filter((m) => memScore(m).level > Object.keys(levelGapMap).length),
         parseInt(
             new Date()
                 .toLocaleDateString(undefined, { year: "numeric", month: "numeric", day: "numeric" })
